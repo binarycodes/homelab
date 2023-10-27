@@ -1,0 +1,24 @@
+- name: Create group
+  group:
+    name: sujoy
+    state: present
+
+- name: create default user
+  user:
+    name: sujoy
+    groups:
+      - sujoy
+    create_home: true
+
+- name: add sudoers file for user
+  copy:
+    src: sudoer_sujoy
+    dest: /etc/sudoers.d/sujoy
+    owner: root
+    group: root
+    mode: 0440
+
+- name: add ssh key for user
+  authorized_key:
+    user: sujoy
+    key: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGoub5MNDZrPpl1ZNzrbldI5lltvIY/7gzc+Ee/O/dhO ansible"

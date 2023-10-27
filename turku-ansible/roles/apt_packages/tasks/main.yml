@@ -1,0 +1,13 @@
+- name: Update apt repository cache
+  apt:
+    update_cache: yes
+  changed_when: false
+- name: Upgrade all packages on servers
+  apt:
+    upgrade: dist
+- name: install packages
+  apt:
+    name:
+      - vim
+      - sudo
+    state: latest

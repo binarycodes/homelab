@@ -1,0 +1,47 @@
+- name: Ensure directory exists
+  file:
+    path: "/usr/local/src/dynamic-dns/script"
+    owner: root
+    group: root
+    mode: 0755
+    state: directory
+
+- name: Ensure directory exists
+  file:
+    path: "/etc/dynamic-dns/config"
+    owner: root
+    group: root
+    mode: 0644
+    state: directory
+
+- name: Download ddns script
+  get_url:
+    url: https://raw.githubusercontent.com/binarycodes/homelab/main/dynamic-dns/main.py
+    dest: /usr/local/src/dynamic-dns/script/
+    owner: root
+    group: root
+    mode: 0554
+  
+- name: add api keys config file
+  copy:
+    src: secret_apikeys.json
+    dest: /etc/dynamic-dns/config/
+    owner: root
+    group: root
+    mode: 0660
+
+- name: add domain config file
+  copy:
+    src: secret_domains.json
+    dest: /etc/dynamic-dns/config/
+    owner: root
+    group: root
+    mode: 0660
+
+- name: add sync cron script
+  copy:
+    src: ddns
+    dest: /etc/cron.hourly/
+    owner: root
+    group: root
+    mode: 0755

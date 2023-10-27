@@ -1,0 +1,58 @@
+- name: Check for pihole command
+  stat:
+    path: "/usr/local/bin/pihole"
+  register: app
+
+- name: Download pihole installer
+  get_url:
+    url: https://install.pi-hole.net
+    dest: /tmp/pi-hole.sh
+    mode: "u+rwx"
+  when: not app.stat.exists
+
+- name: Ensure pihole setup config directory exists
+  file:
+    path: "/etc/pihole/"
+    state: directory
+  when: not app.stat.exists
+
+- name: add setup config file
+  copy:
+    src: setupVars.conf
+    dest: /etc/pihole/setupVars.conf
+    owner: root
+    group: root
+    mode: 0662
+  when: not app.stat.exists
+
+- name: Run the install script
+  shell: sudo bash /tmp/pi-hole.sh --unattended
+  when: not app.stat.exists
+
+- name: Remove the pihole installer script
+  file:
+    path: /tmp/pi-hole.sh
+    state: absent
+
+- name: Check if redirect to admin is already defined
+  lineinfile:
+    state: absent
+    path: "/etc/lighttpd/lighttpd.conf"
+    regexp: "^url.redirect = "
+  check_mode: true
+  changed_when: false
+  register: check
+
+- name: Define redirect to admin if undefined
+  lineinfile:
+    state: present
+    path: "/etc/lighttpd/lighttpd.conf"
+    line: 'url.redirect = ("^/$" => "/admin" )'
+  register: restart_pihole
+  when: check.found == 0
+
+- name: Restart pi-hole
+  service:
+    name: lighttpd
+    state: restarted
+  when: check.found == 0
