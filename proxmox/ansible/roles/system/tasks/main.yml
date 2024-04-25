@@ -1,0 +1,10 @@
+---
+- include_tasks: package_management.yml
+  args:
+    apply:
+      become: true
+- include_tasks: ssh_setup.yml
+  args:
+    apply:
+      become: false
+- include_tasks: user.yml

@@ -1,0 +1,42 @@
+- name: add setup config file
+  ansible.builtin.copy:
+    src: keycloak/
+    dest: /etc/docker/keycloak
+    owner: root
+    group: root
+    mode: "644"
+  notify:
+    - tear down existing services
+    - start the service again
+
+- name: "copy config files"
+  ansible.builtin.template:
+    src: "{{item}}"
+    dest: "/etc/docker/keycloak/{{item}}"
+    owner: root
+    group: root
+    mode: 0644
+  loop:
+    - "init.sql"
+    - ".env"
+  notify:
+    - tear down existing services
+    - start the service again
+
+- name: make certificates script executable
+  ansible.builtin.file:
+    path: /etc/docker/keycloak/certificates.sh
+    owner: root
+    group: root
+    mode: "u+x"
+    modification_time: preserve
+    access_time: preserve
+
+- name: generate certificates
+  ansible.builtin.shell: ./certificates.sh
+  args:
+    chdir: /etc/docker/keycloak
+    creates: /etc/docker/keycloak/keycloak_server.der
+  notify:
+    - tear down existing services
+    - start the service again

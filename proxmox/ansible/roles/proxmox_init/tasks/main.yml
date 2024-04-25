@@ -1,0 +1,28 @@
+- name: install packages
+  ansible.builtin.apt:
+    name:
+      - jq
+    state: latest
+
+- name: add the template creation script
+  ansible.builtin.copy:
+    src: "{{item}}"
+    dest: "/root/{{item}}"
+    mode: "u+rwx"
+  loop:
+    - "create-template.sh"
+    - "terraform-user.sh"
+    - "setup-repositories.sh"
+
+- name: setup repositories
+  ansible.builtin.shell: /root/setup-repositories.sh
+  changed_when: false
+
+- name: check if template exists
+  ansible.builtin.shell: pvesh get /cluster/resources/ --type vm  --output-format json| jq '.[]|select(.vmid == 100200 and .template == 1) | .vmid'
+  register: template
+  changed_when: false
+
+- name: create the template if it does not exist
+  ansible.builtin.shell: /root/create-template.sh
+  when: template.stdout_lines|length == 0 or template.stdout_lines[0] != "100200"

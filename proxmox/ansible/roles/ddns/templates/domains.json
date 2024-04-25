@@ -1,0 +1,8 @@
+[
+    {
+        "name": "{{vault_ddns_domain_name}}",
+        "subdomains": [
+            "{{vault_ddns_subdomain_name}}"
+        ]
+    }
+]

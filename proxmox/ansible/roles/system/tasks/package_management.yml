@@ -1,0 +1,20 @@
+- name: Update apt repository cache
+  ansible.builtin.apt:
+    update_cache: yes
+  changed_when: false
+
+- name: Upgrade all packages on servers
+  ansible.builtin.apt:
+    upgrade: dist
+
+- name: install packages
+  ansible.builtin.apt:
+    name: "{{ install_packages }}"
+    state: latest
+
+# useful to remove previously installed packages that are no longer needed
+- name: remove packages
+  ansible.builtin.apt:
+    name: "{{ remove_packages }}"
+    state: absent
+  failed_when: false

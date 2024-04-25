@@ -1,0 +1,112 @@
+http:
+  #region routers
+  routers:
+    pve1:
+      entryPoints:
+        - "https"
+      rule: "Host(`pve1.proxmox.homedns.pro`)"
+      middlewares:
+        - default-headers
+        - https-redirectscheme
+      tls: {}
+      service: pve1
+    pve2:
+      entryPoints:
+        - "https"
+      rule: "Host(`pve2.proxmox.homedns.pro`)"
+      middlewares:
+        - default-headers
+        - https-redirectscheme
+      tls: {}
+      service: pve2
+    router-page:
+      entryPoints:
+        - "https"
+      rule: "Host(`router.homedns.pro`)"
+      middlewares:
+        - default-headers
+        - https-redirectscheme
+      tls: {}
+      service: router-page
+    keycloak:
+      entryPoints:
+        - "https"
+      rule: "Host(`keycloak.homedns.pro`)"
+      middlewares:
+        - default-headers
+        - https-redirectscheme
+      tls: true
+      service: keycloak
+  #endregion
+
+  #region services
+  services:
+    pve1:
+      loadBalancer:
+        servers:
+          - url: "https://192.168.1.2:8006"
+        passHostHeader: true
+    pve2:
+      loadBalancer:
+        servers:
+          - url: "https://192.168.1.3:8006"
+        passHostHeader: true
+    router-page:
+      loadBalancer:
+        servers:
+          - url: "https://192.168.1.1"
+        passHostHeader: true
+    keycloak:
+      loadBalancer:
+        servers:
+          - url: "http://192.168.1.53:8080/"
+        passHostHeader: true
+  #endregion
+
+  middlewares:
+    addprefix-pihole:
+      addPrefix:
+        prefix: "/admin"
+    https-redirectscheme:
+      redirectScheme:
+        scheme: https
+        permanent: true
+    redirectregex-pihole:
+      redirectRegex:
+        regex: "/admin/(.*)"
+        replacement: /
+
+    default-headers:
+      headers:
+        frameDeny: true
+        browserXssFilter: true
+        contentTypeNosniff: true
+        forceSTSHeader: true
+        stsIncludeSubdomains: true
+        stsPreload: true
+        stsSeconds: 15552000
+        customFrameOptionsValue: SAMEORIGIN
+        customRequestHeaders:
+          X-Forwarded-Proto: https
+
+    default-whitelist:
+      ipWhiteList:
+        sourceRange:
+          - "192.168.1.0/24"
+
+    secured:
+      chain:
+        middlewares:
+          - default-whitelist
+          - default-headers
+
+    traefik-keycloak:
+      plugin:
+        keycloakopenid:
+          KeycloakURL: "https://keycloak.homedns.pro"
+          KeycloakRealm: "homelab"
+          ClientID: "{{vault_traefik.keycloak.client_id}}"
+          ClientSecret: "{{vault_traefik.keycloak.client_secret}}"
+          Scope: "openid"
+          TokenCookieName: "AUTH_TOKEN"
+          UseAuthHeader: "false"

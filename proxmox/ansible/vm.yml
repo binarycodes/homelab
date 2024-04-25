@@ -1,0 +1,38 @@
+---
+- hosts: vm
+  become: no
+  gather_facts: no
+  vars_files:
+    - vars/vault.yml
+  pre_tasks:
+    - name: setup known hosts
+      ansible.builtin.include_role:
+        name: system
+        tasks_from: ssh_setup
+      vars:
+        ansible_hostname: "{{inventory_hostname}}"
+        add_known_host_for_ip: false
+
+- hosts: vm
+  vars_files:
+    - vars/vault.yml
+  roles:
+    - system
+
+- hosts: network_tools
+  become: yes
+  vars_files:
+    - vars/vault.yml
+  roles:
+    - docker
+    - traefik
+    - ddns
+    - wg-easy
+
+- hosts: authentication
+  become: yes
+  vars_files:
+    - vars/vault.yml
+  roles:
+    - docker
+    - keycloak

@@ -1,0 +1,11 @@
+install_packages:
+  - tree
+  - python3
+  - vim
+  - cron
+
+remove_packages:
+  - python3-pip
+
+add_known_host_for_ip: true
+add_known_host_for_hostname: true

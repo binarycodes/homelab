@@ -1,0 +1,33 @@
+- name: Check for pivpn command
+  stat:
+    path: "/usr/local/bin/pivpn"
+  register: app
+
+- name: Ensure temporary pivpn directory exists
+  file:
+    path: "/tmp/pivpn/"
+    state: directory
+  when: not app.stat.exists
+
+- name: Download pivpn installer
+  get_url:
+    url: https://install.pivpn.io
+    dest: /tmp/pivpn/installer.sh
+    mode: "u+rwx"
+  when: not app.stat.exists
+
+- name: add setup config file
+  copy:
+    src: secret-pivpn-options.conf
+    dest: /tmp/pivpn/secret-pivpn-options.conf
+    mode: "u+rwx"
+  when: not app.stat.exists
+
+- name: Run the install script
+  shell: sudo bash /tmp/pivpn/installer.sh --unattended /tmp/pivpn/secret-pivpn-options.conf
+  when: not app.stat.exists
+
+- name: Remove the pivpn setup scripts
+  file:
+    path: /tmp/pivpn
+    state: absent

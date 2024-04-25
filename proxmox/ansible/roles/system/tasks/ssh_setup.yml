@@ -1,0 +1,33 @@
+# main pre-task should setup the known_hosts for inventory hostname (which can be either ip or hostname)
+# so this ensures that we always have known_hosts entry for both, regardless of what was used in the inventory
+
+- block:
+    - name: check known_hosts for ip
+      local_action: shell ssh-keygen -F {{ ansible_default_ipv4.address }}
+      register: result
+      changed_when: result.rc == 1
+      failed_when: false
+      notify: add host key for remote ip
+  when: add_known_host_for_ip
+
+- block:
+    - name: check known_hosts for hostname
+      local_action: shell ssh-keygen -F {{ ansible_hostname }}
+      register: result
+      changed_when: result.rc == 1
+      failed_when: false
+      notify: add host key for remote hostname
+  when: add_known_host_for_hostname
+
+- meta: flush_handlers
+
+- name: iterate over ssh_authorized_public_keys and join into a string
+  set_fact:
+    ssh_pubkeys_string: "{{ ssh_authorized_public_keys | join('\n') }}"
+
+- name: set authorized key for ssh user
+  ansible.posix.authorized_key:
+    user: "{{ansible_ssh_user}}"
+    state: present
+    key: "{{ ssh_pubkeys_string  }}"
+    exclusive: true

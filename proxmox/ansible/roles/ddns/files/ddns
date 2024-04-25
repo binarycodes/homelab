@@ -1,0 +1,3 @@
+#!/bin/sh
+
+/bin/python3 /usr/local/src/dynamic-dns/script/main.py -a /etc/dynamic-dns/config/api_keys.json -d /etc/dynamic-dns/config/domains.json

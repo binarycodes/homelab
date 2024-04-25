@@ -1,0 +1,10 @@
+- name: suppress login message (hushlogin)
+  become: false
+  file:
+    path: "~/.hushlogin"
+    mode: 0644
+    owner: "{{ansible_ssh_user}}"
+    group: "{{ansible_ssh_user}}"
+    modification_time: preserve
+    access_time: preserve
+    state: touch

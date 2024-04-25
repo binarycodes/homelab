@@ -1,0 +1,37 @@
+- name: ensure directory exists
+  ansible.builtin.file:
+    path: "{{item}}"
+    owner: root
+    group: root
+    mode: 0755
+    state: directory
+  loop:
+    - "/usr/local/src/dynamic-dns/script/"
+    - "/etc/dynamic-dns/config/"
+
+- name: download ddns script
+  ansible.builtin.get_url:
+    url: https://raw.githubusercontent.com/binarycodes/homelab/main/dynamic-dns/main.py
+    dest: /usr/local/src/dynamic-dns/script/
+    owner: root
+    group: root
+    mode: 0554
+
+- name: "copy config files"
+  ansible.builtin.template:
+    src: "{{item}}"
+    dest: "/etc/dynamic-dns/config/{{item}}"
+    owner: root
+    group: root
+    mode: 0444
+  loop:
+    - "api_keys.json"
+    - "domains.json"
+
+- name: add sync cron script
+  ansible.builtin.copy:
+    src: ddns
+    dest: /etc/cron.hourly/
+    owner: root
+    group: root
+    mode: 0555

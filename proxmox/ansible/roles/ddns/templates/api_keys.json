@@ -1,0 +1,4 @@
+{
+  "secretapikey": "{{vault_porkbun_secret_api_key}}",
+  "apikey": "{{vault_porkbun_api_key}}"
+}

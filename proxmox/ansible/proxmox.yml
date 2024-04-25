@@ -1,0 +1,21 @@
+---
+- hosts: proxmox
+  become: no
+  gather_facts: no
+  vars_files:
+    - vars/vault.yml
+  pre_tasks:
+    - name: setup known hosts
+      ansible.builtin.include_role:
+        name: system
+        tasks_from: ssh_setup
+      vars:
+        ansible_default_ipv4: {address: "{{inventory_hostname}}"}
+
+- hosts: proxmox
+  become: no
+  vars_files:
+    - vars/vault.yml
+  roles:
+    - proxmox_init
+    - system

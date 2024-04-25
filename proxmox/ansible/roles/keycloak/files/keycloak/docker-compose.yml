@@ -1,0 +1,80 @@
+networks:
+  keycloak:
+    driver: bridge
+
+services:
+  keycloak_mariadb:
+      image: mariadb:11.2.3
+      container_name: keycloak_mariadb
+      restart: unless-stopped
+      networks:
+        - keycloak
+      ports:
+        - 49153:3306
+      volumes:
+        - ./data:/var/lib/mysql
+        - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+      environment:
+        - MARIADB_ROOT_PASSWORD=${MARIADB_ROOT_PASSWORD}
+      command: --innodb-flush-method=fsync --innodb-use-native-aio=0
+      healthcheck:
+        test: [ "CMD", "/usr/local/bin/healthcheck.sh", "--connect" ]
+  keycloak:
+    image: quay.io/keycloak/keycloak:24.0.2-0
+    container_name: keycloak
+    restart: unless-stopped
+    ports:
+      - 8080:8080
+    networks:
+      - keycloak
+    environment:
+      KEYCLOAK_ADMIN: ${KEYCLOAK_ADMIN}
+      KEYCLOAK_ADMIN_PASSWORD: ${KEYCLOAK_ADMIN_PASSWORD}
+      KC_PROXY_ADDRESS_FORWARDING: true
+      KC_HOSTNAME_STRICT: false
+      KC_HTTP_ENABLED: true
+      KC_PROXY: edge
+      KC_DB: mariadb
+      KC_DB_USERNAME: ${KC_DB_USERNAME}
+      KC_DB_PASSWORD: ${KC_DB_PASSWORD}
+      KC_DB_URL_HOST: keycloak_mariadb
+      KC_DB_URL_PORT: 3306
+      KC_DB_URL_DATABASE: ${KC_DB_URL_DATABASE}
+      KC_FEATURES: token-exchange,admin-fine-grained-authz
+    volumes:
+      - ./HealthCheck.java:/tmp/HealthCheck.java:read-only
+      - ./homelab-realm.json:/opt/keycloak/data/import/homelab-realm.json
+    command: --verbose start --health-enabled=true --import-realm
+    healthcheck:
+      test: [ 'CMD-SHELL', 'java /tmp/HealthCheck.java http://localhost:8080/health/ready' ]
+      interval: 5s
+      timeout: 10s
+      retries: 5
+      start_period: 60s
+    depends_on:
+      keycloak_mariadb:
+        condition: service_healthy
+
+  keycloak-export:
+    image: quay.io/keycloak/keycloak:24.0.2-0
+    container_name: keycloak_realm_export
+    networks:
+      - keycloak
+    environment:
+      KEYCLOAK_ADMIN: ${KEYCLOAK_ADMIN}
+      KEYCLOAK_ADMIN_PASSWORD: ${KEYCLOAK_ADMIN_PASSWORD}
+      KC_HOSTNAME: localhost
+      KC_DB: mariadb
+      KC_DB_USERNAME: ${KC_DB_USERNAME}
+      KC_DB_PASSWORD: ${KC_DB_PASSWORD}
+      KC_DB_URL_HOST: keycloak_mariadb
+      KC_DB_URL_PORT: 3306
+      KC_DB_URL_DATABASE: ${KC_DB_URL_DATABASE}
+      KC_FEATURES: token-exchange,admin-fine-grained-authz
+    volumes:
+       - ./export/:/tmp/export/
+    command: export --file /tmp/export/homelab-realm.json --realm homelab --users realm_file
+    depends_on:
+      keycloak_mariadb:
+        condition: service_healthy
+    profiles: ["export"]

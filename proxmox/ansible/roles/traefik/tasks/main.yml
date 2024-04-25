@@ -1,0 +1,40 @@
+- name: add setup config file
+  ansible.builtin.copy:
+    src: traefik/
+    dest: /etc/docker/traefik
+    owner: root
+    group: root
+    mode: "600"
+  notify:
+    - tear down existing services
+    - start the service again
+
+- name: copy environment file
+  ansible.builtin.template:
+    src: "{{item}}"
+    dest: "/etc/docker/traefik/{{item}}"
+    owner: root
+    group: root
+    mode: "600"
+  loop:
+    - ".env"
+  notify:
+    - tear down existing services
+    - start the service again
+
+- name: copy config file
+  ansible.builtin.template:
+    src: "{{item}}"
+    dest: "/etc/docker/traefik/data/{{item}}"
+    owner: root
+    group: root
+    mode: "600"
+  loop:
+    - "config.yml"
+  notify:
+    - tear down existing services
+    - start the service again
+
+- name: create a network
+  community.docker.docker_network:
+    name: proxy
