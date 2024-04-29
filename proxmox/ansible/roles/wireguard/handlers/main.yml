@@ -1,0 +1,15 @@
+- name: stop wg0
+  ansible.builtin.systemd_service:
+    name: wg-quick@wg0.service
+    state: stopped
+
+- name: force systemd to reread configs
+  ansible.builtin.systemd_service:
+    daemon_reexec: true
+
+- name: enable wg0 and ensure it is not masked
+  ansible.builtin.systemd_service:
+    name: wg-quick@wg0.service
+    enabled: true
+    masked: no
+    state: started

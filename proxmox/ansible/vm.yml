@@ -27,7 +27,6 @@
     - docker
     - traefik
     - ddns
-    - wg-easy
 
 - hosts: authentication
   become: yes
@@ -36,3 +35,12 @@
   roles:
     - docker
     - keycloak
+
+- hosts: vpn
+  become: yes
+  vars_files:
+    - vars/vault.yml
+  roles:
+    - wireguard
+  tags:
+    - vpn

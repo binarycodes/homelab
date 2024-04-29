@@ -1,0 +1,46 @@
+- name: install wireguard
+  ansible.builtin.apt:
+    name:
+      - wireguard
+    state: latest
+
+- name: copy config files
+  ansible.builtin.template:
+    src: "{{item}}"
+    dest: "/etc/wireguard/"
+    owner: root
+    group: root
+    mode: 0644
+  loop:
+    - "wg0.conf"
+  notify:
+    - stop wg0
+    - force systemd to reread configs
+    - enable wg0 and ensure it is not masked
+
+- name: ensure directory exists
+  ansible.builtin.file:
+    path: "/etc/wireguard/clients/"
+    owner: root
+    group: root
+    mode: 0755
+    state: directory
+
+- name: copy config files
+  ansible.builtin.template:
+    src: "{{item}}"
+    dest: "/etc/wireguard/clients/{{item}}"
+    owner: root
+    group: root
+    mode: 0644
+  loop:
+    - "sujoy.conf"
+    - "sudebi.conf"
+
+- name: enable ip forwarding
+  ansible.posix.sysctl:
+    name: net.ipv4.ip_forward
+    value: "1"
+    sysctl_set: true
+    state: present
+    reload: true
