@@ -1,26 +1,26 @@
-module "proxmox_n1_vm" {
-  providers = { proxmox = proxmox.n1 }
+module "proxmox_pve1_vm" {
+  providers = { proxmox = proxmox.pve1 }
   source    = "./debian_vm"
 
-  node          = "n1"
+  node          = "pve1"
   template_name = local.debian12_template_name
 
   for_each = {
-    for key, value in local.n1_vms :
+    for key, value in local.pve1_vms :
     key => merge(value, { vmid = key })
   }
   config = each.value
 }
 
-module "proxmox_n2_vm" {
-  providers = { proxmox = proxmox.n2 }
+module "proxmox_pve2_vm" {
+  providers = { proxmox = proxmox.pve2 }
   source    = "./debian_vm"
 
-  node          = "n2"
+  node          = "pve2"
   template_name = local.debian12_template_name
 
   for_each = {
-    for key, value in local.n2_vms :
+    for key, value in local.pve2_vms :
     key => merge(value, { vmid = key })
   }
   config = each.value

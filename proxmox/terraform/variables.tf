@@ -26,7 +26,3 @@ variable "vm_ssh_keys" {
   type      = string
   sensitive = true
 }
-
-variable "debian12_template_name" {
-  type = string
-}

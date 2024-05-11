@@ -9,6 +9,7 @@ apt install libguestfs-tools -y
 wget $image_url
 
 virt-customize -a $image_name --install qemu-guest-agent
+virt-customize -a $image_name --run-command "echo -n > /etc/machine-id"
 qm create $template_id --name $template_name --memory 2048 --cores 2 --net0 virtio,bridge=vmbr0
 qm importdisk $template_id $image_name $storage_name
 qm set $template_id --scsihw virtio-scsi-single --scsi0 $storage_name:vm-$template_id-disk-0

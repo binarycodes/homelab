@@ -10,10 +10,10 @@ terraform {
 }
 
 provider "proxmox" {
-  alias               = "n1"
-  pm_api_url          = var.proxmox_api_url["n1"]
-  pm_api_token_id     = var.proxmox_api_token_id["n1"]
-  pm_api_token_secret = var.proxmox_api_token_secret["n1"]
+  alias               = "pve1"
+  pm_api_url          = var.proxmox_api_url["pve1"]
+  pm_api_token_id     = var.proxmox_api_token_id["pve1"]
+  pm_api_token_secret = var.proxmox_api_token_secret["pve1"]
 
   pm_tls_insecure = true
 
@@ -27,10 +27,10 @@ provider "proxmox" {
 }
 
 provider "proxmox" {
-  alias               = "n2"
-  pm_api_url          = var.proxmox_api_url["n2"]
-  pm_api_token_id     = var.proxmox_api_token_id["n2"]
-  pm_api_token_secret = var.proxmox_api_token_secret["n2"]
+  alias               = "pve2"
+  pm_api_url          = var.proxmox_api_url["pve2"]
+  pm_api_token_id     = var.proxmox_api_token_id["pve2"]
+  pm_api_token_secret = var.proxmox_api_token_secret["pve2"]
 
   pm_tls_insecure = true
 
