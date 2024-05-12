@@ -45,4 +45,25 @@ resource "proxmox_vm_qemu" "debian" {
   ciuser     = var.config.username
   cipassword = var.config.password
   sshkeys    = var.config.ssh_keys
+
+
+  provisioner "remote-exec" {
+    inline = [
+      "sudo dhclient -r",
+      "sudo ip -4 addr flush dev eth0",
+      "sudo dhclient",
+    ]
+
+    connection {
+      type        = "ssh"
+      user        = var.config.username
+      private_key = file("~/.ssh/ansible")
+      host        = self.ssh_host
+    }
+  }
+
+  provisioner "local-exec" {
+    command = "ssh-keygen -R ${lower(self.name)}"
+  }
+
 }
