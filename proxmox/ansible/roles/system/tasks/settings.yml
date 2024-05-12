@@ -1,0 +1,3 @@
+- name: set timezone to Europe/Helsinki
+  community.general.timezone:
+    name: Europe/Helsinki
