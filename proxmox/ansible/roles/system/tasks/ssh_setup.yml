@@ -12,7 +12,7 @@
 
 - block:
     - name: check known_hosts for hostname
-      local_action: shell ssh-keygen -F {{ ansible_hostname }}
+      local_action: shell ssh-keygen -F {{ ansible_hostname | lower }}
       register: result
       changed_when: result.rc == 1
       failed_when: false

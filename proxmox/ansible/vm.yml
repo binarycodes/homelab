@@ -12,11 +12,15 @@
       vars:
         ansible_hostname: "{{inventory_hostname}}"
         add_known_host_for_ip: false
+  tags:
+    - system
 
 - hosts: vm
   vars_files:
     - vars/vault.yml
   roles:
+    - system
+  tags:
     - system
 
 - hosts: network_tools

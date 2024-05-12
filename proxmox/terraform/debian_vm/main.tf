@@ -38,8 +38,10 @@ resource "proxmox_vm_qemu" "debian" {
     }
   }
 
-  ipconfig0  = var.config.dhcp ? "ip=dhcp" : "ip=${var.config.ip_v4},gw=${var.config.gateway}"
-  nameserver = var.config.dhcp ? null : var.config.nameserver
+  ipconfig0    = var.config.dhcp ? "ip=dhcp" : "ip=${var.config.ip_v4},gw=${var.config.gateway}"
+  nameserver   = var.config.dhcp ? null : var.config.nameserver
+  searchdomain = var.config.searchdomain
+
   ciuser     = var.config.username
   cipassword = var.config.password
   sshkeys    = var.config.ssh_keys

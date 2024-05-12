@@ -3,6 +3,7 @@ install_packages:
   - python3
   - vim
   - cron
+  - iperf3
 
 remove_packages:
   - python3-pip
