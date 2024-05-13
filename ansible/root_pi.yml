@@ -1,0 +1,58 @@
+---
+- hosts: root_pi
+  become: no
+  gather_facts: no
+  vars_files:
+    - vars/vault.yml
+  pre_tasks:
+    - name: install python # pre-requisite for many ansible tasks
+      ansible.builtin.raw: apt --assume-yes install python3
+
+    - name: setup known hosts
+      ansible.builtin.include_role:
+        name: system
+        tasks_from: ssh_setup
+      vars:
+        ansible_hostname: "{{inventory_hostname}}"
+        add_known_host_for_ip: false
+
+    - name: disable root login with password
+      lineinfile:
+        dest: /etc/ssh/sshd_config.d/01-permit-root-login.conf
+        regexp: '^PermitRootLogin'
+        line: "PermitRootLogin prohibit-password"
+        state: present
+        backup: yes
+      notify:
+       - restart ssh
+
+    - name: install sudo
+      ansible.builtin.apt:
+        name:
+          - sudo
+
+    - name: make sure we have a 'wheel' group
+      group:
+        name: wheel
+        state: present
+
+    - name: allow 'wheel' group to have passwordless sudo
+      lineinfile:
+        dest: /etc/sudoers
+        state: present
+        regexp: '^%wheel'
+        line: '%wheel ALL=(ALL) NOPASSWD: ALL'
+        validate: visudo -cf %s
+
+    - name: Add sudoers users to wheel group
+      user:
+        name: "{{ item }}"
+        groups: wheel
+        append: yes
+      with_items: "{{ sudoers_users }}"
+      
+  handlers:
+   - name: restart ssh
+     ansible.builtin.service:
+       name: sshd
+       state: restarted

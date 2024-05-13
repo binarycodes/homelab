@@ -4,5 +4,3 @@ ansible_ssh_user: root
 ssh_authorized_public_keys:
   - "{{vault_asgard_wsl_ssh_key}}"
   - "{{vault_asgard_ssh_key}}"
-
-add_known_host_for_hostname: false

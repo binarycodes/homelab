@@ -23,3 +23,9 @@ VMPVE1DEBIAN1003
 
 [vpn]
 VMPVE1DEBIAN1002
+
+[root_pi]
+rpi4
+
+[pi]
+rpi4

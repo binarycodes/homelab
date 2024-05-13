@@ -1,5 +1,5 @@
 ---
-- hosts: proxmox
+- hosts: pi
   become: no
   gather_facts: no
   vars_files:
@@ -13,10 +13,9 @@
         ansible_hostname: "{{inventory_hostname}}"
         add_known_host_for_ip: false
 
-- hosts: proxmox
+- hosts: pi
   become: no
   vars_files:
     - vars/vault.yml
   roles:
-    - proxmox_init
     - system
