@@ -25,7 +25,7 @@ VMPVE1DEBIAN1003
 VMPVE1DEBIAN1002
 
 [root_pi]
-rpi4
+rpi4-root ansible_host=rpi4
 
 [pi]
 rpi4

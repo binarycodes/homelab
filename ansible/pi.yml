@@ -1,7 +1,7 @@
 ---
 - hosts: pi
-  become: no
-  gather_facts: no
+  become: false
+  gather_facts: false
   vars_files:
     - vars/vault.yml
   pre_tasks:
@@ -14,7 +14,7 @@
         add_known_host_for_ip: false
 
 - hosts: pi
-  become: no
+  become: false
   vars_files:
     - vars/vault.yml
   roles:
