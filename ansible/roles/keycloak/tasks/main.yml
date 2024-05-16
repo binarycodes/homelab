@@ -28,7 +28,8 @@
     path: /etc/docker/keycloak/certificates.sh
     owner: root
     group: root
-    mode: "u+x"
+    mode: u+x
+    state: file
     modification_time: preserve
     access_time: preserve
 

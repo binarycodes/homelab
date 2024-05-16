@@ -4,4 +4,4 @@
 
 - name: add host key for remote hostname
   become: false
-  local_action: shell ssh-keyscan -H {{ ansible_host }} >> ~/.ssh/known_hosts
+  local_action: shell ssh-keyscan -H {{ ansible_hostname }} >> ~/.ssh/known_hosts
