@@ -38,29 +38,18 @@ resource "proxmox_vm_qemu" "debian" {
     }
   }
 
+  smbios {
+    serial = "ds=nocloud-net;h=${upper("vm${var.node}debian${var.config.vmid}")}"
+  }
+
   ipconfig0    = var.config.dhcp ? "ip=dhcp" : "ip=${var.config.ip_v4},gw=${var.config.gateway}"
   nameserver   = var.config.dhcp ? null : var.config.nameserver
-  searchdomain = var.config.searchdomain
+  searchdomain = var.config.dhcp ? null : var.config.searchdomain
 
   ciuser     = var.config.username
   cipassword = var.config.password
   sshkeys    = var.config.ssh_keys
 
-
-  provisioner "remote-exec" {
-    inline = [
-      "sudo dhclient -r",
-      "sudo ip -4 addr flush dev eth0",
-      "sudo dhclient",
-    ]
-
-    connection {
-      type        = "ssh"
-      user        = var.config.username
-      private_key = file("~/.ssh/id_homelab")
-      host        = self.ssh_host
-    }
-  }
 
   provisioner "local-exec" {
     command = "ssh-keygen -R ${lower(self.name)}"

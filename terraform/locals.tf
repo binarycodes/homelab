@@ -7,11 +7,7 @@ locals {
       cores        = 1
       memory       = 2048
       disk_size    = "20"
-      dhcp         = false
-      ip_v4        = "10.88.1.3/16"
-      gateway      = "10.88.0.1"
-      nameserver   = "10.88.0.1"
-      searchdomain = "localdomain"
+      dhcp         = true
       username     = var.vm_username
       password     = var.vm_password
       ssh_keys     = var.vm_ssh_keys
@@ -23,7 +19,6 @@ locals {
       memory       = 2048
       disk_size    = "20"
       dhcp         = true
-      searchdomain = "localdomain"
       username     = var.vm_username
       password     = var.vm_password
       ssh_keys     = var.vm_ssh_keys
@@ -35,7 +30,6 @@ locals {
       memory       = 2048
       disk_size    = "20"
       dhcp         = true
-      searchdomain = "localdomain"
       username     = var.vm_username
       password     = var.vm_password
       ssh_keys     = var.vm_ssh_keys
@@ -49,7 +43,6 @@ locals {
       memory       = 2048
       disk_size    = "20"
       dhcp         = true
-      searchdomain = "localdomain"
       username     = var.vm_username
       password     = var.vm_password
       ssh_keys     = var.vm_ssh_keys
@@ -61,7 +54,6 @@ locals {
       memory       = 2048
       disk_size    = "20"
       dhcp         = true
-      searchdomain = "localdomain"
       username     = var.vm_username
       password     = var.vm_password
       ssh_keys     = var.vm_ssh_keys
