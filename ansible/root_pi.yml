@@ -2,8 +2,6 @@
 - hosts: root_pi
   become: no
   gather_facts: no
-  vars_files:
-    - vars/vault.yml
   pre_tasks:
     - name: install python # pre-requisite for many ansible tasks
       ansible.builtin.raw: apt --assume-yes install python3

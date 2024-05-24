@@ -57,7 +57,7 @@ resource "proxmox_vm_qemu" "debian" {
     connection {
       type        = "ssh"
       user        = var.config.username
-      private_key = file("~/.ssh/ansible")
+      private_key = file("~/.ssh/id_homelab")
       host        = self.ssh_host
     }
   }

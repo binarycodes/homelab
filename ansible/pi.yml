@@ -2,8 +2,6 @@
 - hosts: pi
   become: false
   gather_facts: false
-  vars_files:
-    - vars/vault.yml
   pre_tasks:
     - name: setup known hosts
       ansible.builtin.include_role:
@@ -15,7 +13,5 @@
 
 - hosts: pi
   become: false
-  vars_files:
-    - vars/vault.yml
   roles:
     - system

@@ -1,0 +1,5 @@
+- hosts: proxmox
+  tasks:
+    - name: Print all variables
+      debug:
+        var: hostvars[inventory_hostname]

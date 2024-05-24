@@ -3,3 +3,6 @@
 
 - name: create-new-debian-template
   ansible.builtin.shell: /root/create-debian12-template.sh
+
+- name: re-create-new-open-id-realm
+  ansible.builtin.shell: /root/create-openid-realm.sh

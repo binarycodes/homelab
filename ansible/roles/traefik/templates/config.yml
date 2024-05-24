@@ -44,12 +44,12 @@ http:
     pve1:
       loadBalancer:
         servers:
-          - url: "https://pve1.homedns.localdomain:8006"
+          - url: "https://pve1.localdomain:8006"
         passHostHeader: true
     pve2:
       loadBalancer:
         servers:
-          - url: "https://pve2.homedns.localdomain:8006"
+          - url: "https://pve2.localdomain:8006"
         passHostHeader: true
     router-page:
       loadBalancer:
@@ -59,7 +59,7 @@ http:
     keycloak:
       loadBalancer:
         servers:
-          - url: "http://VMPVE1DEBIAN1003:8080/"
+          - url: "http://VMPVE1DEBIAN1003.localdomain:8080/"
         passHostHeader: true
   #endregion
 

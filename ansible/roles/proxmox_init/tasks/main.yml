@@ -7,7 +7,7 @@
     - "terraform-user.sh"
     - "setup-repositories.sh"
 
-- name: add proxmox setup scripts
+- name: add create template scripts
   ansible.builtin.copy:
     src: create-debian12-template.sh
     dest: "/root/"
@@ -19,3 +19,13 @@
 - name: setup repositories
   ansible.builtin.shell: /root/setup-repositories.sh
   changed_when: false
+
+- name: add realm setup scripts
+  ansible.builtin.template:
+    src: create-openid-realm.sh
+    dest: /root/
+    owner: root
+    group: root
+    mode: u+rwx
+  notify:
+    - re-create-new-open-id-realm

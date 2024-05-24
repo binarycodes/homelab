@@ -2,8 +2,6 @@
 - hosts: vm
   become: no
   gather_facts: no
-  vars_files:
-    - vars/vault.yml
   pre_tasks:
     - name: setup known hosts
       ansible.builtin.include_role:
@@ -16,8 +14,6 @@
     - system
 
 - hosts: vm
-  vars_files:
-    - vars/vault.yml
   roles:
     - system
   tags:
@@ -25,8 +21,6 @@
 
 - hosts: network_tools
   become: yes
-  vars_files:
-    - vars/vault.yml
   roles:
     - docker
     - traefik
@@ -34,16 +28,12 @@
 
 - hosts: authentication
   become: yes
-  vars_files:
-    - vars/vault.yml
   roles:
     - docker
     - keycloak
 
 - hosts: vpn
   become: yes
-  vars_files:
-    - vars/vault.yml
   roles:
     - wireguard
   tags:

@@ -1,0 +1,14 @@
+---
+private_key_file: ~/.ssh/ansible
+ansible_ssh_user: root
+ssh_authorized_public_keys:
+  - "{{vault_asgard_wsl_ssh_key}}"
+  - "{{vault_asgard_ssh_key}}"
+
+open_id:
+  realm: "{{gvault.open_id.realm}}"
+  issuer_url: "{{gvault.open_id.issuer_url}}"
+  user:
+    email: "{{gvault.open_id.user.email}}"
+  client_id: "{{vault.open_id.client_id}}"
+  client_key: "{{vault.open_id.client_key}}"

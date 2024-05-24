@@ -1,3 +1,5 @@
+#!/usr/bin/env bash
+
 image_name="debian-12-genericcloud-amd64.qcow2"
 image_url="https://cloud.debian.org/images/cloud/bookworm/latest/$image_name"
 template_name="debian12"
