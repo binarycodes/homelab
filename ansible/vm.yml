@@ -11,12 +11,13 @@
         ansible_hostname: "{{inventory_hostname}}"
         add_known_host_for_ip: false
   tags:
-    - system
+    - always
 
 - hosts: vm
   roles:
     - system
   tags:
+    - always
     - system
 
 - hosts: network_tools
@@ -35,6 +36,10 @@
 - hosts: vpn
   become: yes
   roles:
-    - wireguard
-  tags:
-    - vpn
+    - role: wireguard
+      tags:
+        - vpn
+    - role: unifi
+      tags:
+        - unifi
+    

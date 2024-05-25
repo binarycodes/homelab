@@ -1,0 +1,23 @@
+- name: install pre-requisites
+  ansible.builtin.apt:
+    name:
+      - gpg
+    state: latest
+
+- name: add apt repository
+  ansible.builtin.deb822_repository:
+    name: mongodb
+    state: present
+    types: [deb]
+    uris: "http://repo.mongodb.org/apt/debian"
+    suites: ["bookworm/mongodb-org/7.0"]
+    components: [main]
+    signed_by: "https://www.mongodb.org/static/pgp/server-7.0.asc"
+    enabled: yes
+
+- name: install mongo-db
+  ansible.builtin.apt:
+    name:
+      - mongodb-org
+    state: latest
+    update_cache: true

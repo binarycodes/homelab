@@ -1,0 +1,31 @@
+- name: install pre-requisites
+  ansible.builtin.apt:
+    name:
+      - gpg
+      - ca-certificates
+      - apt-transport-https
+    state: latest
+
+- name: add gpg apt Key
+  ansible.builtin.apt_key:
+    url: https://dl.ui.com/unifi/unifi-repo.gpg
+    state: present
+
+- name: add repository into sources list
+  ansible.builtin.apt_repository:
+    repo: deb [arch=amd64] https://www.ui.com/downloads/unifi/debian stable ubiquiti
+    filename: ubiquiti
+    state: present
+
+- name: install unifi controller
+  ansible.builtin.apt:
+    name:
+      - unifi
+    state: latest
+    update_cache: true
+
+- name: ensure service is running
+  ansible.builtin.service:
+    name: unifi
+    state: started
+    enabled: true
