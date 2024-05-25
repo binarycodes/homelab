@@ -28,6 +28,15 @@ http:
         - https-redirectscheme
       tls: {}
       service: router-page
+    unifi-u6:
+      entryPoints:
+        - "https"
+      rule: "Host(`bifrost.homedns.pro`)"
+      middlewares:
+        - default-headers
+        - https-redirectscheme
+      tls: {}
+      service: unifi-u6
     keycloak:
       entryPoints:
         - "https"
@@ -55,6 +64,11 @@ http:
       loadBalancer:
         servers:
           - url: "https://homedns.localdomain/"
+        passHostHeader: true
+    unifi-u6:
+      loadBalancer:
+        servers:
+          - url: "https://VMPVE1DEBIAN1002.localdomain:8443/"
         passHostHeader: true
     keycloak:
       loadBalancer:
