@@ -27,7 +27,7 @@ certificatesResolvers:
       email: sujoy.cse@gmail.com
       storage: acme.json
       dnsChallenge:
-        delayBeforeCheck: "5"
+        disablePropagationCheck: true
         provider: porkbun
         resolvers:
           - "1.1.1.1:53"
