@@ -14,5 +14,5 @@
 - hosts: proxmox
   become: no
   roles:
-    - proxmox_init
     - system
+    - proxmox_init

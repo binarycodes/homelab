@@ -13,3 +13,6 @@ open_id:
     email: "{{gvault.open_id.user.email}}"
   client_id: "{{vault.open_id.client_id}}"
   client_key: "{{vault.open_id.client_key}}"
+
+install_packages:
+  - jq
