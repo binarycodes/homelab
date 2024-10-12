@@ -1,6 +1,7 @@
 [proxmox]
 pve1
 pve2
+pve3
 
 [pve1_debian_vms]
 VMPVE1DEBIAN1001

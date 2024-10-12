@@ -19,6 +19,15 @@ http:
         - https-redirectscheme
       tls: {}
       service: pve2
+    pve3:
+      entryPoints:
+        - "https"
+      rule: "Host(`pve3.proxmox.homedns.pro`)"
+      middlewares:
+        - default-headers
+        - https-redirectscheme
+      tls: {}
+      service: pve3
     router-page:
       entryPoints:
         - "https"
@@ -59,6 +68,11 @@ http:
       loadBalancer:
         servers:
           - url: "https://pve2.localdomain:8006"
+        passHostHeader: true
+    pve3:
+      loadBalancer:
+        servers:
+          - url: "https://pve3.localdomain:8006"
         passHostHeader: true
     router-page:
       loadBalancer:
