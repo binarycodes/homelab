@@ -59,4 +59,39 @@ locals {
       ssh_keys     = var.vm_ssh_keys
     }
   }
+  pve3_vms = {
+    3001 = {
+      description  = "debian-1-description"
+      cpu          = "host"
+      cores        = 1
+      memory       = 2048
+      disk_size    = "20"
+      dhcp         = true
+      username     = var.vm_username
+      password     = var.vm_password
+      ssh_keys     = var.vm_ssh_keys
+    }
+    3002 = {
+      description  = "debian-1-description"
+      cpu          = "host"
+      cores        = 1
+      memory       = 2048
+      disk_size    = "20"
+      dhcp         = true
+      username     = var.vm_username
+      password     = var.vm_password
+      ssh_keys     = var.vm_ssh_keys
+    }
+    3003 = {
+      description  = "debian-1-description"
+      cpu          = "host"
+      cores        = 1
+      memory       = 2048
+      disk_size    = "20"
+      dhcp         = true
+      username     = var.vm_username
+      password     = var.vm_password
+      ssh_keys     = var.vm_ssh_keys
+    }
+  }
 }

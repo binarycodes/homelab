@@ -1,5 +1,5 @@
 - name: remove-previous-debian-template
-  ansible.builtin.shell: qm destroy 100200
+  ansible.builtin.shell: /root/delete-debian12-template.sh
 
 - name: create-new-debian-template
   ansible.builtin.shell: /root/create-debian12-template.sh

@@ -25,3 +25,17 @@ module "proxmox_pve2_vm" {
   }
   config = each.value
 }
+
+module "proxmox_pve3_vm" {
+  providers = { proxmox = proxmox.pve3 }
+  source    = "./debian_vm"
+
+  node          = "pve3"
+  template_name = local.debian12_template_name
+
+  for_each = {
+    for key, value in local.pve3_vms :
+    key => merge(value, { vmid = key })
+  }
+  config = each.value
+}

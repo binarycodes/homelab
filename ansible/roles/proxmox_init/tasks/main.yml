@@ -7,11 +7,16 @@
     - "terraform-user.sh"
     - "setup-repositories.sh"
 
-- name: add create template scripts
-  ansible.builtin.copy:
-    src: create-debian12-template.sh
+- name: add create/delete debian template scripts
+  ansible.builtin.template:
+    src: "{{item}}"
     dest: "/root/"
-    mode: "u+rwx"
+    owner: root
+    group: root
+    mode: u+rwx
+  loop:
+    - "create-debian12-template.sh"
+    - "delete-debian12-template.sh"
   notify:
     - remove-previous-debian-template
     - create-new-debian-template

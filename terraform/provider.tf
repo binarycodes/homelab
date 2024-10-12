@@ -42,3 +42,20 @@ provider "proxmox" {
     _capturelog = ""
   }
 }
+
+provider "proxmox" {
+  alias               = "pve3"
+  pm_api_url          = var.proxmox_api_url["pve3"]
+  pm_api_token_id     = var.proxmox_api_token_id["pve3"]
+  pm_api_token_secret = var.proxmox_api_token_secret["pve3"]
+
+  pm_tls_insecure = true
+
+  pm_log_enable = true
+  pm_log_file   = "terraform-plugin-proxmox.log"
+  pm_debug      = true
+  pm_log_levels = {
+    _default    = "debug"
+    _capturelog = ""
+  }
+}

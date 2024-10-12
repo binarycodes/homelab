@@ -3,7 +3,7 @@
 image_name="debian-12-genericcloud-amd64.qcow2"
 image_url="https://cloud.debian.org/images/cloud/bookworm/latest/$image_name"
 template_name="debian12"
-template_id=100200
+template_id={{ debian12_template_id }}
 storage_name="local-lvm"
 
 apt update -y
