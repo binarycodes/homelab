@@ -16,3 +16,9 @@
   roles:
     - system
     - proxmox_init
+
+# the specific host does not matter, just that cluster config is executed on one node only
+- hosts: pve1
+  become: no
+  roles:
+    - proxmox_cluster

@@ -4,6 +4,8 @@ install_packages:
   - vim
   - cron
   - iperf3
+  - rsync
+  - dnsutils
 
 remove_packages:
   - python3-pip

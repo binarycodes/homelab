@@ -16,30 +16,23 @@
 - hosts: vm
   roles:
     - system
+    - docker
   tags:
     - always
     - system
 
-- hosts: network_tools
+- hosts: sundarban
   become: yes
   roles:
-    - docker
     - traefik
     - ddns
+    - wireguard
+    - unifi
 
-- hosts: authentication
+- hosts: gorumara
   become: yes
   roles:
-    - docker
+    - keycloak
+  tags:
     - keycloak
 
-- hosts: vpn
-  become: yes
-  roles:
-    - role: wireguard
-      tags:
-        - vpn
-    - role: unifi
-      tags:
-        - unifi
-    

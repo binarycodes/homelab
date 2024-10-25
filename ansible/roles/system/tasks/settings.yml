@@ -1,3 +1,10 @@
 - name: set timezone to Europe/Helsinki
   community.general.timezone:
     name: Europe/Helsinki
+
+# this is required when connecting from a terminal (kitty, etc.) that sets a non-standard TERM value
+- name: set TERM to xterm
+  ansible.builtin.lineinfile:
+    path: /etc/profile
+    line: export TERM=xterm
+    create: yes

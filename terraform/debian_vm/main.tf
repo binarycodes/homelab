@@ -3,7 +3,7 @@ resource "proxmox_vm_qemu" "debian" {
   clone       = var.template_name
 
   vmid    = var.config.vmid
-  name    = upper("vm${var.node}debian${var.config.vmid}")
+  name    = var.config.name
   desc    = var.config.description
   agent   = 1
   onboot  = true
@@ -14,14 +14,13 @@ resource "proxmox_vm_qemu" "debian" {
   sockets = 1
   memory  = var.config.memory
 
-  cloudinit_cdrom_storage = "local-lvm"
-  scsihw                  = "virtio-scsi-single"
-  bootdisk                = "scsi0"
+  scsihw    = "virtio-scsi-single"
+  bootdisk  = "scsi0"
 
   network {
     bridge   = "vmbr0"
     model    = "virtio"
-    mtu      = 0
+	tag 	 = var.config.vlan_id
     firewall = true
   }
 
@@ -29,17 +28,24 @@ resource "proxmox_vm_qemu" "debian" {
     scsi {
       scsi0 {
         disk {
-          storage  = "local-lvm"
-          size     = var.config.disk_size
-          discard  = true
-          iothread = true
+		  storage  = "local-lvm"
+		  size     = var.config.disk_size
+		  discard  = true
+		  iothread = true
         }
       }
     }
+	ide {
+	  ide3 {
+	  	cloudinit {
+		  storage   = "local-lvm"
+		}
+	  }
+	}
   }
 
   smbios {
-    serial = "ds=nocloud-net;h=${upper("vm${var.node}debian${var.config.vmid}")}"
+    serial = "ds=nocloud-net;h=${var.config.name}"
   }
 
   ipconfig0    = var.config.dhcp ? "ip=dhcp" : "ip=${var.config.ip_v4},gw=${var.config.gateway}"

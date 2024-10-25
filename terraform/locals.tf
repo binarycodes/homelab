@@ -1,35 +1,28 @@
 locals {
-  debian12_template_name = "debian12"
+  debian12_template_name = "bookworm"
   pve1_vms = {
     1001 = {
-      description  = "reverse proxy"
+	  name         = "sundarban"
+      description  = "network tools"
       cpu          = "host"
       cores        = 1
       memory       = 2048
       disk_size    = "20"
       dhcp         = true
+	  vlan_id      = -1
       username     = var.vm_username
       password     = var.vm_password
       ssh_keys     = var.vm_ssh_keys
     }
     1002 = {
-      description  = "site-2-site vpn"
+	  name         = "gorumara"
+      description  = "authentication"
       cpu          = "host"
       cores        = 1
       memory       = 2048
       disk_size    = "20"
       dhcp         = true
-      username     = var.vm_username
-      password     = var.vm_password
-      ssh_keys     = var.vm_ssh_keys
-    }
-    1003 = {
-      description  = "oauth authentication"
-      cpu          = "host"
-      cores        = 2
-      memory       = 2048
-      disk_size    = "20"
-      dhcp         = true
+	  vlan_id      = 10
       username     = var.vm_username
       password     = var.vm_password
       ssh_keys     = var.vm_ssh_keys
@@ -37,23 +30,27 @@ locals {
   }
   pve2_vms = {
     2001 = {
-      description  = "debian-1-description"
+	  name         = "simlipal"
+      description  = "unknown"
       cpu          = "host"
       cores        = 1
       memory       = 2048
       disk_size    = "20"
       dhcp         = true
+	  vlan_id      = 10
       username     = var.vm_username
       password     = var.vm_password
       ssh_keys     = var.vm_ssh_keys
     }
     2002 = {
-      description  = "debian-1-description"
+	  name         = "kuldiha"
+      description  = "unknown"
       cpu          = "host"
       cores        = 1
       memory       = 2048
       disk_size    = "20"
       dhcp         = true
+	  vlan_id      = 10
       username     = var.vm_username
       password     = var.vm_password
       ssh_keys     = var.vm_ssh_keys
@@ -61,34 +58,40 @@ locals {
   }
   pve3_vms = {
     3001 = {
-      description  = "debian-1-description"
+	  name         = "kanha"
+      description  = "unknown"
       cpu          = "host"
       cores        = 1
       memory       = 2048
       disk_size    = "20"
       dhcp         = true
+	  vlan_id      = 10
       username     = var.vm_username
       password     = var.vm_password
       ssh_keys     = var.vm_ssh_keys
     }
     3002 = {
-      description  = "debian-1-description"
+	  name         = "pench"
+      description  = "unknown"
       cpu          = "host"
       cores        = 1
       memory       = 2048
       disk_size    = "20"
       dhcp         = true
+	  vlan_id      = 10
       username     = var.vm_username
       password     = var.vm_password
       ssh_keys     = var.vm_ssh_keys
     }
     3003 = {
-      description  = "debian-1-description"
+	  name         = "bandhavgarh"
+      description  = "unknown"
       cpu          = "host"
       cores        = 1
       memory       = 2048
       disk_size    = "20"
       dhcp         = true
+	  vlan_id      = 10
       username     = var.vm_username
       password     = var.vm_password
       ssh_keys     = var.vm_ssh_keys

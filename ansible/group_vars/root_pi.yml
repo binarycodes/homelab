@@ -1,7 +1,7 @@
 ---
-private_key_file: ~/.ssh/ansible
 ansible_ssh_user: root
 ssh_authorized_public_keys:
+  - "{{ vault_wakanda_ssh_key }}"
   - "{{ vault_asgard_wsl_ssh_key }}"
   - "{{ vault_asgard_ssh_key }}"
 sudoers_users:

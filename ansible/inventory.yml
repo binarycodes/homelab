@@ -1,0 +1,21 @@
+---
+all:
+  children:
+    proxmox:
+      hosts:
+        pve1:
+        pve2:
+        pve3:
+    root_pi:
+      hosts:
+        rpi4-root:
+          ansible_host: rpi4
+    vm:
+      hosts:
+        sundarban:
+        gorumara:
+        simlipal:
+        kuldiha:
+        kanha:
+        pench:
+        bandhavgarh:

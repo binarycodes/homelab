@@ -4,7 +4,6 @@
     dest: "/root/{{item}}"
     mode: "u+rwx"
   loop:
-    - "terraform-user.sh"
     - "setup-repositories.sh"
 
 - name: add create/delete debian template scripts
@@ -15,8 +14,8 @@
     group: root
     mode: u+rwx
   loop:
-    - "create-debian12-template.sh"
-    - "delete-debian12-template.sh"
+    - "create-bookworm-template.sh"
+    - "delete-bookworm-template.sh"
   notify:
     - remove-previous-debian-template
     - create-new-debian-template
@@ -25,12 +24,3 @@
   ansible.builtin.shell: /root/setup-repositories.sh
   changed_when: false
 
-- name: add realm setup scripts
-  ansible.builtin.template:
-    src: create-openid-realm.sh
-    dest: /root/
-    owner: root
-    group: root
-    mode: u+rwx
-  notify:
-    - re-create-new-open-id-realm

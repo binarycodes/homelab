@@ -1,8 +1,5 @@
 - name: remove-previous-debian-template
-  ansible.builtin.shell: /root/delete-debian12-template.sh
+  ansible.builtin.shell: /root/delete-bookworm-template.sh
 
 - name: create-new-debian-template
-  ansible.builtin.shell: /root/create-debian12-template.sh
-
-- name: re-create-new-open-id-realm
-  ansible.builtin.shell: /root/create-openid-realm.sh
+  ansible.builtin.shell: /root/create-bookworm-template.sh

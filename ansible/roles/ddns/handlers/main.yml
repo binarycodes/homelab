@@ -1,0 +1,2 @@
+- name: execute-ddns
+  ansible.builtin.shell: /etc/cron.hourly/ddns

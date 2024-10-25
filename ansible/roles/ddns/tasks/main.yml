@@ -16,8 +16,10 @@
     owner: root
     group: root
     mode: 0554
+  notify:
+    - execute-ddns
 
-- name: "copy config files"
+- name: copy config files
   ansible.builtin.template:
     src: "{{item}}"
     dest: "/etc/dynamic-dns/config/{{item}}"
@@ -27,6 +29,8 @@
   loop:
     - "api_keys.json"
     - "domains.json"
+  notify:
+    - execute-ddns
 
 - name: add sync cron script
   ansible.builtin.copy:

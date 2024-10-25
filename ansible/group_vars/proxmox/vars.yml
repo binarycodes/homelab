@@ -1,5 +1,4 @@
 ---
-private_key_file: ~/.ssh/ansible
 ansible_ssh_user: root
 ssh_authorized_public_keys:
   - "{{vault_wakanda_ssh_key}}"
@@ -11,8 +10,8 @@ open_id:
   issuer_url: "{{gvault.open_id.issuer_url}}"
   user:
     email: "{{gvault.open_id.user.email}}"
-  client_id: "{{vault.open_id.client_id}}"
-  client_key: "{{vault.open_id.client_key}}"
+  client_id: "{{gvault.open_id.client_id}}"
+  client_key: "{{gvault.open_id.client_key}}"
 
 install_packages:
   - jq

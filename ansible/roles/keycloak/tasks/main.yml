@@ -1,7 +1,7 @@
 - name: add setup config file
   ansible.builtin.copy:
     src: keycloak/
-    dest: /etc/docker/keycloak
+    dest: /etc/docker/keycloak/
     owner: root
     group: root
     mode: "644"

@@ -1,0 +1,17 @@
+- name: add proxmox setup scripts
+  ansible.builtin.copy:
+    src: "{{item}}"
+    dest: "/root/{{item}}"
+    mode: "u+rwx"
+  loop:
+    - "terraform-user.sh"
+
+- name: add realm setup scripts
+  ansible.builtin.template:
+    src: create-openid-realm.sh
+    dest: /root/
+    owner: root
+    group: root
+    mode: u+rwx
+  notify:
+    - re-create-new-open-id-realm
