@@ -20,6 +20,21 @@
     - remove-previous-debian-template
     - create-new-debian-template
 
+- name: add create/delete home assitant template scripts
+  ansible.builtin.template:
+    src: "{{item}}"
+    dest: "/root/"
+    owner: root
+    group: root
+    mode: u+rwx
+  loop:
+    - "create-home-assistant-template.sh"
+    - "delete-home-assistant-template.sh"
+  notify:
+    - remove-previous-home-assistant-template
+    - create-new-home-assistant-template
+
+    
 - name: setup repositories
   ansible.builtin.shell: /root/setup-repositories.sh
   changed_when: false
