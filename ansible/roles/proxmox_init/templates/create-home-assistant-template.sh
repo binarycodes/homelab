@@ -15,11 +15,23 @@ if [[ ! -f $image_name ]]; then
 	unxz $download_name
 fi
 
-qm create $template_id --name $template_name --memory 2048 --cores 2 --net0 virtio,bridge=vmbr0
+qm create $template_id --name $template_name --cores 2 --memory 2048 --net0 virtio,bridge=vmbr0 -bios ovmf
 qm importdisk $template_id $image_name $storage_name
 qm set $template_id --scsihw virtio-scsi-single --scsi0 $storage_name:vm-$template_id-disk-0
 qm set $template_id --boot c --bootdisk scsi0
 qm set $template_id --ide2 $storage_name:cloudinit
+qm set $template_id --agent enabled=1
+
+mkdir -p /var/lib/vz/snippets/
+
+cat <<EOF | tee /var/lib/vz/snippets/home-assistant.yaml
+#cloud-config
+runcmd:
+	- apt-get update
+	- apt-get install -y qemu-guest-agent
+EOF
+
+qm set $template_id --cicustom "vendor=local:snippets/home-assistant.yaml"
 qm template $template_id
 
 if [[ -f $image_name ]]; then
