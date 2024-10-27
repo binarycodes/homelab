@@ -1,3 +1,5 @@
+log:
+  level: ERROR
 api:
   dashboard: true
   debug: true
