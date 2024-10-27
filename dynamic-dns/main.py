@@ -74,6 +74,32 @@ def update_dns_record(domain, sub_domain, public_ip, secret):
 
     return False
 
+def create_dns_record(domain, sub_domain, public_ip, secret):
+    url = f"{PROKBUN_API_BASE_URL}/create/{domain}"
+
+    data = {
+        "secretapikey": secret["secretapikey"],
+        "apikey": secret["apikey"],
+        "name": sub_domain or "",
+        "type": "A",
+        "content": public_ip,
+        "ttl": "600",
+    }
+
+    response = requests.post(url, data=json.dumps(data))
+
+    if response.status_code == requests.codes.ok:
+        print(f"DNS records created")
+        return True
+    else:
+        print(
+            "Request to create dns record failed with status code:",
+            response.status_code,
+        )
+        print("Reason: ", response.reason)
+
+    return False
+
 
 def get_current_ip(domain, sub_domain, secret):
     url = f"{PROKBUN_API_BASE_URL}/retrieveByNameType/{domain}/A/{sub_domain}" if sub_domain else f"{PROKBUN_API_BASE_URL}/retrieveByNameType/{domain}/A"
@@ -99,11 +125,14 @@ def change_my_dns(domain, sub_domain, config_ip, secret):
     my_ip = config_ip or public_ip()
     prev_ip = get_current_ip(domain, sub_domain, secret)
 
-    if my_ip is not None and prev_ip is not None:
-        if my_ip != prev_ip:
-            update_dns_record(domain, sub_domain, my_ip, secret)
+    if my_ip is not None:
+        if prev_ip is not None:
+            if my_ip != prev_ip:
+                update_dns_record(domain, sub_domain, my_ip, secret)
+            else:
+                print("No changes to update")
         else:
-            print("No changes to update")
+            create_dns_record(domain, sub_domain, my_ip, secret)
 
 
 if __name__ == "__main__":

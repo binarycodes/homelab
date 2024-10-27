@@ -11,9 +11,7 @@
     },
     {
         "name": "{{vault_ddns_domain_name}}",
-        "subdomains": [
-            "*"
-        ],
+        "subdomains": {{vault_ddns_loadbalancer_subdomains | tojson}},
         "hostname": "{{vault_ddns_loadbalancer_hostname}}"
     }
 ]
