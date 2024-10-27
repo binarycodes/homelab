@@ -64,6 +64,15 @@ http:
         - https-redirectscheme
       tls: true
       service: keycloak
+    homeassistant:
+      entryPoints:
+        - "https"
+      rule: "Host(`homeassistant.homedns.pro`)"
+      middlewares:
+        - default-headers
+        - https-redirectscheme
+      tls: true
+      service: homeassistant
   #endregion
 
   #region services
@@ -102,6 +111,11 @@ http:
       loadBalancer:
         servers:
           - url: "http://gorumara.localdomain:8080/"
+        passHostHeader: true
+    homeassistant:
+      loadBalancer:
+        servers:
+          - url: "http://homeassistant.localdomain:8123/"
         passHostHeader: true
   #endregion
 
