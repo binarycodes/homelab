@@ -1,11 +1,28 @@
-- name: add proxmox setup scripts
-  ansible.builtin.copy:
-    src: "{{item}}"
-    dest: "/root/{{item}}"
-    mode: "u+rwx"
+- name: remove enterprise repositories
+  ansible.builtin.apt_repository:
+    repo: "{{item}}"
+    state: absent
+    update_cache: false
   loop:
-    - "setup-repositories.sh"
+    - "deb https://enterprise.proxmox.com/debian/pve bookworm pve-enterprise"
+    - "deb https://enterprise.proxmox.com/debian/ceph-quincy bookworm enterprise"
 
+- name: add no-subscription repositories
+  ansible.builtin.apt_repository:
+    repo: "{{item}}"
+    state: present
+    filename: no-subscription
+    update_cache: false
+  loop:
+    - "deb http://download.proxmox.com/debian/pve bookworm pve-no-subscription"
+    - "deb http://download.proxmox.com/debian/ceph-quincy bookworm no-subscription"
+
+- name: Update apt repository cache
+  ansible.builtin.apt:
+    update_cache: yes
+    upgrade: yes
+    cache_valid_time: 86400 #one day
+    
 - name: add create/delete debian template scripts
   ansible.builtin.template:
     src: "{{item}}"
@@ -20,7 +37,7 @@
     - remove-previous-debian-template
     - create-new-debian-template
 
-- name: add create/delete home assitant template scripts
+- name: add create/delete home assistant template scripts
   ansible.builtin.template:
     src: "{{item}}"
     dest: "/root/"
@@ -33,9 +50,3 @@
   notify:
     - remove-previous-home-assistant-template
     - create-new-home-assistant-template
-
-    
-- name: setup repositories
-  ansible.builtin.shell: /root/setup-repositories.sh
-  changed_when: false
-
