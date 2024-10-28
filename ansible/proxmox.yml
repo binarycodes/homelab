@@ -11,14 +11,16 @@
         ansible_hostname: "{{inventory_hostname}}"
         add_known_host_for_ip: false
 
-- hosts: proxmox
-  become: no
-  roles:
-    - system
-    - proxmox_init
-
+        
 # the specific host does not matter, just that cluster config is executed on one node only
 - hosts: pve1
   become: no
   roles:
     - proxmox_cluster
+        
+- hosts: proxmox
+  become: no
+  roles:
+    - proxmox_init
+    - system
+

@@ -5,7 +5,7 @@
     - name: check known_hosts for ip
       local_action: shell ssh-keygen -F {{ ansible_default_ipv4.address }}
       register: result
-      changed_when: result.rc == 1
+      changed_when: result.rc != 0
       failed_when: false
       notify: add host key for remote ip
   when: add_known_host_for_ip
@@ -14,7 +14,7 @@
     - name: check known_hosts for hostname
       local_action: shell ssh-keygen -F {{ ansible_hostname | lower }}
       register: result
-      changed_when: result.rc == 1
+      changed_when: result.rc != 0
       failed_when: false
       notify: add host key for remote hostname
   when: add_known_host_for_hostname
