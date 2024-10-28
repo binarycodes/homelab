@@ -31,3 +31,10 @@
     state: present
     key: "{{ ssh_pubkeys_string  }}"
     exclusive: true
+
+- name: disable password login
+  ansible.builtin.lineinfile:
+    path: /etc/ssh/sshd_config
+    regexp: '^(#\s*)?PasswordAuthentication\s+yes\s*$'
+    line: "PasswordAuthentication no"
+  notify: restart sshd
