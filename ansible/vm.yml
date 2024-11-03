@@ -17,6 +17,7 @@
   roles:
     - system
     - docker
+    - security
   tags:
     - always
     - system
@@ -36,3 +37,10 @@
   tags:
     - keycloak
 
+- hosts: kanha
+  become: yes
+  roles:
+    - freeradius
+  tags:
+    - radius
+  

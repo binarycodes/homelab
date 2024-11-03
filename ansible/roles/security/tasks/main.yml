@@ -1,0 +1,17 @@
+- name: disable password login
+  ansible.builtin.lineinfile:
+    path: /etc/ssh/sshd_config
+    regexp: '^(#\s*)?PasswordAuthentication\s+yes\s*$'
+    line: "PasswordAuthentication no"
+    state: present
+    backup: yes
+  notify: restart sshd
+
+- name: prohibit password for root login (no keyboard interactive)
+  lineinfile:
+    dest: /etc/ssh/sshd_config
+    regexp: '^(#\s*)?PermitRootLogin\s+yes'
+    line: "PermitRootLogin prohibit-password"
+    state: present
+    backup: yes
+  notify: restart sshd

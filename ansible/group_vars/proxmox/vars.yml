@@ -15,3 +15,9 @@ open_id:
 
 install_packages:
   - jq
+  - tree
+  - vim
+  - cron
+  - iperf3
+  - rsync
+  - dnsutils

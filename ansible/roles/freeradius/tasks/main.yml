@@ -1,0 +1,7 @@
+- name: add setup config file
+  ansible.builtin.copy:
+    src: freeradius/
+    dest: /etc/docker/freeradius/
+    owner: root
+    group: root
+    mode: "644"

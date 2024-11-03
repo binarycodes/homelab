@@ -1,5 +1,5 @@
 module "proxmox_pve1_vm" {
-  providers = { proxmox = proxmox.pve1 }
+  providers = { proxmox = proxmox.pve }
   source    = "./debian_vm"
 
   node          = "pve1"
@@ -13,7 +13,7 @@ module "proxmox_pve1_vm" {
 }
 
 module "proxmox_pve2_vm" {
-  providers = { proxmox = proxmox.pve2 }
+  providers = { proxmox = proxmox.pve }
   source    = "./debian_vm"
 
   node          = "pve2"
@@ -27,7 +27,7 @@ module "proxmox_pve2_vm" {
 }
 
 module "proxmox_pve3_vm" {
-  providers = { proxmox = proxmox.pve3 }
+  providers = { proxmox = proxmox.pve }
   source    = "./debian_vm"
 
   node          = "pve3"

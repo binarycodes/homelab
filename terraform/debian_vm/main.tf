@@ -18,9 +18,8 @@ resource "proxmox_vm_qemu" "debian" {
   bootdisk  = "scsi0"
 
   network {
-    bridge   = "vmbr0"
+    bridge   = var.config.bridge
     model    = "virtio"
-	tag 	 = var.config.vlan_id
     firewall = true
   }
 

@@ -4,6 +4,6 @@ pveum role add TerraformProv -privs "Datastore.AllocateSpace Datastore.Audit Poo
 
 pveum user add tfuser@pve
 pveum aclmod / -user tfuser@pve -role TerraformProv
-pveum user token add tfuser@pve terraform --privsep 0
+pveum user token add tfuser@pve terraform --privsep 0 --output-format yaml
 
 # Please save the token secret as there isn't any way to fetch it at a later point.

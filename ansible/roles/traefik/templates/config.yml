@@ -100,7 +100,7 @@ http:
     router-page:
       loadBalancer:
         servers:
-          - url: "https://homedns.localdomain/"
+          - url: "https://router.localdomain/"
         passHostHeader: true
     unifi-u6:
       loadBalancer:

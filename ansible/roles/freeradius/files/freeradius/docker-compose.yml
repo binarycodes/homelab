@@ -1,0 +1,31 @@
+networks:
+  freeradius:
+    driver: bridge
+
+services:
+  freeradius_mariadb:
+      image: mariadb:11.2.3
+      container_name: freeradius_mariadb
+      restart: unless-stopped
+      networks:
+        - freeradius
+      ports:
+        - 49593:3306
+      volumes:
+        - ./data:/var/lib/mysql
+        - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+      environment:
+        - MARIADB_ROOT_PASSWORD=
+      command: --innodb-flush-method=fsync --innodb-use-native-aio=0
+      healthcheck:
+        test: [ "CMD", "/usr/local/bin/healthcheck.sh", "--connect" ]
+
+  freeradius_server:
+    build:
+      context: .
+    container_name: freeradius_server
+    restart: unless-stopped
+    ports:
+      - "1812-1813:1812-1813/udp"
+    networks:
+      - freeradius

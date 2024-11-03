@@ -1,14 +1,5 @@
-variable "proxmox_api_url" {
+variable "proxmox" {
   type = map(string)
-}
-
-variable "proxmox_api_token_id" {
-  type      = map(string)
-  sensitive = true
-}
-
-variable "proxmox_api_token_secret" {
-  type      = map(string)
   sensitive = true
 }
 

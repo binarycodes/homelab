@@ -9,7 +9,7 @@ locals {
       memory       = 2048
       disk_size    = "20"
       dhcp         = true
-	  vlan_id      = -1
+	  bridge       = "vmbr0"
       username     = var.vm_username
       password     = var.vm_password
       ssh_keys     = var.vm_ssh_keys
@@ -22,7 +22,7 @@ locals {
       memory       = 2048
       disk_size    = "20"
       dhcp         = true
-	  vlan_id      = 10
+	  bridge       = "LabNet"
       username     = var.vm_username
       password     = var.vm_password
       ssh_keys     = var.vm_ssh_keys
@@ -37,7 +37,7 @@ locals {
       memory       = 2048
       disk_size    = "20"
       dhcp         = true
-	  vlan_id      = 10
+	  bridge       = "LabNet"
       username     = var.vm_username
       password     = var.vm_password
       ssh_keys     = var.vm_ssh_keys
@@ -50,7 +50,7 @@ locals {
       memory       = 2048
       disk_size    = "20"
       dhcp         = true
-	  vlan_id      = 10
+	  bridge       = "LabNet"
       username     = var.vm_username
       password     = var.vm_password
       ssh_keys     = var.vm_ssh_keys
@@ -65,7 +65,7 @@ locals {
       memory       = 2048
       disk_size    = "20"
       dhcp         = true
-	  vlan_id      = 10
+	  bridge       = "LabNet"
       username     = var.vm_username
       password     = var.vm_password
       ssh_keys     = var.vm_ssh_keys
@@ -78,7 +78,7 @@ locals {
       memory       = 2048
       disk_size    = "20"
       dhcp         = true
-	  vlan_id      = 10
+	  bridge       = "LabNet"
       username     = var.vm_username
       password     = var.vm_password
       ssh_keys     = var.vm_ssh_keys
@@ -91,7 +91,7 @@ locals {
       memory       = 2048
       disk_size    = "20"
       dhcp         = true
-	  vlan_id      = 10
+	  bridge       = "LabNet"
       username     = var.vm_username
       password     = var.vm_password
       ssh_keys     = var.vm_ssh_keys

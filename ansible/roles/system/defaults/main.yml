@@ -1,14 +1,2 @@
-install_packages:
-  - tree
-  - python3
-  - vim
-  - cron
-  - iperf3
-  - rsync
-  - dnsutils
-
-remove_packages:
-  - python3-pip
-
 add_known_host_for_ip: true
 add_known_host_for_hostname: true

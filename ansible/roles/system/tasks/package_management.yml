@@ -12,10 +12,3 @@
   ansible.builtin.apt:
     name: "{{ install_packages }}"
     state: latest
-
-# useful to remove previously installed packages that are no longer needed
-- name: remove packages
-  ansible.builtin.apt:
-    name: "{{ remove_packages }}"
-    state: absent
-  failed_when: false
