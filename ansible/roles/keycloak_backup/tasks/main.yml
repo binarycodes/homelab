@@ -39,6 +39,13 @@
     path: /etc/docker/keycloak/export/homelab-realm.json
     state: present
     timeout: 300
+    
+- name: fetch the realm export and put it into keycloak config location
+  ansible.builtin.fetch:
+    src: /etc/docker/keycloak/export/homelab-realm.json
+    dest: "{{ playbook_dir }}/roles/keycloak/files/keycloak/homelab-realm.json"
+    flat: true
+    fail_on_missing: true
 
 - name: restart keycloak service
   community.docker.docker_compose_v2:
@@ -47,4 +54,4 @@
     state: present
     wait: true
     wait_timeout: 300
-
+    
