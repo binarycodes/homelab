@@ -15,7 +15,7 @@ if [[ ! -f $image_name ]]; then
 	unxz $download_name
 fi
 
-qm create $template_id --name $template_name --cores 2 --memory 2048 --net0 virtio,bridge=LabNet -bios ovmf
+qm create $template_id --name $template_name --cores 2 --memory 4096 --net0 virtio,bridge=LabNet -bios ovmf
 qm importdisk $template_id $image_name $storage_name
 qm set $template_id --scsihw virtio-scsi-single --scsi0 $storage_name:vm-$template_id-disk-0
 qm set $template_id --boot c --bootdisk scsi0
