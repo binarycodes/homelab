@@ -16,7 +16,3 @@
   notify:
     - re-create-new-open-id-realm
 
-- name: update certs
-  delegate_to: "{{ item }}"
-  ansible.builtin.shell: pvecm updatecerts
-  loop: "{{ groups['proxmox'] }}"

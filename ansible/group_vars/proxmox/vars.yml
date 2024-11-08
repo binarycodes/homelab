@@ -4,6 +4,7 @@ ssh_authorized_public_keys:
   - "{{vault_wakanda_ssh_key}}"
   - "{{vault_asgard_wsl_ssh_key}}"
   - "{{vault_asgard_ssh_key}}"
+ssh_authorized_keys_exclusive: false
 
 open_id:
   realm: "{{gvault.open_id.realm}}"

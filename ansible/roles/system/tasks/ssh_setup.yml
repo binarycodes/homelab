@@ -30,5 +30,5 @@
     user: "{{ansible_ssh_user}}"
     state: present
     key: "{{ ssh_pubkeys_string  }}"
-    exclusive: true
+    exclusive: "{{ ssh_authorized_keys_exclusive }}"
 
