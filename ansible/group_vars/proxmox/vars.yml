@@ -22,3 +22,14 @@ install_packages:
   - iperf3
   - rsync
   - dnsutils
+
+bookworm:
+  user: "{{gvault.bookworm.user}}"
+  passwd: "{{gvault.bookworm.user_passwd}}"
+  groups:
+    - wheel
+    - sudo
+    - adm
+    - netdev
+    - plugdev
+    - systemd-journal
