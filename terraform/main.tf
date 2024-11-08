@@ -1,9 +1,8 @@
 module "proxmox_pve1_vm" {
   providers = { proxmox = proxmox.pve }
-  source    = "./debian_vm"
+  source    = "./template_vm"
 
   node          = "pve1"
-  template_name = local.debian12_template_name
 
   for_each = {
     for key, value in local.pve1_vms :
@@ -14,10 +13,9 @@ module "proxmox_pve1_vm" {
 
 module "proxmox_pve2_vm" {
   providers = { proxmox = proxmox.pve }
-  source    = "./debian_vm"
+  source    = "./template_vm"
 
   node          = "pve2"
-  template_name = local.debian12_template_name
 
   for_each = {
     for key, value in local.pve2_vms :
@@ -28,10 +26,9 @@ module "proxmox_pve2_vm" {
 
 module "proxmox_pve3_vm" {
   providers = { proxmox = proxmox.pve }
-  source    = "./debian_vm"
+  source    = "./template_vm"
 
   node          = "pve3"
-  template_name = local.debian12_template_name
 
   for_each = {
     for key, value in local.pve3_vms :

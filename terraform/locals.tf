@@ -1,100 +1,52 @@
 locals {
-  debian12_template_name = "bookworm"
   pve1_vms = {
     1001 = {
+      template     = "bookworm"
 	  name         = "sundarban"
-      description  = "network tools"
-      cpu          = "host"
-      cores        = 1
-      memory       = 2048
-      disk_size    = "20"
       dhcp         = true
-	  bridge       = "vmbr0"
-      username     = var.vm_username
-      password     = var.vm_password
-      ssh_keys     = var.vm_ssh_keys
     }
     1002 = {
+      template     = "bookworm"
 	  name         = "gorumara"
-      description  = "authentication"
-      cpu          = "host"
-      cores        = 1
-      memory       = 2048
-      disk_size    = "20"
       dhcp         = true
 	  bridge       = "LabNet"
-      username     = var.vm_username
-      password     = var.vm_password
-      ssh_keys     = var.vm_ssh_keys
     }
   }
   pve2_vms = {
     2001 = {
+      template     = "bookworm"
 	  name         = "simlipal"
-      description  = "unknown"
-      cpu          = "host"
-      cores        = 1
-      memory       = 2048
-      disk_size    = "20"
       dhcp         = true
 	  bridge       = "LabNet"
-      username     = var.vm_username
-      password     = var.vm_password
-      ssh_keys     = var.vm_ssh_keys
     }
     2002 = {
+      template     = "bookworm"
 	  name         = "kuldiha"
-      description  = "unknown"
-      cpu          = "host"
-      cores        = 1
-      memory       = 2048
-      disk_size    = "20"
       dhcp         = true
 	  bridge       = "LabNet"
-      username     = var.vm_username
-      password     = var.vm_password
-      ssh_keys     = var.vm_ssh_keys
     }
   }
   pve3_vms = {
     3001 = {
+      template     = "home-assistant"
 	  name         = "kanha"
-      description  = "unknown"
-      cpu          = "host"
-      cores        = 1
-      memory       = 2048
-      disk_size    = "20"
+      description  = "home assistant"
+      bios         = "ovmf"
+      disk_size    = "32"
       dhcp         = true
 	  bridge       = "LabNet"
-      username     = var.vm_username
-      password     = var.vm_password
-      ssh_keys     = var.vm_ssh_keys
     }
     3002 = {
+      template     = "bookworm"
 	  name         = "pench"
-      description  = "unknown"
-      cpu          = "host"
-      cores        = 1
-      memory       = 2048
-      disk_size    = "20"
       dhcp         = true
 	  bridge       = "LabNet"
-      username     = var.vm_username
-      password     = var.vm_password
-      ssh_keys     = var.vm_ssh_keys
     }
     3003 = {
+      template     = "bookworm"
 	  name         = "bandhavgarh"
-      description  = "unknown"
-      cpu          = "host"
-      cores        = 1
-      memory       = 2048
-      disk_size    = "20"
       dhcp         = true
 	  bridge       = "LabNet"
-      username     = var.vm_username
-      password     = var.vm_password
-      ssh_keys     = var.vm_ssh_keys
     }
   }
 }

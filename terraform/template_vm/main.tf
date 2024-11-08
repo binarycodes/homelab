@@ -1,24 +1,25 @@
-resource "proxmox_vm_qemu" "debian" {
+resource "proxmox_vm_qemu" "clone_template" {
   target_node = var.node
-  clone       = var.template_name
 
+  clone   = var.config.template
   vmid    = var.config.vmid
   name    = var.config.name
-  desc    = var.config.description
+  desc    = try(var.config.description,"")
   agent   = 1
   onboot  = true
   os_type = "cloud-init"
   qemu_os = "l26"
-  cpu     = var.config.cpu
-  cores   = var.config.cores
+  bios    = try(var.config.bios, "seabios")
+  cpu     = try(var.config.cpu, "host")
+  cores   = try(var.config.cores, 1)
   sockets = 1
-  memory  = var.config.memory
+  memory  = try(var.config.memory, 2048)
 
   scsihw    = "virtio-scsi-single"
   bootdisk  = "scsi0"
 
   network {
-    bridge   = var.config.bridge
+    bridge   = try(var.config.bridge, "vmbr0")
     model    = "virtio"
     firewall = true
   }
@@ -28,7 +29,7 @@ resource "proxmox_vm_qemu" "debian" {
       scsi0 {
         disk {
 		  storage  = "local-lvm"
-		  size     = var.config.disk_size
+		  size     = try(var.config.disk_size, "20G")
 		  discard  = true
 		  iothread = true
         }
@@ -48,13 +49,10 @@ resource "proxmox_vm_qemu" "debian" {
   }
 
   ipconfig0    = var.config.dhcp ? "ip=dhcp" : "ip=${var.config.ip_v4},gw=${var.config.gateway}"
-  nameserver   = var.config.dhcp ? null : var.config.nameserver
-  searchdomain = var.config.dhcp ? null : var.config.searchdomain
+  nameserver   = var.config.dhcp ? null : try(var.config.nameserver, var.config.gateway)
+  searchdomain = var.config.dhcp ? null : try(var.config.searchdomain, "localdomain")
 
-  ciuser     = var.config.username
-  cipassword = var.config.password
-  sshkeys    = var.config.ssh_keys
-
+  cicustom  = "user=local:snippets/debian-bookworm.yaml"
 
   provisioner "local-exec" {
     command = "ssh-keygen -R ${lower(self.name)}"
