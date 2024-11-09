@@ -34,7 +34,7 @@ locals {
       bios         = "ovmf"
       disk_size    = "32"
       dhcp         = true
-	  bridge       = "LabNet"
+	  bridge       = "IoTNet"
     }
     3002 = {
       template     = "bookworm"
