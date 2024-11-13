@@ -37,10 +37,9 @@
   tags:
     - keycloak
 
-- hosts: kanha
+- hosts: simlipal
   become: yes
   roles:
-    - freeradius
+    - caddy
   tags:
-    - radius
-  
+    - caddy

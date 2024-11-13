@@ -2,51 +2,51 @@ locals {
   pve1_vms = {
     1001 = {
       template     = "bookworm"
-	  name         = "sundarban"
+      name         = "sundarban"
       dhcp         = true
     }
     1002 = {
       template     = "bookworm"
-	  name         = "gorumara"
+      name         = "gorumara"
       dhcp         = true
-	  bridge       = "LabNet"
+      bridge       = "LabNet"
     }
   }
   pve2_vms = {
     2001 = {
       template     = "bookworm"
-	  name         = "simlipal"
+      name         = "simlipal"
       dhcp         = true
-	  bridge       = "LabNet"
+      bridge       = "IoTNet"
     }
     2002 = {
       template     = "bookworm"
-	  name         = "kuldiha"
+      name         = "kuldiha"
       dhcp         = true
-	  bridge       = "LabNet"
+      bridge       = "LabNet"
     }
   }
   pve3_vms = {
     3001 = {
       template     = "home-assistant"
-	  name         = "kanha"
+      name         = "kanha"
       description  = "home assistant"
       bios         = "ovmf"
       disk_size    = "32"
       dhcp         = true
-	  bridge       = "IoTNet"
+      bridge       = "IoTNet"
     }
     3002 = {
       template     = "bookworm"
-	  name         = "pench"
+      name         = "pench"
       dhcp         = true
-	  bridge       = "LabNet"
+      bridge       = "LabNet"
     }
     3003 = {
       template     = "bookworm"
-	  name         = "bandhavgarh"
+      name         = "bandhavgarh"
       dhcp         = true
-	  bridge       = "LabNet"
+      bridge       = "LabNet"
     }
   }
 }

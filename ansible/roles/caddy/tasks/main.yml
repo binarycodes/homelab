@@ -1,0 +1,23 @@
+- name: add setup files
+  ansible.builtin.copy:
+    src: caddy/
+    dest: /etc/docker/caddy/
+    owner: root
+    group: root
+    mode: "644"
+  notify:
+    - tear down existing services
+    - start the service again
+
+- name: add the caddy config files
+  ansible.builtin.template:
+    src: "{{item}}"
+    dest: "/etc/docker/caddy/{{item}}"
+    owner: root
+    group: root
+    mode: "600"
+  loop:
+    - "Caddyfile"
+  notify:
+    - tear down existing services
+    - start the service again

@@ -1,0 +1,9 @@
+homeassistant.homedns.pro {
+    reverse_proxy homeassistant.localdomain:8123
+    tls {
+        dns porkbun {
+            api_key {{vault_porkbun_api_key}}
+            api_secret_key {{vault_porkbun_secret_api_key}}
+        }
+    }
+}

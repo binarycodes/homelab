@@ -1,17 +1,20 @@
 [
     {
-        "name": "{{vault_ddns_domain_name}}",
-        "hostname": "{{vault_ddns_loadbalancer_hostname}}"
+        "name": "{{vault_ddns.domain_name}}",
+        "hostname": "{{vault_ddns.general.loadbalancer.hostname}}"
     },
     {
-        "name": "{{vault_ddns_domain_name}}",
-        "subdomains": [
-            "{{vault_ddns_subdomain_name}}"
-        ]
+        "name": "{{vault_ddns.domain_name}}",
+        "subdomains": {{vault_ddns.vpn.subdomains | tojson}}
     },
     {
-        "name": "{{vault_ddns_domain_name}}",
-        "subdomains": {{vault_ddns_loadbalancer_subdomains | tojson}},
-        "hostname": "{{vault_ddns_loadbalancer_hostname}}"
+        "name": "{{vault_ddns.domain_name}}",
+        "subdomains": {{vault_ddns.general.loadbalancer.subdomains | tojson}},
+        "hostname": "{{vault_ddns.general.loadbalancer.hostname}}"
+    },
+    {
+        "name": "{{vault_ddns.domain_name}}",
+        "subdomains": {{vault_ddns.iot.loadbalancer.subdomains | tojson}},
+        "hostname": "{{vault_ddns.iot.loadbalancer.hostname}}"
     }
 ]
