@@ -23,6 +23,7 @@ services:
   freeradius_server:
     build:
       context: .
+    image: freeradius_server_custom
     container_name: freeradius_server
     restart: unless-stopped
     ports:
