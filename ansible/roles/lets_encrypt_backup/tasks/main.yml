@@ -1,0 +1,6 @@
+- name: fetch the acme.json and put it into traefik acme location
+  ansible.builtin.fetch:
+    src: /etc/docker/traefik/data/acme.json
+    dest: "{{ playbook_dir }}/backup/acme.json"
+    flat: true
+    fail_on_missing: true
