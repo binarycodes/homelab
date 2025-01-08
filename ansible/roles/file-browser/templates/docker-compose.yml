@@ -1,0 +1,9 @@
+services:
+  file-browser:
+    image: binarycodes/file-browser:latest
+    container_name: file-browser
+    volumes:
+      - ./application-prod.yml:/app/application-prod.yml
+      - /home/{{vault_ftp.user}}:/app/data
+    ports:
+      - 8080:8080

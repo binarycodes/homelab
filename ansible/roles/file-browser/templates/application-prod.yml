@@ -1,0 +1,17 @@
+file-browser:
+  root: /app/data
+
+spring:
+  security:
+    oauth2:
+      client:
+        registration:
+          file-browser:
+            provider: file-browser
+            client-id: {{vault_ftp.client_id}}
+            client-secret: {{vault_ftp.client_key}}
+            authorization-grant-type: authorization_code
+            scope: openid,profile,email
+        provider:
+          file-browser:
+            issuer-uri: "{{vault_ftp.issuer_uri}}"

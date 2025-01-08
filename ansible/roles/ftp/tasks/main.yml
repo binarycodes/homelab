@@ -1,0 +1,53 @@
+- name: create user for ftp
+  ansible.builtin.user:
+    name: "{{vault_ftp.user}}"
+    password: "{{vault_ftp.user_passwd}}"
+    create_home: yes
+
+- name: install ftp server
+  ansible.builtin.apt:
+    name: vsftpd
+    state: latest
+
+- name: enable write
+  lineinfile:
+    dest: /etc/vsftpd.conf
+    regexp: '^(#\s*)?write_enable=YES'
+    line: "write_enable=YES"
+    state: present
+    backup: yes
+  notify: restart vsftpd
+
+- name: enable local users
+  lineinfile:
+    name: /etc/vsftpd.conf
+    line: "local_enable=YES"
+    state: present
+  check_mode: yes
+  register: conf
+  failed_when: (conf is changed) or (conf is failed)
+
+- name: add userlist
+  ansible.builtin.blockinfile:
+    path: /etc/vsftpd.conf
+    append_newline: true
+    prepend_newline: true
+    block: |
+      userlist_enable=YES
+      userlist_deny=NO
+      userlist_file=/etc/vsftpd.user_list
+  notify: restart vsftpd
+
+- name: enable local users
+  lineinfile:
+    name: /etc/vsftpd.user_list
+    line: "{{vault_ftp.user}}"
+    state: present
+    create: true
+  notify: restart vsftpd
+
+- name: enable and start the ftp server
+  ansible.builtin.service:
+    name: vsftpd
+    state: started
+    enabled: true

@@ -1,0 +1,10 @@
+- name: "copy config files"
+  ansible.builtin.template:
+    src: "{{item}}"
+    dest: "/etc/docker/file-browser/{{item}}"
+    owner: root
+    group: root
+    mode: 0644
+  loop:
+    - "application-prod.yml"
+    - "docker-compose.yml"

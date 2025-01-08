@@ -34,12 +34,10 @@
   become: yes
   roles:
     - keycloak
-  tags:
-    - keycloak
 
 - hosts: simlipal
   become: yes
   roles:
     - caddy
-  tags:
-    - caddy
+    - ftp
+    - file-browser

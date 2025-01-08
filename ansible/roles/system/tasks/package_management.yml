@@ -1,3 +1,10 @@
+- name: allow release info change
+  ansible.builtin.lineinfile:
+    path: /etc/apt/apt.conf.d/99-release_info_change
+    state: present
+    create: yes
+    line: Acquire::AllowReleaseInfoChange::Codename "true";
+
 - name: Update apt repository cache
   ansible.builtin.apt:
     update_cache: yes

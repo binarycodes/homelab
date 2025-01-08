@@ -7,3 +7,13 @@ homeassistant.homedns.pro {
         }
     }
 }
+
+filebrowser.homedns.pro {
+    reverse_proxy simlipal.localdomain:8080
+    tls {
+        dns porkbun {
+            api_key {{vault_porkbun_api_key}}
+            api_secret_key {{vault_porkbun_secret_api_key}}
+        }
+    }
+}
