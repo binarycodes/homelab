@@ -38,6 +38,6 @@
 - hosts: simlipal
   become: yes
   roles:
-    - caddy
     - ftp
     - file-browser
+    - caddy
