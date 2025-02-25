@@ -1,8 +1,9 @@
 #!/usr/bin/env bash
 
-image_name="haos_ova-13.2.qcow2"
+version=14.2
+image_name="haos_ova-${version}.qcow2"
 download_name="${image_name}.xz"
-image_url="https://github.com/home-assistant/operating-system/releases/download/13.2/$download_name"
+image_url="https://github.com/home-assistant/operating-system/releases/download/${version}/$download_name"
 template_name="home-assistant"
 template_id={{ home_assistant_template_id }}
 storage_name="local-lvm"
