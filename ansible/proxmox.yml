@@ -5,7 +5,7 @@
   pre_tasks:
     - name: setup known hosts
       ansible.builtin.include_role:
-        name: system
+        name: user_settings
         tasks_from: ssh_setup
       vars:
         ansible_hostname: "{{inventory_hostname}}"
