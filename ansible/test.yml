@@ -1,5 +1,10 @@
-- hosts: proxmox
+- hosts: all
   tasks:
     - name: Print all variables
       debug:
-        var: hostvars[inventory_hostname]
+        var: to_debug
+      vars:
+        to_debug:
+          - "{{ ansible_os_family }}"
+          - "{{ ansible_distribution }}"
+          - "{{ distro.ssh_service_name[ansible_distribution] }}"

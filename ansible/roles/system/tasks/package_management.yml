@@ -4,6 +4,7 @@
     state: present
     create: yes
     line: Acquire::AllowReleaseInfoChange::Codename "true";
+  when: allow_release_info_change
 
 - name: Update apt repository cache
   ansible.builtin.apt:

@@ -24,3 +24,8 @@
     - proxmox_init
     - system
     - security
+
+- hosts: proxmox
+  become: no
+  roles:
+    - user_settings

@@ -1,0 +1,5 @@
+---
+distro:
+  ssh_service_name:
+    Debian: sshd
+    Ubuntu: ssh

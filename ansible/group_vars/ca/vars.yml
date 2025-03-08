@@ -1,0 +1,11 @@
+---
+ansible_ssh_user: ca
+ssh_authorized_public_keys:
+  - "{{vault_wakanda_ssh_key}}"
+  - "{{vault_asgard_wsl_ssh_key}}"
+  - "{{vault_asgard_ssh_key}}"
+ssh_authorized_keys_exclusive: true
+permit_root_login: "no"
+allow_release_info_change: false
+install_packages:
+  - vim

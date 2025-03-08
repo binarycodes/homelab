@@ -1,17 +1,23 @@
 ---
-- hosts: pi
-  become: false
-  gather_facts: false
+- hosts: caserver
+  become: no
+  gather_facts: no
   pre_tasks:
     - name: setup known hosts
       ansible.builtin.include_role:
-        name: system
+        name: user_settings
         tasks_from: ssh_setup
       vars:
         ansible_hostname: "{{inventory_hostname}}"
         add_known_host_for_ip: false
 
-- hosts: pi
-  become: false
+- hosts: caserver
+  become: yes
   roles:
     - system
+    - security
+
+- hosts: caserver
+  become: no
+  roles:
+    - user_settings

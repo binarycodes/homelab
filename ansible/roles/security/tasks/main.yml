@@ -10,8 +10,8 @@
 - name: prohibit password for root login (no keyboard interactive)
   lineinfile:
     dest: /etc/ssh/sshd_config
-    regexp: '^(#\s*)?PermitRootLogin\s+yes'
-    line: "PermitRootLogin prohibit-password"
+    regexp: '^(#\s*)?PermitRootLogin.*'
+    line: "PermitRootLogin {{ permit_root_login }}"
     state: present
     backup: yes
   notify: restart sshd
