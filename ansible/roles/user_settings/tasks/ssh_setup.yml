@@ -21,7 +21,7 @@
 
 - meta: flush_handlers
 
-- name: iterate over ssh_authorized_public_keys and join into a string
+- name: iterate over ssh authorized_public_keys and join into a string
   set_fact:
     ssh_pubkeys_string: "{{ ssh_authorized_public_keys | join('\n') }}"
 

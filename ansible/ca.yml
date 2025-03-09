@@ -21,3 +21,8 @@
   become: no
   roles:
     - user_settings
+
+- hosts: caserver
+  become: yes
+  roles:
+    - ssh_ca_server

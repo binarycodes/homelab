@@ -1,4 +1,11 @@
 ---
+ssh_permit_root_login: "no"
+ssh_authorized_keys_exclusive: true
+ssh_authorized_public_keys:
+  - "{{vault_wakanda_ssh_key}}"
+  - "{{vault_asgard_wsl_ssh_key}}"
+  - "{{vault_asgard_ssh_key}}"
+
 distro:
   ssh_service_name:
     Debian: sshd

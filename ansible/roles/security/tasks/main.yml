@@ -11,7 +11,16 @@
   lineinfile:
     dest: /etc/ssh/sshd_config
     regexp: '^(#\s*)?PermitRootLogin.*'
-    line: "PermitRootLogin {{ permit_root_login }}"
+    line: "PermitRootLogin {{ ssh_permit_root_login }}"
+    state: present
+    backup: yes
+  notify: restart sshd
+
+- name: prohibit X11 forwarding
+  lineinfile:
+    dest: /etc/ssh/sshd_config
+    regexp: '^(#\s)*?X11Forwarding.*'
+    line: "X11Forwarding no"
     state: present
     backup: yes
   notify: restart sshd

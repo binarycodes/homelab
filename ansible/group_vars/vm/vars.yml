@@ -1,0 +1,11 @@
+---
+private_key_file: ~/.ssh/ansible
+ansible_ssh_user: sujoy
+install_packages:
+  - tree
+  - python3
+  - vim
+  - cron
+  - iperf3
+  - rsync
+  - dnsutils

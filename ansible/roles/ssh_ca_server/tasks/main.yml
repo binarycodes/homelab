@@ -1,0 +1,45 @@
+- name: create sshca directory
+  ansible.builtin.file:
+    path: "{{ ca_ssh_path }}"
+    state: directory
+    owner: "{{ ansible_ssh_user }}"
+    group: "{{ ansible_ssh_user }}"
+    mode: '0700'
+
+- name: create user certificate directory
+  ansible.builtin.file:
+    path: "{{ ca_ssh_path }}/users/"
+    state: directory
+    owner: "{{ ansible_ssh_user }}"
+    group: "{{ ansible_ssh_user }}"
+    mode: '0700'
+
+- name: create host certificate directory
+  ansible.builtin.file:
+    path: "{{ ca_ssh_path }}/hosts/"
+    state: directory
+    owner: "{{ ansible_ssh_user }}"
+    group: "{{ ansible_ssh_user }}"
+    mode: '0700'
+
+- name: generate the user ca key
+  community.crypto.openssh_keypair:
+    path: "{{ ca_ssh_path }}/ca_user_key"
+    type: ed25519
+    comment: "user_CA_key_{{ now(utc=true,fmt='%Y-%m-%d') }}"
+    owner: "{{ ansible_ssh_user }}"
+    group: "{{ ansible_ssh_user }}"
+    regenerate: fail
+    mode: '0400'
+    state: present
+
+- name: generate the host ca key
+  community.crypto.openssh_keypair:
+    path: "{{ ca_ssh_path }}/ca_host_key"
+    type: ed25519
+    comment: "host_CA_key_{{ now(utc=true,fmt='%Y-%m-%d') }}"
+    owner: "{{ ansible_ssh_user }}"
+    group: "{{ ansible_ssh_user }}"
+    regenerate: fail
+    mode: '0400'
+    state: present
