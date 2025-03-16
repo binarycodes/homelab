@@ -4,7 +4,7 @@ resource "proxmox_vm_qemu" "clone_template" {
   clone   = var.config.template
   vmid    = var.config.vmid
   name    = var.config.name
-  desc    = try(var.config.description,"")
+  desc    = try(var.config.description, "")
   agent   = 1
   onboot  = true
   os_type = "cloud-init"
@@ -29,20 +29,20 @@ resource "proxmox_vm_qemu" "clone_template" {
     scsi {
       scsi0 {
         disk {
-		  storage  = "local-lvm"
-		  size     = try(var.config.disk_size, "20G")
-		  discard  = true
-		  iothread = true
+          storage  = "local-lvm"
+          size     = try(var.config.disk_size, "20G")
+          discard  = true
+          iothread = true
         }
       }
     }
-	ide {
-	  ide3 {
-	  	cloudinit {
-		  storage   = "local-lvm"
-		}
-	  }
-	}
+    ide {
+      ide3 {
+        cloudinit {
+          storage = "local-lvm"
+        }
+      }
+    }
   }
 
   smbios {
@@ -53,7 +53,7 @@ resource "proxmox_vm_qemu" "clone_template" {
   nameserver   = var.config.dhcp ? null : try(var.config.nameserver, var.config.gateway)
   searchdomain = var.config.dhcp ? null : try(var.config.searchdomain, "localdomain")
 
-  cicustom  = "user=local:snippets/debian-bookworm.yaml"
+  cicustom = "user=local:snippets/debian-bookworm.yaml"
 
   provisioner "local-exec" {
     command = "ssh-keygen -R ${lower(self.name)}"
