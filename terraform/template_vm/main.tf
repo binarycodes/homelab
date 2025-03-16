@@ -15,10 +15,11 @@ resource "proxmox_vm_qemu" "clone_template" {
   sockets = 1
   memory  = try(var.config.memory, 2048)
 
-  scsihw    = "virtio-scsi-single"
-  bootdisk  = "scsi0"
+  scsihw   = "virtio-scsi-single"
+  bootdisk = "scsi0"
 
   network {
+    id       = 0
     bridge   = try(var.config.bridge, "vmbr0")
     model    = "virtio"
     firewall = true
