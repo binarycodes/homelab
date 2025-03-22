@@ -6,8 +6,7 @@
     group: root
     mode: "600"
   notify:
-    - tear down existing services
-    - start the service again
+    - restart the service again
 
 - name: copy environment file
   ansible.builtin.template:
@@ -19,8 +18,7 @@
   loop:
     - ".env"
   notify:
-    - tear down existing services
-    - start the service again
+    - restart the service again
 
 - name: copy config file
   ansible.builtin.template:
@@ -32,8 +30,7 @@
   loop:
     - "config.yml"
   notify:
-    - tear down existing services
-    - start the service again
+    - restart the service again
 
 - name: create a network
   community.docker.docker_network:

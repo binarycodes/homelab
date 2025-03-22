@@ -6,8 +6,7 @@
     group: root
     mode: "644"
   notify:
-    - tear down existing services
-    - start the service again
+    - restart the service again
 
 - name: "copy config files"
   ansible.builtin.template:
@@ -20,24 +19,4 @@
     - "init.sql"
     - ".env"
   notify:
-    - tear down existing services
-    - start the service again
-
-- name: make certificates script executable
-  ansible.builtin.file:
-    path: /etc/docker/keycloak/certificates.sh
-    owner: root
-    group: root
-    mode: u+x
-    state: file
-    modification_time: preserve
-    access_time: preserve
-
-- name: generate certificates
-  ansible.builtin.shell: ./certificates.sh
-  args:
-    chdir: /etc/docker/keycloak
-    creates: /etc/docker/keycloak/keycloak_server.der
-  notify:
-    - tear down existing services
-    - start the service again
+    - restart the service again

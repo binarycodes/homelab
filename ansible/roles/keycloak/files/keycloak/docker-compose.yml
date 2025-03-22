@@ -4,7 +4,7 @@ networks:
 
 services:
   keycloak_mariadb:
-      image: mariadb:11.2.3
+      image: "mariadb:${MARIADB_VERSION}"
       container_name: keycloak_mariadb
       restart: unless-stopped
       networks:
@@ -20,7 +20,7 @@ services:
       healthcheck:
         test: [ "CMD", "/usr/local/bin/healthcheck.sh", "--connect" ]
   keycloak:
-    image: quay.io/keycloak/keycloak:24.0.2-0
+    image: "quay.io/keycloak/keycloak:${KEYCLOAK_VERSION}"
     container_name: keycloak
     restart: unless-stopped
     ports:
@@ -44,9 +44,9 @@ services:
     volumes:
       - ./HealthCheck.java:/tmp/HealthCheck.java:read-only
       - ./homelab-realm.json:/opt/keycloak/data/import/homelab-realm.json
-    command: --verbose start --health-enabled=true --import-realm
+    command: --verbose start --health-enabled=true --import-realm --proxy-headers xforwarded
     healthcheck:
-      test: [ 'CMD-SHELL', 'java /tmp/HealthCheck.java http://localhost:8080/health/ready' ]
+      test: [ 'CMD-SHELL', 'java /tmp/HealthCheck.java http://localhost:9000/health/ready' ]
       interval: 10s
       timeout: 10s
       retries: 5
@@ -54,9 +54,8 @@ services:
     depends_on:
       keycloak_mariadb:
         condition: service_healthy
-
   keycloak-export:
-    image: quay.io/keycloak/keycloak:24.0.2-0
+    image: "quay.io/keycloak/keycloak:${KEYCLOAK_VERSION}"
     container_name: keycloak_realm_export
     networks:
       - keycloak
@@ -73,7 +72,7 @@ services:
       KC_FEATURES: token-exchange,admin-fine-grained-authz
     volumes:
        - ./export/:/tmp/export/
-    command: export --file /tmp/export/homelab-realm.json --realm homelab --users realm_file
+    command: export --file /tmp/export/homelab-realm.json --realm homelab --users same_file
     depends_on:
       keycloak_mariadb:
         condition: service_healthy

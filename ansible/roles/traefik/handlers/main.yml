@@ -1,9 +1,4 @@
-- name: tear down existing services
-  community.docker.docker_compose_v2:
-    project_src: /etc/docker/traefik
-    state: absent
-
-- name: start the service again
+- name: restart the service again
   community.docker.docker_compose_v2:
     project_src: /etc/docker/traefik
     wait: true
