@@ -24,3 +24,12 @@
     state: present
     backup: yes
   notify: restart sshd
+
+- name: restrict accepted server ssh keys
+  ansible.builtin.copy:
+    dest: /etc/ssh/sshd_config.d/00_accepted_public_key_types
+    owner: root
+    group: root
+    mode: '0644'
+    content: |
+      PubkeyAcceptedKeyTypes ssh-ed25519-cert-v01@openssh.com,ssh-ed25519
