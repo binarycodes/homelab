@@ -5,6 +5,7 @@
     mode: "u+rwx"
   loop:
     - "terraform-user.sh"
+    - "proxmox-setup.sh"
 
 - name: add realm setup scripts
   ansible.builtin.template:
