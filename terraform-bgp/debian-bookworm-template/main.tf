@@ -2,11 +2,6 @@ data "local_file" "ssh_public_key" {
   filename = "./id_homelab.pub"
 }
 
-data "local_file" "cloud_init_config" {
-  filename = "${path.module}/cloud-init-config.yml"
-}
-
-
 resource "proxmox_virtual_environment_download_file" "bookworm_cloud_image" {
   content_type = "iso"
   datastore_id = "local"
@@ -21,7 +16,7 @@ resource "proxmox_virtual_environment_file" "user_data_cloud_config" {
   node_name    = var.node
 
   source_raw {
-    data      = data.local_file.cloud_init_config.content
+    data      = templatefile("${path.module}/cloud-init-config.yml", { node = var.node, config = var.config, ssh_keys = trimspace(data.local_file.ssh_public_key.content) })
     file_name = "user-data-cloud-config-${var.config.vmid}.yaml"
   }
 }
@@ -52,7 +47,7 @@ resource "proxmox_virtual_environment_vm" "bookworm_clone" {
   }
 
   memory {
-    dedicated = 2048
+    dedicated = try(var.config.memory, 2048)
   }
 
   serial_device {

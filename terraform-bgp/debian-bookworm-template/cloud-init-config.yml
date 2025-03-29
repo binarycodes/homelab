@@ -1,12 +1,12 @@
 #cloud-config
-timezone: ${var.config.timezone}
+timezone: ${config.timezone}
 users:
-  - name: ${var.config.username}
+  - name: ${config.username}
     groups:
       - sudo
     shell: /bin/bash
     ssh_authorized_keys:
-      - ${trimspace(data.local_file.ssh_public_key.content)}
+      - ${ssh_keys}
     sudo: ALL=(ALL) NOPASSWD:ALL
 package_update: true
 packages:
