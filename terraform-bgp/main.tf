@@ -6,7 +6,7 @@ module "proxmox_pve1_vms" {
     for key, value in local.debian_bookworm.pve1 :
     key => merge(value, { vmid = key })
   }
-  config = merge(each.value, { username = var.vm_username })
+  config = merge(each.value, { username = var.vm_username, timezone = var.vm_timezone })
 }
 
 module "proxmox_pve2_vms" {
@@ -18,7 +18,7 @@ module "proxmox_pve2_vms" {
     key => merge(value, { vmid = key })
   }
 
-  config = merge(each.value, { username = var.vm_username })
+  config = merge(each.value, { username = var.vm_username, timezone = var.vm_timezone })
 }
 
 module "proxmox_pve3_vms" {
@@ -29,5 +29,5 @@ module "proxmox_pve3_vms" {
     for key, value in local.debian_bookworm.pve3 :
     key => merge(value, { vmid = key })
   }
-  config = merge(each.value, { username = var.vm_username })
+  config = merge(each.value, { username = var.vm_username, timezone = var.vm_timezone })
 }

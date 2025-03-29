@@ -18,7 +18,7 @@ resource "proxmox_virtual_environment_file" "user_data_cloud_config" {
   source_raw {
     data = <<-EOF
     #cloud-config
-    timezone: Europe/Helsinki
+    timezone: ${var.config.timezone}
     users:
       - name: ${var.config.username}
         groups:
@@ -35,13 +35,9 @@ resource "proxmox_virtual_environment_file" "user_data_cloud_config" {
     ssh_deletekeys: true
     ssh_genkeytypes: [ed25519]
     runcmd:
-      - systemctl enable qemu-guest-agent
-      - systemctl start qemu-guest-agent
-      - echo "done" > /tmp/cloud-config.done
-    runcmd:
       - systemctl enable --now qemu-guest-agent
       - echo "done" > /tmp/cloud-config.done
-    EOF
+     EOF
 
     file_name = "user-data-cloud-config-${var.config.vmid}.yaml"
   }
