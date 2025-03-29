@@ -1,1 +1,4 @@
-allow_release_info_change: true
+allow_release_info_change: false
+timezone: UTC
+install_packages:
+  - tree

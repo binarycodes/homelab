@@ -9,3 +9,4 @@ install_packages:
   - iperf3
   - rsync
   - dnsutils
+allow_release_info_change: true

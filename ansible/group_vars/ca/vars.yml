@@ -1,5 +1,4 @@
 ---
 ansible_ssh_user: ca
-allow_release_info_change: false
 install_packages:
   - vim
