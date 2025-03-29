@@ -98,7 +98,7 @@ resource "proxmox_virtual_environment_vm" "bookworm_clone" {
   }
 
   network_device {
-    bridge = try(var.config.bridge, "vmbr0")
+    bridge = try(var.config.bridge, "LabNet")
   }
 
   smbios {
