@@ -1,6 +1,6 @@
-- name: set timezone to Europe/Helsinki
+- name: set timezone for server
   community.general.timezone:
-    name: Europe/Helsinki
+    name: "{{ timezone }}"
 
 # this is required when connecting from a terminal (kitty, etc.) that sets a non-standard TERM value
 - name: set TERM to xterm
