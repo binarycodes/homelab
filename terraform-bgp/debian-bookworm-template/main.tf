@@ -2,6 +2,11 @@ data "local_file" "ssh_public_key" {
   filename = "./id_homelab.pub"
 }
 
+data "local_file" "cloud_init_config" {
+  filename = "${path.module}/cloud-init-config.yml"
+}
+
+
 resource "proxmox_virtual_environment_download_file" "bookworm_cloud_image" {
   content_type = "iso"
   datastore_id = "local"
@@ -16,29 +21,7 @@ resource "proxmox_virtual_environment_file" "user_data_cloud_config" {
   node_name    = var.node
 
   source_raw {
-    data = <<-EOF
-    #cloud-config
-    timezone: ${var.config.timezone}
-    users:
-      - name: ${var.config.username}
-        groups:
-          - sudo
-        shell: /bin/bash
-        ssh_authorized_keys:
-          - ${trimspace(data.local_file.ssh_public_key.content)}
-        sudo: ALL=(ALL) NOPASSWD:ALL
-    package_update: true
-    packages:
-      - qemu-guest-agent
-      - net-tools
-      - curl
-    ssh_deletekeys: true
-    ssh_genkeytypes: [ed25519]
-    runcmd:
-      - systemctl enable --now qemu-guest-agent
-      - echo "done" > /tmp/cloud-config.done
-     EOF
-
+    data      = data.local_file.cloud_init_config.content
     file_name = "user-data-cloud-config-${var.config.vmid}.yaml"
   }
 }
