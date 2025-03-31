@@ -1,7 +1,7 @@
 - name: add host key for remote ip
   become: false
-  local_action: shell ssh-keyscan -H {{ ansible_default_ipv4.address }} >> ~/.ssh/known_hosts
+  local_action: shell ssh-keyscan -Hq {{ ansible_default_ipv4.address }} >> ~/.ssh/known_hosts
 
 - name: add host key for remote hostname
   become: false
-  local_action: shell ssh-keyscan -H {{ ansible_hostname }} >> ~/.ssh/known_hosts
+  local_action: shell ssh-keyscan -Hq {{ ansible_hostname }} >> ~/.ssh/known_hosts

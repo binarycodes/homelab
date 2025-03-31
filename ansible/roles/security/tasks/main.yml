@@ -27,9 +27,11 @@
 
 - name: restrict accepted server ssh keys
   ansible.builtin.copy:
-    dest: /etc/ssh/sshd_config.d/00_accepted_public_key_types
+    dest: /etc/ssh/sshd_config.d/00_accepted_public_key_types.conf
     owner: root
     group: root
     mode: '0644'
     content: |
       PubkeyAcceptedKeyTypes ssh-ed25519-cert-v01@openssh.com,ssh-ed25519
+      HostKeyAlgorithms ssh-ed25519-cert-v01@openssh.com,ssh-ed25519
+  notify: restart sshd
