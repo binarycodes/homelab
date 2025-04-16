@@ -14,7 +14,7 @@
 
 - name: Upgrade all packages on servers
   ansible.builtin.apt:
-    upgrade: dist
+    upgrade: full
 
 - name: install packages
   ansible.builtin.apt:
