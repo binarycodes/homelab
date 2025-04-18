@@ -8,7 +8,7 @@
   notify: restart sshd
 
 - name: prohibit password for root login (no keyboard interactive)
-  lineinfile:
+  ansible.builtin.lineinfile:
     dest: /etc/ssh/sshd_config
     regexp: '^(#\s*)?PermitRootLogin.*'
     line: "PermitRootLogin {{ ssh_permit_root_login }}"
@@ -17,7 +17,7 @@
   notify: restart sshd
 
 - name: prohibit X11 forwarding
-  lineinfile:
+  ansible.builtin.lineinfile:
     dest: /etc/ssh/sshd_config
     regexp: '^(#\s)*?X11Forwarding.*'
     line: "X11Forwarding no"
