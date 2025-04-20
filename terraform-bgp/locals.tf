@@ -1,5 +1,5 @@
 locals {
-  debian_bookworm = {
+  bookworm = {
     pve1 = {
       1101 = {
         name   = "vmpve1deb1101"
@@ -25,16 +25,27 @@ locals {
       }
     }
     pve3 = {
-      3302 = {
-        name   = "vmpve3deb3302"
+      3301 = {
+        name   = "vmpve3deb3301"
         dhcp   = true
         bridge = "LabNet"
       }
-      3303 = {
+      3302 = {
         name   = "vmpve3deb3302"
         dhcp   = true
         bridge = "LabNet"
       }
     }
   }
+  home_assistant = {
+    pve3 = {
+      3401 = {
+        name        = "vmpve3deb3401"
+        description = "home-assistant"
+        dhcp        = true
+      }
+    }
+  }
+  bookworm_vms       = merge([for key, val in local.bookworm : { for id, conf in val : id => merge(conf, { vmid = id, node = key, username = var.vm_username, timezone = var.vm_timezone }) }]...)
+  home_assistant_vms = merge([for key, val in local.home_assistant : { for id, conf in val : id => merge(conf, { vmid = id, node = key, username = var.vm_username, timezone = var.vm_timezone }) }]...)
 }

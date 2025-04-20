@@ -1,0 +1,20 @@
+#cloud-config
+timezone: ${config.timezone}
+users:
+  - name: ${config.username}
+    groups:
+      - sudo
+    shell: /bin/bash
+    ssh_authorized_keys:
+      - ${ssh_keys}
+    sudo: ALL=(ALL) NOPASSWD:ALL
+package_update: true
+packages:
+  - qemu-guest-agent
+disable_root: true
+ssh_deletekeys: true
+ssh_genkeytypes: [ed25519]
+
+runcmd:
+  - systemctl enable --now qemu-guest-agent
+  - echo "done" > /tmp/cloud-config.done

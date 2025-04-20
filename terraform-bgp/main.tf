@@ -1,33 +1,15 @@
-module "proxmox_pve1_vms" {
+module "proxmox_bookworm" {
   source = "./debian-bookworm-template"
-  node   = "pve1"
 
-  for_each = {
-    for key, value in local.debian_bookworm.pve1 :
-    key => merge(value, { vmid = key })
-  }
-  config = merge(each.value, { username = var.vm_username, timezone = var.vm_timezone })
+  for_each = local.bookworm_vms
+  config   = each.value
+  node     = each.value.node
 }
 
-module "proxmox_pve2_vms" {
-  source = "./debian-bookworm-template"
-  node   = "pve2"
+module "proxmox_home_assitant" {
+  source = "./home-assistant-template"
 
-  for_each = {
-    for key, value in local.debian_bookworm.pve2 :
-    key => merge(value, { vmid = key })
-  }
-
-  config = merge(each.value, { username = var.vm_username, timezone = var.vm_timezone })
-}
-
-module "proxmox_pve3_vms" {
-  source = "./debian-bookworm-template"
-  node   = "pve3"
-
-  for_each = {
-    for key, value in local.debian_bookworm.pve3 :
-    key => merge(value, { vmid = key })
-  }
-  config = merge(each.value, { username = var.vm_username, timezone = var.vm_timezone })
+  for_each = local.home_assistant_vms
+  config   = each.value
+  node     = each.value.node
 }
