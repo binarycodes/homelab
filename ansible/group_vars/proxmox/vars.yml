@@ -1,6 +1,7 @@
 ---
 ansible_ssh_user: root
 ssh_authorized_keys_exclusive: false
+ssh_restrict_accepted_pubkeys: false
 ssh_permit_root_login: prohibit-password
 
 open_id:

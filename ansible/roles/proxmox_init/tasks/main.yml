@@ -50,3 +50,11 @@
   notify:
     - remove-previous-home-assistant-template
     - create-new-home-assistant-template
+
+- name: generate ed25519 keys for root
+  ansible.builtin.openssh_keypair:
+    path: /root/.ssh/id_ed25519
+    type: ed25519
+    state: present
+    owner: root
+    group: root

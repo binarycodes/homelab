@@ -34,4 +34,12 @@
     content: |
       PubkeyAcceptedKeyTypes ssh-ed25519-cert-v01@openssh.com,ssh-ed25519
       HostKeyAlgorithms ssh-ed25519-cert-v01@openssh.com,ssh-ed25519
+  when: ssh_restrict_accepted_pubkeys
   notify: restart sshd
+
+- name: check and validate accepted key types configured
+  ansible.builtin.file:
+    path: /etc/ssh/sshd_config.d/00_accepted_public_key_types.conf
+    state: "{{ 'file' if ssh_restrict_accepted_pubkeys else 'absent' }}"
+  notify: restart sshd
+  
