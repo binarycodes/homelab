@@ -3,32 +3,36 @@ data "local_file" "ssh_public_key" {
 }
 
 resource "proxmox_virtual_environment_download_file" "home_assistant_cloud_image" {
-  content_type = "iso"
-  datastore_id = "local"
-  file_name    = "haos_generic-x86-64-15.2.img"
-  node_name    = var.node
-  url          = "https://github.com/home-assistant/operating-system/releases/download/15.2/haos_generic-x86-64-15.2.img.xz"
+  content_type            = "iso"
+  datastore_id            = "local"
+  file_name               = "haos_ova-15.2.qcow2.xz.img"
+  node_name               = var.config.node
+  url                     = "https://github.com/home-assistant/operating-system/releases/download/15.2/haos_ova-15.2.qcow2.xz"
+  decompression_algorithm = "zst"
+  overwrite               = false # file size will always differ due to decompression
 }
 
 resource "proxmox_virtual_environment_file" "user_data_cloud_config" {
   content_type = "snippets"
   datastore_id = "local"
-  node_name    = var.node
+  node_name    = var.config.node
 
   source_raw {
-    data      = templatefile("${path.module}/cloud-init-config.yml", { node = var.node, config = var.config, ssh_keys = trimspace(data.local_file.ssh_public_key.content) })
+    data      = templatefile("${path.module}/cloud-init-config.yml", { config = var.config, ssh_keys = trimspace(data.local_file.ssh_public_key.content) })
     file_name = "user-data-cloud-config-${var.config.vmid}.yaml"
   }
 }
 
 resource "proxmox_virtual_environment_vm" "home_assistant_clone" {
-  node_name = var.node
+  depends_on = [proxmox_virtual_environment_download_file.home_assistant_cloud_image]
+
+  node_name = var.config.node
 
   vm_id       = var.config.vmid
   name        = var.config.name
-  description = try(var.config.description, "")
+  description = var.config.description
 
-  bios = try(var.config.bios, "ovmf")
+  bios = var.config.bios
 
   agent {
     enabled = true
@@ -42,12 +46,12 @@ resource "proxmox_virtual_environment_vm" "home_assistant_clone" {
   }
 
   cpu {
-    cores = try(var.config.cores, 1)
-    type  = try(var.config.cpu, "host")
+    cores = var.config.cores
+    type  = var.config.cpu
   }
 
   memory {
-    dedicated = try(var.config.memory, 2048)
+    dedicated = var.config.memory
   }
 
   serial_device {
@@ -62,7 +66,7 @@ resource "proxmox_virtual_environment_vm" "home_assistant_clone" {
     interface    = "scsi0"
     iothread     = true
     discard      = "on"
-    size         = try(var.config.disk_size, 32)
+    size         = var.config.disk_size
   }
 
   initialization {
@@ -76,7 +80,7 @@ resource "proxmox_virtual_environment_vm" "home_assistant_clone" {
   }
 
   network_device {
-    bridge = try(var.config.bridge, "IoTNet")
+    bridge = var.config.bridge
   }
 
   smbios {
@@ -85,5 +89,5 @@ resource "proxmox_virtual_environment_vm" "home_assistant_clone" {
 }
 
 output "vm_ipv4_address" {
-  value = proxmox_virtual_environment_vm.home_assistant_clone.ipv4_addresses[1][0]
+  value = proxmox_virtual_environment_vm.home_assistant_clone.ipv4_addresses
 }

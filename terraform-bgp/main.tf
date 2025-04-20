@@ -3,7 +3,6 @@ module "proxmox_bookworm" {
 
   for_each = local.bookworm_vms
   config   = each.value
-  node     = each.value.node
 }
 
 module "proxmox_home_assitant" {
@@ -11,5 +10,4 @@ module "proxmox_home_assitant" {
 
   for_each = local.home_assistant_vms
   config   = each.value
-  node     = each.value.node
 }

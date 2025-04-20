@@ -3,32 +3,34 @@ data "local_file" "ssh_public_key" {
 }
 
 resource "proxmox_virtual_environment_download_file" "bookworm_cloud_image" {
-  content_type = "iso"
-  datastore_id = "local"
-  file_name    = "debian-12-generic-amd64.qcow2.img"
-  node_name    = var.node
-  url          = "https://cloud.debian.org/images/cloud/bookworm/latest/debian-12-generic-amd64.qcow2"
+  content_type       = "iso"
+  datastore_id       = "local"
+  file_name          = "debian-12-genericcloud-amd64-20250416-2084.qcow2.img"
+  node_name          = var.config.node
+  url                = "https://cloud.debian.org/images/cloud/bookworm/20250416-2084/debian-12-genericcloud-amd64-20250416-2084.qcow2"
+  checksum           = "72ef23f399ceff56f7e0c213db796d655aaaea833bc18838210a1ab40e531e6acf9b21adc1954b902db8c9b2255bff7a08aed816250e6afc2821550533df457d"
+  checksum_algorithm = "sha512"
 }
 
 resource "proxmox_virtual_environment_file" "user_data_cloud_config" {
   content_type = "snippets"
   datastore_id = "local"
-  node_name    = var.node
+  node_name    = var.config.node
 
   source_raw {
-    data      = templatefile("${path.module}/cloud-init-config.yml", { node = var.node, config = var.config, ssh_keys = trimspace(data.local_file.ssh_public_key.content) })
+    data      = templatefile("${path.module}/cloud-init-config.yml", { config = var.config, ssh_keys = trimspace(data.local_file.ssh_public_key.content) })
     file_name = "user-data-cloud-config-${var.config.vmid}.yaml"
   }
 }
 
 resource "proxmox_virtual_environment_vm" "bookworm_clone" {
-  node_name = var.node
+  node_name = var.config.node
 
   vm_id       = var.config.vmid
   name        = var.config.name
-  description = try(var.config.description, "")
+  description = var.config.description
 
-  bios = try(var.config.bios, "seabios")
+  bios = var.config.bios
 
   agent {
     enabled = true
@@ -42,12 +44,12 @@ resource "proxmox_virtual_environment_vm" "bookworm_clone" {
   }
 
   cpu {
-    cores = try(var.config.cores, 1)
-    type  = try(var.config.cpu, "host")
+    cores = var.config.cores
+    type  = var.config.cpu
   }
 
   memory {
-    dedicated = try(var.config.memory, 2048)
+    dedicated = var.config.memory
   }
 
   serial_device {
@@ -62,7 +64,7 @@ resource "proxmox_virtual_environment_vm" "bookworm_clone" {
     interface    = "scsi0"
     iothread     = true
     discard      = "on"
-    size         = try(var.config.disk_size, 10)
+    size         = var.config.disk_size
   }
 
   initialization {
@@ -76,7 +78,7 @@ resource "proxmox_virtual_environment_vm" "bookworm_clone" {
   }
 
   network_device {
-    bridge = try(var.config.bridge, "LabNet")
+    bridge = var.config.bridge
   }
 
   smbios {
