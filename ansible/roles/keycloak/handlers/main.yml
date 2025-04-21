@@ -3,3 +3,4 @@
     project_src: /etc/docker/keycloak
     wait: true
     wait_timeout: 300
+    state: restarted

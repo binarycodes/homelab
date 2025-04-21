@@ -73,6 +73,15 @@ http:
         - https-redirectscheme
       tls: {}
       service: homeassistant
+    truenas-moria:
+      entryPoints:
+        - "https"
+      rule: "Host(`moria.homedns.pro`)"
+      middlewares:
+        - default-headers
+        - https-redirectscheme
+      tls: {}
+      service: truenas-moria
   #endregion
 
   #region services
@@ -116,6 +125,11 @@ http:
       loadBalancer:
         servers:
           - url: "http://homeassistant.localdomain:8123/"
+        passHostHeader: true
+    truenas-moria:
+      loadBalancer:
+        servers:
+          - url: "http://moria.localdomain/"
         passHostHeader: true
   #endregion
 
