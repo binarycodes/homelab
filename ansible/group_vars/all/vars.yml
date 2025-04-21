@@ -12,3 +12,6 @@ distro:
     Ubuntu: ssh
 
 timezone: Europe/Helsinki
+
+backup_user: "{{ vault_backup_user }}"
+backup_user_pubkeys: "{{ vault_backup_user_pubkeys }}"

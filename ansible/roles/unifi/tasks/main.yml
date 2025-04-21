@@ -29,3 +29,9 @@
     name: unifi
     state: started
     enabled: true
+
+- name: give backup user access to config backups
+  ansible.builtin.user:
+    name: "{{ backup_user }}"
+    groups: unifi
+    append: yes

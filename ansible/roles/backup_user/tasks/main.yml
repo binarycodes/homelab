@@ -1,0 +1,12 @@
+- name: create truenas backup user
+  ansible.builtin.user:
+    name: "{{ backup_user }}"
+    password_lock: true
+    create_home: yes
+
+- name: set authorized key for ssh user
+  ansible.posix.authorized_key:
+    user: "{{ backup_user }}"
+    state: present
+    key: "{{ backup_user_pubkeys }}"
+    exclusive: true
