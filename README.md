@@ -3,29 +3,36 @@
 This repository attemps to collect all required scripts, playbooks, etc to setup my homelab. This is forever work in progress.
 
 
-## Setup Proxmox VMs
+## Setup Proxmox
 
-> For the first execution, the password is required for ssh\
-> So run the playbook with additional argument -k. Thereafter the ssh authorized keys are set and password will not be required.
+> [!Note]
+> For the first execution, the password is required for ssh to proxmox nodes. \
+> So run the playbook with additional argument -K. Thereafter the ssh authorized keys are set and password will not be required.
 
 ```
-cd proxmox/ansible
-ansible-playbook proxmox.yml
+cd ansible
+ansible-playbook proxmox.yml -K
 ```
 
 ### Run terraform to provision VMs
 
+> [!Note]
+> This need to be run for all sub directories in each of the terraform environments we want to provision for.
+> So, for sub project in terraform-bgp/envrionment/
 ```
-cd proxmox/terraform
+# as an example, to provison kubernetes VMs
+cd terraform-bgp/environment/home/kubernetes
 terraform init --upgrade
 terraform plan
-terraform apply --auto-approve
+
+# optionally auto approve the apply ( --auto-approve )
+terraform apply
 ```
 
 ### Run ansible to setup VMs
 
 ```
-cd proxmox/ansible
+cd ansible
 ansible-playbook vm.yml
 ```
 
@@ -47,6 +54,7 @@ ssh-keygen -R <IP>
 ```
 
 #### Copy the ssh to the server
+Should not be required since VM's already copy the pre-seeded pubkey required.
 
 ```sh
 # Run in windows command prompt / powershell
