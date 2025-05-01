@@ -82,6 +82,25 @@ http:
         - https-redirectscheme
       tls: {}
       service: truenas-moria
+    pinchflat:
+      entryPoints:
+        - "https"
+      rule: "Host(`pinchflat.homedns.pro`)"
+      middlewares:
+        - default-headers
+        - https-redirectscheme
+        - "traefik-keycloak@file"
+      tls: {}
+      service: pinchflat
+    jellyfin:
+      entryPoints:
+        - "https"
+      rule: "Host(`jellyfin.homedns.pro`)"
+      middlewares:
+        - default-headers
+        - https-redirectscheme
+      tls: {}
+      service: jellyfin
   #endregion
 
   #region services
@@ -130,6 +149,16 @@ http:
       loadBalancer:
         servers:
           - url: "http://moria.localdomain/"
+        passHostHeader: true
+    pinchflat:
+      loadBalancer:
+        servers:
+          - url: "http://pench.localdomain:8945"
+        passHostHeader: true
+    jellyfin:
+      loadBalancer:
+        servers:
+          - url: "http://pench.localdomain:8096"
         passHostHeader: true
   #endregion
 

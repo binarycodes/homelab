@@ -1,0 +1,10 @@
+services:
+  pinchflat:
+    image: ghcr.io/kieraneglin/pinchflat:latest
+    container_name: pinchflat
+    ports:
+      - "8945:8945"
+    volumes:
+      - /opt/pinchflat/config:/config
+      - /mnt/nfs/pinchflat/downloads:/downloads
+    restart: unless-stopped

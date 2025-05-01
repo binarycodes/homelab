@@ -1,45 +1,89 @@
-- name: create sshca directory
-  ansible.builtin.file:
+- name: ensure user exists with correct uid
+  become: true
+  ansible.builtin.user:
+    name: "{{ ansible_ssh_user }}"
+    uid: "{{ user_uid }}"
+
+- name: ensure group exists with correct gid
+  become: true
+  ansible.builtin.group:
+    name: "{{ ansible_ssh_user }}"
+    state: present
+    gid: "{{ user_gid }}"
+
+- name: mount the nfs to the sshca directory
+  become: true
+  ansible.posix.mount:
+    src: moria.localdomain:/mnt/zpool0/CA
     path: "{{ ca_ssh_path }}"
-    state: directory
-    owner: "{{ ansible_ssh_user }}"
-    group: "{{ ansible_ssh_user }}"
-    mode: '0700'
+    opts: "nfsvers=4.1,rw,sync,hard"
+    state: mounted
+    fstype: nfs
 
 - name: create user certificate directory
+  become: false
   ansible.builtin.file:
     path: "{{ ca_ssh_path }}/users/"
     state: directory
     owner: "{{ ansible_ssh_user }}"
     group: "{{ ansible_ssh_user }}"
-    mode: '0700'
+    mode: '700'
 
 - name: create host certificate directory
+  become: false
   ansible.builtin.file:
     path: "{{ ca_ssh_path }}/hosts/"
     state: directory
     owner: "{{ ansible_ssh_user }}"
     group: "{{ ansible_ssh_user }}"
-    mode: '0700'
+    mode: '700'
 
+# https://github.com/ansible-collections/community.crypto/issues/416
 - name: generate the user ca key
+  become: false
   community.crypto.openssh_keypair:
     path: "{{ ca_ssh_path }}/ca_user_key"
     type: ed25519
     comment: "ca_user_key"
-    owner: "{{ ansible_ssh_user }}"
-    group: "{{ ansible_ssh_user }}"
     regenerate: fail
-    mode: '0400'
     state: present
+  when: false
 
+
+- name: generate the user ca key
+  become: false
+  ansible.builtin.shell: |
+    ssh-keygen -t ed25519 -C 'ca_user_key' -N "" -f "{{ ca_ssh_path }}/ca_user_key"
+  args:
+    creates: "{{ ca_ssh_path }}/ca_user_key"
+
+# https://github.com/ansible-collections/community.crypto/issues/416
 - name: generate the host ca key
+  become: false
+  vars:
+    ansible_remote_tmp: /home/ca
   community.crypto.openssh_keypair:
     path: "{{ ca_ssh_path }}/ca_host_key"
     type: ed25519
     comment: "ca_host_key"
-    owner: "{{ ansible_ssh_user }}"
-    group: "{{ ansible_ssh_user }}"
     regenerate: fail
-    mode: '0400'
     state: present
+  when: false
+
+- name: generate the host ca key
+  become: false
+  ansible.builtin.shell: |
+    ssh-keygen -t ed25519 -C 'ca_host_key' -N "" -f "{{ ca_ssh_path }}/ca_host_key"
+  args:
+    creates: "{{ ca_ssh_path }}/ca_host_key"
+
+- name: "copy config files"
+  ansible.builtin.template:
+    src: "{{item}}"
+    dest: "/etc/docker/ssh-key-signer/{{item}}"
+    owner: root
+    group: root
+    mode: 0644
+  loop:
+    - "application-prod.yml"
+    - "docker-compose.yml"

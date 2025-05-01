@@ -1,0 +1,35 @@
+- name: ensure NFS mount point exists
+  file:
+    path: /mnt/nfs/pinchflat
+    state: directory
+    mode: '0755'
+
+- name: mount NFS share for downloads
+  mount:
+    src: moria.localdomain:/mnt/zpool0/Media/Youtube
+    path: /mnt/nfs/pinchflat
+    fstype: nfs
+    opts: defaults
+    state: mounted
+
+- name: Ensure local config directory exists
+  file:
+    path: /opt/jellyfin/config
+    state: directory
+    mode: '0755'
+
+- name: Ensure local config directory exists
+  file:
+    path: /opt/jellyfin/cache
+    state: directory
+    mode: '0755'
+
+- name: add setup config file
+  ansible.builtin.copy:
+    src: jellyfin/
+    dest: /etc/docker/jellyfin
+    owner: root
+    group: root
+    mode: "600"
+  notify:
+    - restart the service again

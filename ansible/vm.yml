@@ -47,3 +47,9 @@
     - ftp
     - file-browser
     - caddy
+
+- hosts: pench
+  become: true
+  roles:
+    - pinchflat
+    - jellyfin

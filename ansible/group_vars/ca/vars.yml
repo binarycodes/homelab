@@ -1,4 +1,7 @@
 ---
 ansible_ssh_user: ca
+user_uid: 9999
+user_gid: 9999
 install_packages:
   - vim
+  - nfs-common
