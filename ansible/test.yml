@@ -6,5 +6,6 @@
       vars:
         to_debug:
           - "{{ ansible_os_family }}"
+          - "{{ ansible_architecture }}"
           - "{{ ansible_distribution }}"
           - "{{ distro.ssh_service_name[ansible_distribution] }}"
