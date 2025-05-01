@@ -10,16 +10,15 @@ resource "proxmox_virtual_environment_download_file" "bookworm_cloud_image" {
   for_each = local.bookworm_vm_nodes
 }
 
-module "proxmox_bookworm" {
-  source = "./debian-bookworm-template"
-
-  for_each = local.bookworm_vms
-  config   = merge(each.value, { image_id = proxmox_virtual_environment_download_file.bookworm_cloud_image[each.value.node].id })
+data "local_file" "ssh_public_key" {
+  filename = "../../../files/id_homelab.pub"
 }
 
-# module "proxmox_home_assitant" {
-#   source = "./home-assistant-template"
+module "proxmox_bookworm" {
+  source = "../../../modules/debian-bookworm-template"
 
-#   for_each = local.home_assistant_vms
-#   config   = each.value
-# }
+  for_each = local.bookworm_vms
+  config   = merge(each.value, { image_id = proxmox_virtual_environment_download_file.bookworm_cloud_image[each.value.node].id , tags = ["kubernetes"]})
+
+  ssh_authorized_key = trimspace(data.local_file.ssh_public_key.content)
+}

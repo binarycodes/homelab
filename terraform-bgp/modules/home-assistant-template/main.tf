@@ -1,24 +1,10 @@
-data "local_file" "ssh_public_key" {
-  filename = "./id_homelab.pub"
-}
-
-resource "proxmox_virtual_environment_file" "user_data_cloud_config" {
-  content_type = "snippets"
-  datastore_id = "local"
-  node_name    = var.config.node
-
-  source_raw {
-    data      = templatefile("${path.module}/cloud-init-config.yml", { config = var.config, ssh_keys = trimspace(data.local_file.ssh_public_key.content) })
-    file_name = "user-data-cloud-config-${var.config.vmid}.yaml"
-  }
-}
-
-resource "proxmox_virtual_environment_vm" "bookworm_clone" {
+resource "proxmox_virtual_environment_vm" "home_assistant_clone" {
   node_name = var.config.node
 
   vm_id       = var.config.vmid
   name        = var.config.name
   description = var.config.description
+  tags        = var.config.tags
 
   bios = var.config.bios
 
@@ -63,8 +49,6 @@ resource "proxmox_virtual_environment_vm" "bookworm_clone" {
         address = "dhcp"
       }
     }
-
-    user_data_file_id = proxmox_virtual_environment_file.user_data_cloud_config.id
   }
 
   network_device {
@@ -77,5 +61,5 @@ resource "proxmox_virtual_environment_vm" "bookworm_clone" {
 }
 
 output "vm_ipv4_address" {
-  value = proxmox_virtual_environment_vm.bookworm_clone.ipv4_addresses[1][0]
+  value = proxmox_virtual_environment_vm.home_assistant_clone.ipv4_addresses
 }

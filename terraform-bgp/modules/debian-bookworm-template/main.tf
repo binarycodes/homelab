@@ -1,36 +1,21 @@
-data "local_file" "ssh_public_key" {
-  filename = "./id_homelab.pub"
-}
-
-resource "proxmox_virtual_environment_download_file" "home_assistant_cloud_image" {
-  content_type            = "iso"
-  datastore_id            = "local"
-  file_name               = "haos_ova-15.2.qcow2.xz.img"
-  node_name               = var.config.node
-  url                     = "https://github.com/home-assistant/operating-system/releases/download/15.2/haos_ova-15.2.qcow2.xz"
-  decompression_algorithm = "zst"
-  overwrite               = false # file size will always differ due to decompression
-}
-
 resource "proxmox_virtual_environment_file" "user_data_cloud_config" {
   content_type = "snippets"
   datastore_id = "local"
   node_name    = var.config.node
 
   source_raw {
-    data      = templatefile("${path.module}/cloud-init-config.yml", { config = var.config, ssh_keys = trimspace(data.local_file.ssh_public_key.content) })
+    data      = templatefile("${path.module}/cloud-init-config.yml", { config = var.config, ssh_keys = trimspace(var.ssh_authorized_key) })
     file_name = "user-data-cloud-config-${var.config.vmid}.yaml"
   }
 }
 
-resource "proxmox_virtual_environment_vm" "home_assistant_clone" {
-  depends_on = [proxmox_virtual_environment_download_file.home_assistant_cloud_image]
-
+resource "proxmox_virtual_environment_vm" "bookworm_clone" {
   node_name = var.config.node
 
   vm_id       = var.config.vmid
   name        = var.config.name
   description = var.config.description
+  tags        = var.config.tags
 
   bios = var.config.bios
 
@@ -62,7 +47,7 @@ resource "proxmox_virtual_environment_vm" "home_assistant_clone" {
 
   disk {
     datastore_id = "local-lvm"
-    file_id      = proxmox_virtual_environment_download_file.home_assistant_cloud_image.id
+    file_id      = var.config.image_id
     interface    = "scsi0"
     iothread     = true
     discard      = "on"
@@ -89,5 +74,5 @@ resource "proxmox_virtual_environment_vm" "home_assistant_clone" {
 }
 
 output "vm_ipv4_address" {
-  value = proxmox_virtual_environment_vm.home_assistant_clone.ipv4_addresses
+  value = proxmox_virtual_environment_vm.bookworm_clone.ipv4_addresses[1][0]
 }
