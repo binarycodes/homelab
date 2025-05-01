@@ -13,6 +13,11 @@ variable "vm_username" {
   sensitive = true
 }
 
+variable "vm_user_id" {
+  type      = number
+  sensitive = true
+}
+
 variable "vm_timezone" {
   type = string
 }

@@ -2,6 +2,7 @@
 timezone: ${config.timezone}
 users:
   - name: ${config.username}
+    uid: ${config.user_id}
     groups:
       - sudo
     shell: /bin/bash
@@ -19,4 +20,5 @@ ssh_genkeytypes: [ed25519]
 
 runcmd:
   - systemctl enable --now qemu-guest-agent
+  - groupmod -g ${config.user_id} ${config.username}
   - echo "done" > /tmp/cloud-config.done

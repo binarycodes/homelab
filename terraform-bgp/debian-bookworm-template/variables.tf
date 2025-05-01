@@ -1,5 +1,6 @@
 variable "config" {
   type = object({
+    image_id    = string
     node        = string
     vmid        = number
     name        = string
@@ -13,5 +14,6 @@ variable "config" {
     disk_size   = optional(number, 10)
     timezone    = string
     username    = string
+    user_id     = number
   })
 }
