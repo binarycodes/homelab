@@ -17,40 +17,12 @@
     - "deb http://download.proxmox.com/debian/pve bookworm pve-no-subscription"
     - "deb http://download.proxmox.com/debian/ceph-quincy bookworm no-subscription"
 
-- name: Update apt repository cache
+- name: update apt repository cache
   ansible.builtin.apt:
     update_cache: yes
     upgrade: yes
     cache_valid_time: 86400 #one day
     
-- name: add create/delete debian template scripts
-  ansible.builtin.template:
-    src: "{{item}}"
-    dest: "/root/"
-    owner: root
-    group: root
-    mode: u+rwx
-  loop:
-    - "create-bookworm-template.sh"
-    - "delete-bookworm-template.sh"
-  notify:
-    - remove-previous-debian-template
-    - create-new-debian-template
-
-- name: add create/delete home assistant template scripts
-  ansible.builtin.template:
-    src: "{{item}}"
-    dest: "/root/"
-    owner: root
-    group: root
-    mode: u+rwx
-  loop:
-    - "create-home-assistant-template.sh"
-    - "delete-home-assistant-template.sh"
-  notify:
-    - remove-previous-home-assistant-template
-    - create-new-home-assistant-template
-
 - name: generate ed25519 keys for root
   ansible.builtin.openssh_keypair:
     path: /root/.ssh/id_ed25519
