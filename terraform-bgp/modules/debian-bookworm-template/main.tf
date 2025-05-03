@@ -1,15 +1,44 @@
+locals {
+  user_cloud_init_path = (
+    var.user_cloud_init_file != null ?
+    var.user_cloud_init_file : "${path.module}/user-cloud-init-config.yml"
+  )
+
+  network_cloud_init_path = (
+    var.network_cloud_init_file != null ?
+    var.network_cloud_init_file : "${path.module}/network-cloud-init-config.yml"
+  )
+}
+
 resource "proxmox_virtual_environment_file" "user_data_cloud_config" {
   content_type = "snippets"
   datastore_id = "local"
   node_name    = var.config.node
 
   source_raw {
-    data      = templatefile("${path.module}/cloud-init-config.yml", { config = var.config, ssh_keys = trimspace(var.ssh_authorized_key) })
-    file_name = "user-data-cloud-config-${var.config.vmid}.yaml"
+    data = templatefile(local.user_cloud_init_path, {
+      config   = var.config,
+      ssh_keys = trimspace(var.ssh_authorized_key)
+    })
+    file_name = "${var.config.vmid}-user-data-cloud-config.yaml"
   }
 }
 
-resource "proxmox_virtual_environment_vm" "bookworm_clone" {
+resource "proxmox_virtual_environment_file" "network_cloud_config" {
+  content_type = "snippets"
+  datastore_id = "local"
+  node_name    = var.config.node
+
+  source_raw {
+    data = templatefile(local.network_cloud_init_path, {
+      config   = var.config,
+      ssh_keys = trimspace(var.ssh_authorized_key)
+    })
+    file_name = "${var.config.vmid}-network-data-cloud-config.yaml"
+  }
+}
+
+resource "proxmox_virtual_environment_vm" "this" {
   node_name = var.config.node
 
   vm_id       = var.config.vmid
@@ -55,13 +84,8 @@ resource "proxmox_virtual_environment_vm" "bookworm_clone" {
   }
 
   initialization {
-    ip_config {
-      ipv4 {
-        address = "dhcp"
-      }
-    }
-
-    user_data_file_id = proxmox_virtual_environment_file.user_data_cloud_config.id
+    user_data_file_id    = proxmox_virtual_environment_file.user_data_cloud_config.id
+    network_data_file_id = proxmox_virtual_environment_file.network_cloud_config.id
   }
 
   network_device {
@@ -74,5 +98,5 @@ resource "proxmox_virtual_environment_vm" "bookworm_clone" {
 }
 
 output "vm_ipv4_address" {
-  value = proxmox_virtual_environment_vm.bookworm_clone.ipv4_addresses[1][0]
+  value = proxmox_virtual_environment_vm.this.ipv4_addresses
 }

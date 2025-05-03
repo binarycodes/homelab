@@ -23,3 +23,43 @@ variable "ssh_authorized_key" {
   type      = string
   sensitive = true
 }
+
+variable "user_cloud_init_file" {
+  description = "Optional path to user cloud-init template file"
+  type        = string
+  default     = null
+
+  validation {
+    condition = (
+      var.user_cloud_init_file == null ||
+      can(
+        fileexists(var.user_cloud_init_file)
+        && (
+          endswith(var.user_cloud_init_file, ".yml")
+          || endswith(var.user_cloud_init_file, ".yaml")
+        )
+      )
+    )
+    error_message = "user_cloug_init_file must be a .yml or .yaml file and must exist if provided."
+  }
+}
+
+variable "network_cloud_init_file" {
+  description = "Optional path to user cloud-init template file"
+  type        = string
+  default     = null
+
+  validation {
+    condition = (
+      var.network_cloud_init_file == null ||
+      can(
+        fileexists(var.network_cloud_init_file)
+        && (
+          endswith(var.network_cloud_init_file, ".yml")
+          || endswith(var.network_cloud_init_file, ".yaml")
+        )
+      )
+    )
+    error_message = "user_cloug_init_file must be a .yml or .yaml file and must exist if provided."
+  }
+}

@@ -14,11 +14,11 @@ data "local_file" "ssh_public_key" {
   filename = "../../../files/id_homelab.pub"
 }
 
-module "proxmox_bookworm" {
-  source = "../../../modules/debian-bookworm-template"
+module "proxmox_debian_kubernetes" {
+  source = "../../../modules/debian-bookworm-kubernetes-node/"
 
   for_each = local.bookworm_vms
-  config   = merge(each.value, { image_id = proxmox_virtual_environment_download_file.bookworm_cloud_image[each.value.node].id , tags = ["kubernetes"]})
+  config   = merge(each.value, { image_id = proxmox_virtual_environment_download_file.bookworm_cloud_image[each.value.node].id })
 
   ssh_authorized_key = trimspace(data.local_file.ssh_public_key.content)
 }

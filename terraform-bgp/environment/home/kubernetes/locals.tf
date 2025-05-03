@@ -38,6 +38,17 @@ locals {
     }
   }
 
-  bookworm_vms      = merge([for key, val in local.bookworm : { for id, conf in val : id => merge(conf, { vmid = id, node = key, username = var.vm_username, user_id = var.vm_user_id, timezone = var.vm_timezone }) }]...)
+  bookworm_vms = merge(
+    [for key, val in local.bookworm : {
+      for id, conf in val :
+      id => merge(conf, {
+        vmid     = id,
+        node     = key,
+        username = var.vm_username,
+        user_id  = var.vm_user_id,
+        timezone = var.vm_timezone,
+        cores    = 2
+      }) }
+  ]...)
   bookworm_vm_nodes = toset([for key, val in local.bookworm_vms : val.node])
 }

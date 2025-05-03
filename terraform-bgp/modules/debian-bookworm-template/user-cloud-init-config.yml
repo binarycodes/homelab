@@ -9,16 +9,21 @@ users:
     ssh_authorized_keys:
       - ${ssh_keys}
     sudo: ALL=(ALL) NOPASSWD:ALL
+
 package_update: true
 packages:
   - qemu-guest-agent
   - net-tools
   - curl
+
 disable_root: true
 ssh_deletekeys: true
 ssh_genkeytypes: [ed25519]
 
 runcmd:
+  - sed -i '/PermitRootLogin/d' /etc/ssh/sshd_config
+  - echo "PermitRootLogin no" >> /etc/ssh/sshd_config
+  - systemctl restart sshd.service
   - systemctl enable --now qemu-guest-agent
   - groupmod -g ${config.user_id} ${config.username}
   - echo "done" > /tmp/cloud-config.done
