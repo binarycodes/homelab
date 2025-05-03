@@ -8,7 +8,7 @@ variable "config" {
     dhcp        = bool
     bridge      = optional(string, "LabNet")
     bios        = optional(string, "seabios")
-    cores       = optional(number, 1)
+    cores       = optional(number, 2)
     cpu         = optional(string, "x86-64-v2-AES")
     memory      = optional(number, 2048)
     disk_size   = optional(number, 10)
@@ -17,6 +17,11 @@ variable "config" {
     user_id     = number
     tags        = optional(set(string), [])
   })
+
+  validation {
+    condition     = (var.config.cores >= 2)
+    error_message = "kubernetes nodes requires atleast 2 cpu cores"
+  }
 }
 
 variable "ssh_authorized_key" {
