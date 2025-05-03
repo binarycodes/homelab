@@ -1,10 +1,20 @@
+locals {
+  home_assistant_tags = toset(
+    concat(
+      ["home_assistant"],
+      tolist(try(var.config.tags, []))
+    )
+  )
+}
+
+
 resource "proxmox_virtual_environment_vm" "home_assistant_clone" {
   node_name = var.config.node
 
   vm_id       = var.config.vmid
   name        = var.config.name
   description = var.config.description
-  tags        = var.config.tags
+  tags        = local.home_assistant_tags
 
   bios = var.config.bios
 
