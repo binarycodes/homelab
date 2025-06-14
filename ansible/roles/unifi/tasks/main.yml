@@ -6,15 +6,16 @@
       - apt-transport-https
     state: latest
 
-- name: add gpg apt Key
-  ansible.builtin.apt_key:
-    url: https://dl.ui.com/unifi/unifi-repo.gpg
-    state: present
-
-- name: add repository into sources list
-  ansible.builtin.apt_repository:
-    repo: deb [arch=amd64] https://www.ui.com/downloads/unifi/debian stable ubiquiti
-    filename: ubiquiti
+- name: add repository
+  ansible.builtin.deb822_repository:
+    name: ubiquiti
+    types: deb
+    uris: "https://www.ui.com/downloads/unifi/{{ ansible_distribution | lower }}"
+    suites: "stable"
+    components: ubiquiti
+    architectures: "{{ normalized_arch }}"
+    inrelease_path: "InRelease"
+    signed_by: "https://dl.ui.com/unifi/unifi-repo.gpg"
     state: present
 
 - name: install unifi controller

@@ -10,9 +10,10 @@
     state: present
     types: [deb]
     uris: "http://repo.mongodb.org/apt/debian"
-    suites: ["bookworm/mongodb-org/7.0"]
+    suites: ["bookworm/mongodb-org/8.0"]
     components: [main]
-    signed_by: "https://www.mongodb.org/static/pgp/server-7.0.asc"
+    architectures: "{{ normalized_arch }}"
+    signed_by: "https://www.mongodb.org/static/pgp/server-8.0.asc"
     enabled: yes
 
 - name: install mongo-db

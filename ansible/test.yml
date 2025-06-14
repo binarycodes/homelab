@@ -9,3 +9,4 @@
           - "{{ ansible_architecture }}"
           - "{{ ansible_distribution }}"
           - "{{ distro.ssh_service_name[ansible_distribution] }}"
+          - "{{ ansible_lsb.codename }}"
