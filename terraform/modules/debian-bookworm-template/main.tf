@@ -1,12 +1,10 @@
 locals {
   user_cloud_init_path = (
-    var.user_cloud_init_file != null ?
-    var.user_cloud_init_file : "${path.module}/user-cloud-init-config.yml"
+    var.user_cloud_init_file != null ? var.user_cloud_init_file : "${path.module}/user-cloud-init-config.yml"
   )
 
   network_cloud_init_path = (
-    var.network_cloud_init_file != null ?
-    var.network_cloud_init_file : "${path.module}/network-cloud-init-config.yml"
+    var.network_cloud_init_file != null ? var.network_cloud_init_file : "${path.module}/network-cloud-init-config.yml"
   )
 }
 
