@@ -1,0 +1,49 @@
+#cloud-config
+timezone: ${config.timezone}
+users:
+  - name: ${config.username}
+    uid: ${config.user_id}
+    groups:
+      - sudo
+    shell: /bin/bash
+    ssh_authorized_keys:
+      - ${ssh_keys}
+    sudo: ALL=(ALL) NOPASSWD:ALL
+
+package_update: true
+package_upgrade: true
+package_reboot_if_required: true
+packages:
+  - qemu-guest-agent
+  - net-tools
+  - curl
+  - containerd
+  - apt-transport-https
+  - ca-certificates
+  - gpg
+
+disable_root: true
+ssh_deletekeys: true
+ssh_genkeytypes: [ed25519]
+
+manage_resolv_conf: true
+resolv_conf:
+  searchdomains: [localdomain]
+
+write_files:
+  - path: /etc/sysctl.d/99-kubernetes-ip-forward.conf
+    content: |
+      net.ipv4.ip_forward=1
+runcmd:
+  - sed -i '/PermitRootLogin/d' /etc/ssh/sshd_config
+  - echo "PermitRootLogin no" >> /etc/ssh/sshd_config
+  - systemctl restart sshd.service
+  - systemctl enable --now qemu-guest-agent
+  - groupmod -g ${config.user_id} ${config.username}
+  - sysctl --system
+  - curl -fsSL https://pkgs.k8s.io/core:/stable:/v1.33/deb/Release.key | gpg --dearmor -o /etc/apt/keyrings/kubernetes-apt-keyring.gpg
+  - echo 'deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/v1.33/deb/ /' > /etc/apt/sources.list.d/kubernetes.list
+  - apt-get update
+  - apt-get install -y kubelet kubeadm kubectl
+  - apt-mark hold kubelet kubeadm kubectl
+  - echo "done" > /tmp/cloud-config.done
