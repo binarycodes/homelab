@@ -2,15 +2,13 @@ locals {
   bookworm = {
     pve1 = [
       {
-        vmid   = 1101
-        name   = "vmpve1deb1101"
+        name   = "kubecontrol01"
         dhcp   = true
         bridge = "LabNet"
         tags   = ["control-plane"]
       },
       {
-        vmid   = 1102
-        name   = "vmpve1deb1102"
+        name   = "kubeworker01"
         dhcp   = true
         bridge = "LabNet"
         tags   = ["worker"]
@@ -18,15 +16,13 @@ locals {
     ]
     pve2 = [
       {
-        vmid   = 2201
-        name   = "vmpve2deb2201"
+        name   = "kubecontrol02"
         dhcp   = true
         bridge = "LabNet"
         tags   = ["control-plane"]
       },
       {
-        vmid   = 2202
-        name   = "vmpve2deb2202"
+        name   = "kubeworker02"
         dhcp   = true
         bridge = "LabNet"
         tags   = ["worker"]
@@ -34,15 +30,13 @@ locals {
     ]
     pve3 = [
       {
-        vmid   = 3301
-        name   = "vmpve3deb3301"
+        name   = "kubercontrol03"
         dhcp   = true
         bridge = "LabNet"
         tags   = ["control-plane"]
       },
       {
-        vmid   = 3302
-        name   = "vmpve3deb3302"
+        name   = "kubeworker03"
         dhcp   = true
         bridge = "LabNet"
         tags   = ["worker"]
@@ -53,7 +47,7 @@ locals {
   bookworm_vms = merge(
     [for key, val in local.bookworm : {
       for conf in val :
-      conf.vmid => merge(conf, {
+      conf.name => merge(conf, {
         node     = key,
         username = var.vm_username,
         user_id  = var.vm_user_id,

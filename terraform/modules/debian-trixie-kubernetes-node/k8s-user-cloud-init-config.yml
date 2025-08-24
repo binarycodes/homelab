@@ -21,6 +21,7 @@ packages:
   - apt-transport-https
   - ca-certificates
   - gpg
+  - podman
 
 disable_root: true
 ssh_deletekeys: true
@@ -41,6 +42,7 @@ runcmd:
   - systemctl enable --now qemu-guest-agent
   - groupmod -g ${config.user_id} ${config.username}
   - sysctl --system
+  - loginctl enable-linger ${config.user_id}
   - curl -fsSL https://pkgs.k8s.io/core:/stable:/v1.33/deb/Release.key | gpg --dearmor -o /etc/apt/keyrings/kubernetes-apt-keyring.gpg
   - echo 'deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/v1.33/deb/ /' > /etc/apt/sources.list.d/kubernetes.list
   - apt-get update

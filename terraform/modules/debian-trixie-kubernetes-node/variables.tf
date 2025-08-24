@@ -1,7 +1,7 @@
 variable "config" {
   type = object({
     node        = string
-    vmid        = number
+    vmid        = optional(number, null)
     name        = string
     description = optional(string, "")
     dhcp        = bool

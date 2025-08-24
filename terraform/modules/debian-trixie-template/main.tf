@@ -18,7 +18,7 @@ resource "proxmox_virtual_environment_file" "user_data_cloud_config" {
       config   = var.config,
       ssh_keys = trimspace(var.ssh_authorized_key)
     })
-    file_name = "${var.config.vmid}-user-data-cloud-config.yaml"
+    file_name = "${var.config.name}-user-data-cloud-config.yaml"
   }
 }
 
@@ -32,14 +32,14 @@ resource "proxmox_virtual_environment_file" "network_cloud_config" {
       config   = var.config,
       ssh_keys = trimspace(var.ssh_authorized_key)
     })
-    file_name = "${var.config.vmid}-network-data-cloud-config.yaml"
+    file_name = "${var.config.name}-network-data-cloud-config.yaml"
   }
 }
 
 resource "proxmox_virtual_environment_vm" "this" {
   node_name = var.config.node
 
-  vm_id       = var.config.vmid
+  vm_id       = var.config.vmid != null ? var.config.vmid : null
   name        = var.config.name
   description = var.config.description
   tags        = var.config.tags
