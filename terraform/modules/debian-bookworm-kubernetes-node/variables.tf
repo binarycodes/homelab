@@ -1,8 +1,7 @@
 variable "config" {
   type = object({
-    image_id    = string
     node        = string
-    vmid        = number
+    vmid        = optional(number, null)
     name        = string
     description = optional(string, "")
     dhcp        = bool

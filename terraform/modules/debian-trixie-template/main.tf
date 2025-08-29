@@ -49,7 +49,7 @@ resource "proxmox_virtual_environment_file" "network_cloud_config" {
 resource "proxmox_virtual_environment_vm" "this" {
   node_name = var.config.node
 
-  vm_id       = var.config.vmid != null ? var.config.vmid : null
+  vm_id       = var.config.vmid
   name        = var.config.name
   description = var.config.description
   tags        = local.tags

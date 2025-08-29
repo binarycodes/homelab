@@ -1,5 +1,5 @@
 locals {
-  bookworm = {
+  vm_config = {
     pve1 = [
       {
         name   = "kubecontrol01"
@@ -44,8 +44,8 @@ locals {
     ]
   }
 
-  bookworm_vms = merge(
-    [for key, val in local.bookworm : {
+  vms = merge(
+    [for key, val in local.vm_config : {
       for conf in val :
       conf.name => merge(conf, {
         node     = key,
