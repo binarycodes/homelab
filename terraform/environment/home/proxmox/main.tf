@@ -1,3 +1,15 @@
+resource "proxmox_virtual_environment_download_file" "debian_bookworm_cloud_image" {
+  content_type       = "iso"
+  datastore_id       = "local"
+  node_name          = each.value
+  file_name          = local.debian_bookworm.save_file_name
+  url                = local.debian_bookworm.url
+  checksum           = local.debian_bookworm.checksum
+  checksum_algorithm = "sha512"
+
+  for_each = toset(local.nodes)
+}
+
 resource "proxmox_virtual_environment_download_file" "debian_trixie_cloud_image" {
   content_type       = "iso"
   datastore_id       = "local"
