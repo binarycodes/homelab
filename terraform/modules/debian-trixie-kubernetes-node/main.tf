@@ -1,7 +1,7 @@
 locals {
   kubernetes_tags = toset(
     concat(
-      ["kubernetes", "trixie"],
+      ["kubernetes"],
       tolist(try(var.config.tags, []))
     )
   )

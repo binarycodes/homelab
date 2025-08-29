@@ -1,10 +1,20 @@
 locals {
+  keyboard_layout = "en-us"
+  iso_file_id     = "local:iso/debian-13-generic-amd64-20250814-2204.qcow2.img"
+
   user_cloud_init_path = (
     var.user_cloud_init_file != null ? var.user_cloud_init_file : "${path.module}/user-cloud-init-config.yml"
   )
 
   network_cloud_init_path = (
     var.network_cloud_init_file != null ? var.network_cloud_init_file : "${path.module}/network-cloud-init-config.yml"
+  )
+
+  tags = toset(
+    concat(
+      ["trixie"],
+      tolist(try(var.config.tags, []))
+    )
   )
 }
 
@@ -42,7 +52,7 @@ resource "proxmox_virtual_environment_vm" "this" {
   vm_id       = var.config.vmid != null ? var.config.vmid : null
   name        = var.config.name
   description = var.config.description
-  tags        = var.config.tags
+  tags        = local.tags
 
   bios = var.config.bios
 
@@ -50,7 +60,7 @@ resource "proxmox_virtual_environment_vm" "this" {
     enabled = true
   }
 
-  keyboard_layout = "en-us"
+  keyboard_layout = local.keyboard_layout
   on_boot         = true
 
   operating_system {
@@ -74,7 +84,7 @@ resource "proxmox_virtual_environment_vm" "this" {
 
   disk {
     datastore_id = "local-lvm"
-    file_id      = "local:iso/debian-13-generic-amd64-20250814-2204.qcow2.img"
+    file_id      = local.iso_file_id
     interface    = "scsi0"
     iothread     = true
     discard      = "on"
