@@ -11,6 +11,8 @@ users:
     sudo: ALL=(ALL) NOPASSWD:ALL
 
 package_update: true
+package_upgrade: true
+package_reboot_if_required: true
 packages:
   - qemu-guest-agent
   - ansible
@@ -19,6 +21,10 @@ packages:
 disable_root: true
 ssh_deletekeys: true
 ssh_genkeytypes: [ed25519]
+
+manage_resolv_conf: true
+resolv_conf:
+  searchdomains: [localdomain]
 
 runcmd:
   - systemctl enable --now qemu-guest-agent

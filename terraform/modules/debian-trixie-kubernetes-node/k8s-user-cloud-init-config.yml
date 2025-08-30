@@ -28,7 +28,7 @@ resolv_conf:
 
 runcmd:
   - systemctl enable --now qemu-guest-agent
+  - groupmod -g ${config.user_id} ${config.username}
   - ansible-pull -U https://github.com/binarycodes/homelab-self-provisioner.git debian.yml
   - ansible-pull -U https://github.com/binarycodes/homelab-self-provisioner.git kubernetes.yml
-  - groupmod -g ${config.user_id} ${config.username}
   - echo "done" > /tmp/cloud-config.done
