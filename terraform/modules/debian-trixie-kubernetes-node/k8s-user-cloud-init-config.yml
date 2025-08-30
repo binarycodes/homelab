@@ -24,7 +24,7 @@ ssh_genkeytypes: [ed25519]
 
 manage_resolv_conf: true
 resolv_conf:
-  searchdomains: [localdomain]
+  searchdomains: [${config.searchdomain}]
 
 runcmd:
   - systemctl enable --now qemu-guest-agent
