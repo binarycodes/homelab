@@ -15,3 +15,7 @@ module "kubernetes-node" {
   ssh_authorized_key   = var.ssh_authorized_key
   user_cloud_init_file = "${path.module}/k8s-user-cloud-init-config.yml"
 }
+
+output "vm_ipv4_address" {
+  value = module.kubernetes-node.vm_ipv4_address
+}

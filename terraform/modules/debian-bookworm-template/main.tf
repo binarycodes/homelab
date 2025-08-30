@@ -105,6 +105,7 @@ resource "proxmox_virtual_environment_vm" "this" {
   }
 }
 
+
 output "vm_ipv4_address" {
-  value = proxmox_virtual_environment_vm.this.ipv4_addresses
+  value = [for ip in flatten(proxmox_virtual_environment_vm.this.ipv4_addresses) : ip if ip != "127.0.0.1"]
 }
