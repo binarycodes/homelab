@@ -6,6 +6,7 @@ users:
     groups:
       - sudo
     shell: /bin/bash
+    lock_passwd: true
     ssh_authorized_keys:
       - ${ssh_keys}
     sudo: ALL=(ALL) NOPASSWD:ALL
