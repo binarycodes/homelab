@@ -1,0 +1,34 @@
+---
+- hosts: admin
+  become: no
+  gather_facts: no
+  pre_tasks:
+    - name: setup known hosts
+      ansible.builtin.include_role:
+        name: user_settings
+        tasks_from: ssh_setup
+      vars:
+        ansible_hostname: "{{inventory_hostname}}"
+        add_known_host_for_ip: false
+  tags:
+    - always
+
+- hosts: admin
+  tasks:
+    - name: set normalized architecture fact
+      set_fact:
+        normalized_arch: >-
+          {{
+          'amd64' if ansible_architecture == 'x86_64' else
+          'arm64' if ansible_architecture == 'aarch64' else
+          ansible_architecture
+          }}
+
+- hosts: admin
+  become: yes
+  roles:
+    - docker
+    - bind9
+  tags:
+    - always
+    - system

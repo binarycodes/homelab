@@ -17,3 +17,7 @@ all:
     ca:
       hosts:
         caserver:
+    admin:
+      hosts:
+        administrator:
+          ansible_ssh_user: binarycodes

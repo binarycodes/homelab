@@ -1,0 +1,31 @@
+- name: prohibit password for root login (no keyboard interactive)
+  ansible.builtin.lineinfile:
+    dest: /etc/systemd/resolved.conf
+    regexp: '^(#\s*)?DNSStubListener.*'
+    line: "DNSStubListener=no"
+    state: present
+    backup: yes
+  notify:
+    - restart resolved
+
+- name: add setup config file
+  ansible.builtin.copy:
+    src: bind9/
+    dest: /etc/docker/bind9/
+    owner: root
+    group: root
+    mode: "644"
+  notify:
+    - restart the service again
+
+- name: "copy config files"
+  ansible.builtin.template:
+    src: "{{item}}"
+    dest: "/etc/docker/bind9/{{item}}"
+    owner: root
+    group: root
+    mode: 0644
+  loop:
+    - ".env"
+  notify:
+    - restart the service again
