@@ -40,6 +40,11 @@ variable "config" {
     condition     = (!var.config.dhcp && length(var.config.dns_addresses) <= 2)
     error_message = "Too many DNS addresses specified, max 2 is allowed"
   }
+
+  validation {
+    condition     = var.config.dhcp || can(cidrhost(var.config.ip4_address_cidr, 0))
+    error_message = "Must be valid IPv4 CIDR."
+  }
 }
 
 variable "ssh_authorized_key" {
