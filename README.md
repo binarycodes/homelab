@@ -40,6 +40,11 @@ ansible-playbook vm.yml
 
 Random tidbits that I need to run frequently enough that these are useful but not so frequently that I will remember these.
 
+### Generate password for use in cloud init config
+```sh
+mkpasswd --method=SHA-512 password
+```
+
 ### Generate basic auth password
 
 ```sh
