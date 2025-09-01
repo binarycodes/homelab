@@ -7,7 +7,12 @@ locals {
   )
 
   network_cloud_init_path = (
-    var.network_cloud_init_file != null ? var.network_cloud_init_file : "${path.module}/network-cloud-init-config.yml"
+    var.network_cloud_init_file != null ? var.network_cloud_init_file :
+    (
+      var.config.dhcp ?
+      "${path.module}/network-dhcp-cloud-init-config.yml" :
+      "${path.module}/network-static-cloud-init-config.yml"
+    )
   )
 
   tags = toset(
