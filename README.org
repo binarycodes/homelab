@@ -5,21 +5,26 @@
   
 ** Setup Proxmox
 
-   > [!Note]
-   > For the first execution, the password is required for ssh to proxmox nodes. \
-   > So run the playbook with additional argument -K. Thereafter the ssh authorized keys are set and password will not be required.
+   #+begin_quote
+   [!Note]
+   For the first execution, the password is required for ssh to proxmox nodes. \
+   So run the playbook with additional argument -K. Thereafter the ssh authorized keys are set and password will not be required.
+   #+end_quote
    
-   ```
+   #+begin_src sh
    cd ansible
    ansible-playbook proxmox.yml -K
-   ```
+   #+end_src
    
 *** Run terraform to provision VMs
 
-    > [!Note]
-    > This need to be run for all sub directories in each of the terraform environments we want to provision for.
-    > So, for sub project in terraform-bgp/envrionment/
-    ```
+    #+begin_quote
+    [!Note]
+    This need to be run for all sub directories in each of the terraform environments we want to provision for.
+    So, for sub project in terraform-bgp/envrionment/
+    #+end_quote
+
+    #+begin_src sh
     # as an example, to provison kubernetes VMs
     cd terraform-bgp/environment/home/kubernetes
     terraform init --upgrade
@@ -27,31 +32,31 @@
 
     # optionally auto approve the apply ( --auto-approve )
     terraform apply
-    ```
+    #+end_src
     
 *** Run ansible to setup VMs
 
-    ```
+    #+begin_src sh
     cd ansible
     ansible-playbook vm.yml
-    ```
+    #+end_src
 
 ** Usefull commands
 
    Random tidbits that I need to run frequently enough that these are useful but not so frequently that I will remember these.
 
 *** Generate password for use in cloud init config
-    ```sh
+    #+begin_src sh
     mkpasswd --method=SHA-512 password
-    ```
+    #+end_src
 
 *** Generate basic auth password
 
 *** 
 
-    ```sh
+    #+begin_src sh
     echo $(htpasswd -nb "<USER>" "<PASSWORD>") | sed -e s/\\$/\\$\\$/g
-    ```
+    #+end_src
 
 *** Cloud init debug
 
@@ -64,66 +69,66 @@
 *** SSH
 
 **** Remove known hosts entry when recreating VMs
-     ```sh
+     #+begin_src sh
      ssh-keygen -R <IP>
-     ```
+     #+end_src
 
 **** Copy the ssh to the server
      Should not be required since VM's already copy the pre-seeded pubkey required.
      
-     ```sh
+     #+begin_src sh
      # Run in windows command prompt / powershell
      # Alternative to doing the same thing in ansible
      ssh <user@hostname> "mkdir -p .ssh"
      type $env:USERPROFILE\.ssh\id_rsa.pub | ssh <user@hostname> "cat >> .ssh/authorized_keys"
-     ```
+     #+end_src
 
 *** Ansible
 
 **** Check if ansible is able to reach the servers
 
-     ```sh
+     #+begin_src sh
      # if everything is set up
      ansible all -m ping
      
      # if ansible.cfg is not set up
      ansible all --key-file ~/.ssh/ansible -i inventory -m ping
-     ```
+     #+end_src
 
 *** WSL
 
 **** Ansible does not like world writable directory in WSL. Enable chmod and then remove write persmission from others.
 
-     ```sh
+     #+begin_src sh
      sudo umount /mnt/c
      sudo mount -t drvfs C: /mnt/c -o metadata
      sudo chmod o-w <ANSIBLE_DIRECTORY>
-     ```
+     #+end_src
 
 *** Proxmox
 
 **** Stop and remove VMs
-     ```
+     #+begin_src sh
      qm stop <VM_ID>
      qm destroy <VM_ID>
-     ```
+     #+end_src
 
 *** Terraform
     
 **** Destroy all resources
      
-     ```
+     #+begin_src sh
      terraform destroy
-     ```
+     #+end_src
 
 *** Git
 
 **** Rebase and squash entire branch
-     ```
+     #+begin_src sh
      git checkout --orphan new-master master
      git commit -m "Enter commit message for your new initial commit"
      
      # Overwrite the old master branch reference with the new one
      git branch -M new-master master
-     ```
+     #+end_src
      
