@@ -1,5 +1,11 @@
 #cloud-config
+
+fqdn: ${config.name}.${config.searchdomain}
+hostname: ${config.name}
+prefer_fqdn_over_hostname: true
+
 timezone: ${config.timezone}
+
 users:
   - name: ${config.username}
     uid: ${config.user_id}
@@ -26,6 +32,16 @@ ssh_genkeytypes: [ed25519]
 manage_resolv_conf: true
 resolv_conf:
   searchdomains: [${config.searchdomain}]
+
+write_files:
+  - path: /etc/ssh-keysigner/config.yml
+    owner: root:root
+    permissions: 0400
+    content: |
+      ca_server_url: ${ca_server_url}
+      client_id: ${ca_sso_client_id}
+      client_secret: ${ca_sso_client_secret}
+      token_url: ${ca_sso_token_url}
 
 runcmd:
   - systemctl enable --now qemu-guest-agent
