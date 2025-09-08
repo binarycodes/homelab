@@ -36,7 +36,7 @@ resource "proxmox_virtual_environment_file" "user_data_cloud_config" {
       ca_sso_client_id     = var.ca_sso_client_id
       ca_sso_client_secret = var.ca_sso_client_secret
       ca_sso_token_url     = var.ca_sso_token_url
-
+      ca_user_public_key   = var.ca_user_public_key
     })
     file_name = "${var.config.name}-user-data-cloud-config.yaml"
   }

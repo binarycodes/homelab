@@ -11,6 +11,7 @@ module "proxmox_debian_trixie" {
   ca_sso_client_id     = var.ca_sso_client_id
   ca_sso_client_secret = var.ca_sso_client_secret
   ca_sso_token_url     = var.ca_sso_token_url
+  ca_user_public_key   = var.ca_user_public_key
 
   ssh_authorized_key = trimspace(data.local_file.ssh_public_key.content)
 }

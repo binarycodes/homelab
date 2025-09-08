@@ -111,3 +111,8 @@ variable "ca_sso_token_url" {
   type      = string
   sensitive = true
 }
+
+variable "ca_user_public_key" {
+  type      = string
+  sensitive = true
+}
