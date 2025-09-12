@@ -51,3 +51,28 @@ variable "cloud_init_template_file" {
     error_message = "cloud_init_template_file must be a .yml or .yaml file and must exist if provided."
   }
 }
+
+variable "ca_server_url" {
+  type      = string
+  sensitive = true
+}
+
+variable "ca_sso_client_id" {
+  type      = string
+  sensitive = true
+}
+
+variable "ca_sso_client_secret" {
+  type      = string
+  sensitive = true
+}
+
+variable "ca_sso_token_url" {
+  type      = string
+  sensitive = true
+}
+
+variable "ca_user_public_key" {
+  type      = string
+  sensitive = true
+}
