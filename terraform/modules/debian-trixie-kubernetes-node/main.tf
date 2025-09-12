@@ -19,7 +19,6 @@ module "kubernetes-node" {
   ca_sso_token_url     = var.ca_sso_token_url
   ca_user_public_key   = var.ca_user_public_key
 
-  ssh_authorized_key   = var.ssh_authorized_key
   user_cloud_init_file = "${path.module}/k8s-user-cloud-init-config.yml"
 }
 

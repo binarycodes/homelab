@@ -27,11 +27,6 @@ variable "config" {
   }
 }
 
-variable "ssh_authorized_key" {
-  type      = string
-  sensitive = true
-}
-
 variable "cloud_init_template_file" {
   description = "Optional path to cloud-init template file"
   type        = string

@@ -31,12 +31,11 @@ resource "proxmox_virtual_environment_file" "user_data_cloud_config" {
   source_raw {
     data = templatefile(local.user_cloud_init_path, {
       config               = var.config,
-      ssh_keys             = trimspace(var.ssh_authorized_key)
       ca_server_url        = var.ca_server_url
       ca_sso_client_id     = var.ca_sso_client_id
       ca_sso_client_secret = var.ca_sso_client_secret
       ca_sso_token_url     = var.ca_sso_token_url
-      ca_user_public_key   = var.ca_user_public_key
+      ca_user_public_key   = trimspace(var.ca_user_public_key)
     })
     file_name = "${var.config.name}-user-data-cloud-config.yaml"
   }
@@ -49,8 +48,7 @@ resource "proxmox_virtual_environment_file" "network_cloud_config" {
 
   source_raw {
     data = templatefile(local.network_cloud_init_path, {
-      config   = var.config,
-      ssh_keys = trimspace(var.ssh_authorized_key)
+      config = var.config,
     })
     file_name = "${var.config.name}-network-data-cloud-config.yaml"
   }
