@@ -37,7 +37,7 @@ variable "config" {
   }
 
   validation {
-    condition     = (!var.config.dhcp && length(var.config.dns_addresses) <= 2)
+    condition     = var.config.dhcp || (!var.config.dhcp && length(var.config.dns_addresses) <= 2)
     error_message = "Too many DNS addresses specified, max 2 is allowed"
   }
 
