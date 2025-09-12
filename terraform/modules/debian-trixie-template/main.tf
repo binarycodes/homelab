@@ -1,6 +1,6 @@
 locals {
   keyboard_layout = "en-us"
-  iso_file_id     = "local:iso/debian-13-generic-amd64-20250814-2204.qcow2.img"
+  iso_file_id     = "local:iso/debian-13-generic-amd64.qcow2.img"
 
   user_cloud_init_path = (
     var.user_cloud_init_file != null ? var.user_cloud_init_file : "${path.module}/user-cloud-init-config.yml"
