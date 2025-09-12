@@ -18,4 +18,11 @@ locals {
     decompression_algorithm = "zst"
     save_file_name          = "haos_generic-x86-64-16.1.img"
   }
+
+  free_bsd = {
+    url                     = "https://download.freebsd.org/ftp/snapshots/VM-IMAGES/14.3-STABLE/amd64/Latest/FreeBSD-14.3-STABLE-amd64-BASIC-CLOUDINIT-zfs.qcow2.xz"
+    decompression_algorithm = "zst"
+    save_file_name          = "FreeBSD-14.3-STABLE-amd64-BASIC-CLOUDINIT-zfs.qcow2.img"
+    checksum                = "6659fcd0b445af31f450e3c1f5a7e27cc9ff028e75b6d95b723b2272edbcee932acaad32e4b39178cae484fd991e8c8ebc15302f81b2f384615988fec02a83bc"
+  }
 }

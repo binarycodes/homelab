@@ -33,3 +33,17 @@ resource "proxmox_virtual_environment_download_file" "home_assistant_cloud_image
 
   for_each = toset(local.nodes)
 }
+
+resource "proxmox_virtual_environment_download_file" "free_bsd_cloud_image" {
+  content_type            = "iso"
+  datastore_id            = "local"
+  file_name               = local.free_bsd.save_file_name
+  node_name               = each.value
+  url                     = local.free_bsd.url
+  decompression_algorithm = local.free_bsd.decompression_algorithm
+  overwrite               = false # file size will always differ due to decompression
+  checksum                = local.free_bsd.checksum
+  checksum_algorithm      = "sha512"
+
+  for_each = toset(local.nodes)
+}
