@@ -5,6 +5,7 @@ locals {
       tolist(try(var.config.tags, []))
     )
   )
+  extra_runcmd = yamldecode(file("${path.module}/extra-runcmd.yml"))
 }
 
 module "kubernetes-node" {
@@ -19,7 +20,7 @@ module "kubernetes-node" {
   ca_sso_token_url     = var.ca_sso_token_url
   ca_user_public_key   = var.ca_user_public_key
 
-  user_cloud_init_file = "${path.module}/k8s-user-cloud-init-config.yml"
+  extra_runcmd = local.extra_runcmd
 }
 
 output "vm_ipv4_address" {

@@ -31,6 +31,7 @@ resource "proxmox_virtual_environment_file" "user_data_cloud_config" {
   source_raw {
     data = templatefile(local.user_cloud_init_path, {
       config               = var.config,
+      extra_runcmd         = var.extra_runcmd,
       ca_server_url        = var.ca_server_url
       ca_sso_client_id     = var.ca_sso_client_id
       ca_sso_client_secret = var.ca_sso_client_secret

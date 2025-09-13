@@ -55,4 +55,9 @@ runcmd:
   - systemctl enable --now qemu-guest-agent
   - groupmod -g ${config.user_id} ${config.username}
   - ansible-pull -U https://github.com/binarycodes/homelab-self-provisioner.git debian.yml
-  - echo "done" > /tmp/cloud-config.done
+  %{ if length(extra_runcmd) > 0 }
+  %{ for cmd in extra_runcmd }
+  - ${cmd}
+  %{ endfor }
+  %{ endif }
+  - echo "debian done" >> /tmp/cloud-config.done

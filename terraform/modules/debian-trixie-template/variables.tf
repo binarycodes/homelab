@@ -87,6 +87,12 @@ variable "network_cloud_init_file" {
   }
 }
 
+variable "extra_runcmd" {
+  type        = list(string)
+  default     = []
+  description = "extra run commands to pass to the user data cloud init"
+}
+
 variable "ca_server_url" {
   type      = string
   sensitive = true
