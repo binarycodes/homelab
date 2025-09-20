@@ -93,22 +93,17 @@ variable "extra_runcmd" {
   description = "extra run commands to pass to the user data cloud init"
 }
 
-variable "ca_server_url" {
+variable "ca_keycloak_realm" {
   type      = string
   sensitive = true
 }
 
-variable "ca_sso_client_id" {
+variable "ca_keycloak_server_url" {
   type      = string
   sensitive = true
 }
 
-variable "ca_sso_client_secret" {
-  type      = string
-  sensitive = true
-}
-
-variable "ca_sso_token_url" {
+variable "ca_keycloak_token_url" {
   type      = string
   sensitive = true
 }

@@ -6,5 +6,9 @@ terraform {
       source  = "bpg/proxmox"
       version = "0.83.1"
     }
+    keycloak = {
+      source  = "keycloak/keycloak"
+      version = "5.4.0"
+    }
   }
 }

@@ -8,6 +8,26 @@ variable "proxmox_api_token" {
   sensitive = true
 }
 
+variable "keycloak_realm" {
+  type      = string
+  sensitive = true
+}
+
+variable "keycloak_client_id" {
+  type      = string
+  sensitive = true
+}
+
+variable "keycloak_client_secret" {
+  type      = string
+  sensitive = true
+}
+
+variable "keycloak_url" {
+  type      = string
+  sensitive = true
+}
+
 variable "vm_username" {
   type      = string
   sensitive = true
@@ -22,22 +42,18 @@ variable "vm_timezone" {
   type = string
 }
 
-variable "ca_server_url" {
+
+variable "ca_keycloak_realm" {
   type      = string
   sensitive = true
 }
 
-variable "ca_sso_client_id" {
+variable "ca_keycloak_server_url" {
   type      = string
   sensitive = true
 }
 
-variable "ca_sso_client_secret" {
-  type      = string
-  sensitive = true
-}
-
-variable "ca_sso_token_url" {
+variable "ca_keycloak_token_url" {
   type      = string
   sensitive = true
 }

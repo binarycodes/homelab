@@ -30,7 +30,7 @@ locals {
     ]
     pve3 = [
       {
-        name   = "kubercontrol03"
+        name   = "kubecontrol03"
         dhcp   = true
         bridge = "LabNet"
         tags   = ["control-plane"]

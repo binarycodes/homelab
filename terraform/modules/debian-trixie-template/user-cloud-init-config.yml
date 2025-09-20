@@ -1,6 +1,6 @@
 #cloud-config
 
-fqdn: ${config.name}.${config.searchdomain}
+fqdn: ${fqdn}
 hostname: ${config.name}
 prefer_fqdn_over_hostname: true
 

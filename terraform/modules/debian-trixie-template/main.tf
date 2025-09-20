@@ -15,12 +15,26 @@ locals {
     )
   )
 
+  fqdn = "${var.config.name}.${var.config.searchdomain}"
   tags = toset(
     concat(
       ["trixie"],
       tolist(try(var.config.tags, []))
     )
   )
+}
+
+data "keycloak_realm" "this" {
+  realm = var.ca_keycloak_realm
+}
+
+resource "keycloak_openid_client" "this" {
+  realm_id                 = data.keycloak_realm.this.id
+  client_id                = local.fqdn
+  name                     = local.fqdn
+  enabled                  = true
+  access_type              = "CONFIDENTIAL"
+  service_accounts_enabled = true
 }
 
 resource "proxmox_virtual_environment_file" "user_data_cloud_config" {
@@ -31,11 +45,12 @@ resource "proxmox_virtual_environment_file" "user_data_cloud_config" {
   source_raw {
     data = templatefile(local.user_cloud_init_path, {
       config               = var.config,
+      fqdn                 = local.fqdn
       extra_runcmd         = var.extra_runcmd,
-      ca_server_url        = var.ca_server_url
-      ca_sso_client_id     = var.ca_sso_client_id
-      ca_sso_client_secret = var.ca_sso_client_secret
-      ca_sso_token_url     = var.ca_sso_token_url
+      ca_server_url        = var.ca_keycloak_server_url
+      ca_sso_client_id     = keycloak_openid_client.this.client_id
+      ca_sso_client_secret = keycloak_openid_client.this.client_secret
+      ca_sso_token_url     = var.ca_keycloak_token_url
       ca_user_public_key   = trimspace(var.ca_user_public_key)
     })
     file_name = "${var.config.name}-user-data-cloud-config.yaml"
