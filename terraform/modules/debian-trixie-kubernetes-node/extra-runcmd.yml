@@ -1,2 +1,3 @@
 - ansible-pull -U https://github.com/binarycodes/homelab-self-provisioner.git kubernetes.yml
+- ansible-pull -U https://github.com/binarycodes/homelab-self-provisioner.git kubernetes-${type}.yml
 - echo "kubernetes done" >> /tmp/cloud-config.done

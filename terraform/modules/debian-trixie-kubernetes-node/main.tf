@@ -1,11 +1,15 @@
 locals {
   kubernetes_tags = toset(
     concat(
-      ["kubernetes"],
+      ["kubernetes", var.config.type],
       tolist(try(var.config.tags, []))
     )
   )
-  extra_runcmd = yamldecode(file("${path.module}/extra-runcmd.yml"))
+  extra_runcmd = yamldecode(
+    templatefile("${path.module}/extra-runcmd.yml", {
+      type = var.config.type
+    })
+  )
 }
 
 module "kubernetes-node" {

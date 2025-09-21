@@ -19,11 +19,17 @@ variable "config" {
     username         = string
     user_id          = number
     tags             = optional(set(string), [])
+    type             = string
   })
 
   validation {
     condition     = (var.config.cores >= 2)
     error_message = "kubernetes nodes requires atleast 2 cpu cores"
+  }
+
+  validation {
+    condition     = contains(["control-plane", "worker"], var.config.type)
+    error_message = "type must be either 'control-plane' or 'worker'."
   }
 }
 
