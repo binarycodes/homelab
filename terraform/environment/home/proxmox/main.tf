@@ -13,3 +13,12 @@ resource "proxmox_virtual_environment_sdn_zone_vlan" "this" {
   nodes  = local.nodes
   ipam   = "pve"
 }
+
+resource "proxmox_virtual_environment_sdn_vnet" "this" {
+  for_each = local.vnets_map
+
+  id         = each.value.name
+  zone       = proxmox_virtual_environment_sdn_zone_vlan.this[each.value.zone].id
+  vlan_aware = true
+  tag        = each.value.tag
+}
