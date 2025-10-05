@@ -22,6 +22,11 @@ locals {
       tolist(try(var.config.tags, []))
     )
   )
+
+
+  en_if  = one([for n in proxmox_virtual_environment_vm.this.network_interface_names : n if startswith(n, "en")])
+  en_idx = index(proxmox_virtual_environment_vm.this.network_interface_names, local.en_if)
+  vm_ip  = flatten(proxmox_virtual_environment_vm.this.ipv4_addresses[local.en_idx])[0]
 }
 
 data "keycloak_realm" "this" {
@@ -129,9 +134,18 @@ resource "proxmox_virtual_environment_vm" "this" {
   }
 }
 
+
+resource "dns_a_record_set" "this" {
+  zone      = "${var.config.searchdomain}."
+  name      = var.config.name
+  addresses = [local.vm_ip]
+  ttl       = 300
+}
+
 output "vm_ipv4_address" {
   value = {
     for idx, name in proxmox_virtual_environment_vm.this.network_interface_names :
     name => flatten(proxmox_virtual_environment_vm.this.ipv4_addresses[idx])
+    if startswith(name, "en")
   }
 }

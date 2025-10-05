@@ -28,6 +28,26 @@ variable "keycloak_url" {
   sensitive = true
 }
 
+variable "dns_server" {
+  type      = string
+  sensitive = true
+}
+
+variable "dns_key_name" {
+  type      = string
+  sensitive = true
+}
+
+variable "dns_key_secret" {
+  type      = string
+  sensitive = true
+}
+
+variable "dns_zone" {
+  type      = string
+  sensitive = true
+}
+
 variable "vm_username" {
   type      = string
   sensitive = true
@@ -41,7 +61,6 @@ variable "vm_user_id" {
 variable "vm_timezone" {
   type = string
 }
-
 
 variable "ca_keycloak_realm" {
   type      = string

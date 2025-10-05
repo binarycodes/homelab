@@ -48,10 +48,11 @@ locals {
     [for key, val in local.vm_config : {
       for conf in val :
       conf.name => merge(conf, {
-        node     = key,
-        username = var.vm_username,
-        user_id  = var.vm_user_id,
-        timezone = var.vm_timezone,
+        node         = key,
+        username     = var.vm_username,
+        user_id      = var.vm_user_id,
+        timezone     = var.vm_timezone,
+        searchdomain = var.dns_zone
       }) }
   ]...)
 }
