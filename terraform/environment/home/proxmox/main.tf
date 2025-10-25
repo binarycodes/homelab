@@ -21,3 +21,11 @@ resource "proxmox_virtual_environment_sdn_vnet" "this" {
   vlan_aware = true
   tag        = each.value.tag
 }
+
+output "image_filename_to_checksum" {
+  description = "filename -> checksum"
+  value = {
+    for node, m in module.proxmox_os_image :
+    node => m.image_filename_to_checksum
+  }
+}
