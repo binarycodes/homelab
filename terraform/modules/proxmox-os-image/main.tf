@@ -13,6 +13,7 @@ locals {
 
   home_assistant = {
     url                     = "https://github.com/home-assistant/operating-system/releases/download/16.2/haos_generic-x86-64-16.2.img.xz"
+    checksum                = "00d1b7da66edacb3f6bdde4e39bdbacf8eb1685ba44ddc827771157c83cf4144"
     decompression_algorithm = "zst"
     save_file_name          = "haos_generic-x86-64.img"
   }
@@ -52,7 +53,8 @@ resource "proxmox_virtual_environment_download_file" "home_assistant_cloud_image
   file_name               = local.home_assistant.save_file_name
   url                     = local.home_assistant.url
   decompression_algorithm = local.home_assistant.decompression_algorithm
-  overwrite               = false # file size will always differ due to decompression
+  checksum                = local.home_assistant.checksum
+  checksum_algorithm      = "sha256"
 }
 
 resource "proxmox_virtual_environment_download_file" "free_bsd_cloud_image" {
@@ -62,7 +64,6 @@ resource "proxmox_virtual_environment_download_file" "free_bsd_cloud_image" {
   file_name               = local.free_bsd.save_file_name
   url                     = local.free_bsd.url
   decompression_algorithm = local.free_bsd.decompression_algorithm
-  overwrite               = false # file size will always differ due to decompression
   checksum                = local.free_bsd.checksum
   checksum_algorithm      = "sha512"
 }
