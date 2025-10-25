@@ -1,27 +1,27 @@
 locals {
   debian_bookworm = {
-    url            = "https://cloud.debian.org/images/cloud/bookworm/20250814-2204/debian-12-generic-amd64-20250814-2204.qcow2"
-    checksum       = "736ed2e24e106defd95549b0471e15552b19580c504202269955c3587722777506269655ebd7fa5cce919044dccdd9084c4fb3efbe408843c63cefa9d79daea3"
+    url            = "https://cloud.debian.org/images/cloud/bookworm/20251006-2257/debian-12-generic-amd64-20251006-2257.qcow2"
+    checksum       = "be06e506319a7f0e3ee5ec2328595bc4c2205b91b4354ccbb2e6d88b047cf7288137bfa17a143ea611cb588adb9417847c0a5aec0addbbf2835f9f31e2e76547"
     save_file_name = "debian-12-generic-amd64.qcow2.img"
   }
 
   debian_trixie = {
-    url            = "https://cloud.debian.org/images/cloud/trixie/20250911-2232/debian-13-generic-amd64-20250911-2232.qcow2"
-    checksum       = "2d63144148d3e1c1cec456c201965c1f3345daeecf8ca708e6aeaadbae352a1aa20ca5e3de600aac514bb9b98c940ea0c770cada58c3e7ebcf4e2bf85c57ec65"
+    url            = "https://cloud.debian.org/images/cloud/trixie/20251006-2257/debian-13-generic-amd64-20251006-2257.qcow2"
+    checksum       = "0449ce335d0780af6290dd0b1c11c1e5231a73a3a1fc3e49ba8172853d26f5002e02830352d91ab9894442d29c8d352b21cb6c1c29f3b0f995d968ae4b573452"
     save_file_name = "debian-13-generic-amd64.qcow2.img"
   }
 
   home_assistant = {
-    url                     = "https://github.com/home-assistant/operating-system/releases/download/16.1/haos_generic-x86-64-16.1.img.xz"
+    url                     = "https://github.com/home-assistant/operating-system/releases/download/16.2/haos_generic-x86-64-16.2.img.xz"
     decompression_algorithm = "zst"
-    save_file_name          = "haos_generic-x86-64-16.1.img"
+    save_file_name          = "haos_generic-x86-64.img"
   }
 
   free_bsd = {
-    url                     = "https://download.freebsd.org/ftp/snapshots/VM-IMAGES/14.3-STABLE/amd64/20250918/FreeBSD-14.3-STABLE-amd64-BASIC-CLOUDINIT-20250918-cbd62452bff6-272439-zfs.qcow2.xz"
+    url                     = "https://download.freebsd.org/ftp/snapshots/VM-IMAGES/15.0-STABLE/amd64/20251022/FreeBSD-15.0-STABLE-amd64-BASIC-CLOUDINIT-20251022-2427ae41b7cf-280773-zfs.qcow2.xz"
     decompression_algorithm = "zst"
-    save_file_name          = "FreeBSD-14.3-STABLE-amd64-BASIC-CLOUDINIT-zfs.qcow2.img"
-    checksum                = "30af6bf2d4a0e618759d1223654b74e53ee297c4fb273682217393f1f9997aa190c956986b21b72b8c95828524a409762adcc2ad4ce8758555c8e6616b8e8b9c"
+    save_file_name          = "FreeBSD-15.0-STABLE-amd64-BASIC-CLOUDINIT-zfs.qcow2.img"
+    checksum                = "e08247d1b7c519f8eaacddc14ffc14ec20be4f2a4fcbc7c62967fd8a7699a60bffc127351ba24711ada8e06804305a2e3390dec5aeafc8345100ea661a9b0547"
   }
 }
 
