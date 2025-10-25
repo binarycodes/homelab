@@ -10,8 +10,13 @@ locals {
         },
         LabNet = {
           tag = 16
-        },
-        VPNNet = {
+        }
+      }
+    },
+    VPN = {
+      bridge = "vmbr0"
+      vnets = {
+        IndiaNet = {
           tag = 200
         }
       }

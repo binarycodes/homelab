@@ -10,7 +10,6 @@ resource "proxmox_virtual_environment_sdn_zone_vlan" "this" {
 
   id     = each.key
   bridge = each.value.bridge
-  nodes  = local.nodes
   ipam   = "pve"
 }
 
