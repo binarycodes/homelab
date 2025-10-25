@@ -7,6 +7,14 @@ terraform {
       version = "0.85.1"
     }
   }
+
+  cloud {
+    organization = "binarycodes"
+
+    workspaces {
+      name = "ProxmoxConfig"
+    }
+  }
 }
 
 provider "proxmox" {

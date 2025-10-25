@@ -15,6 +15,14 @@ terraform {
       version = "3.4.3"
     }
   }
+
+  cloud {
+    organization = "binarycodes"
+
+    workspaces {
+      name = "BootstrapNode"
+    }
+  }
 }
 
 provider "proxmox" {
