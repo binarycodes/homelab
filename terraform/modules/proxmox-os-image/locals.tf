@@ -15,9 +15,9 @@ locals {
     }
 
     home_assistant = {
-      url                     = "https://github.com/home-assistant/operating-system/releases/download/16.2/haos_generic-x86-64-16.2.img.xz"
-      save_file_name          = "haos_generic-x86-64.img"
-      checksum                = "00d1b7da66edacb3f6bdde4e39bdbacf8eb1685ba44ddc827771157c83cf4144"
+      url                     = "https://github.com/home-assistant/operating-system/releases/download/16.2/haos_ova-16.2.qcow2.xz"
+      save_file_name          = "haos_ova.qcow2.img"
+      checksum                = "a53922b862d4dcf8d96e7e0860db7f07cfaee21f415772c00b28caaf0ce1534c"
       decompression_algorithm = "zst"
       checksum_algorithm      = "sha256"
     }
