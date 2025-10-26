@@ -1,40 +1,69 @@
 - name: remove enterprise repositories
-  ansible.builtin.apt_repository:
-    repo: "{{item}}"
-    state: absent
-    update_cache: false
-  loop:
-    - "deb https://enterprise.proxmox.com/debian/pve bookworm pve-enterprise"
-    - "deb https://enterprise.proxmox.com/debian/ceph-quincy bookworm enterprise"
+  ansible.builtin.deb822_repository:
+    name: pve-enterprise
+    types: deb
+    uris: https://enterprise.proxmox.com/debian/pve
+    suites: "{{ ansible_distribution_release }}"
+    signed_by: /usr/share/keyrings/proxmox-archive-keyring.gpg
+    enabled: false
+    components:
+      - pve-enterprise
 
-- name: add no-subscription repositories
-  ansible.builtin.apt_repository:
-    repo: "{{item}}"
-    state: present
-    filename: no-subscription
-    update_cache: false
-  loop:
-    - "deb http://download.proxmox.com/debian/pve bookworm pve-no-subscription"
-    - "deb http://download.proxmox.com/debian/ceph-quincy bookworm no-subscription"
+- name: add no-subscription pve repository
+  ansible.builtin.deb822_repository:
+    name: pve-no-subscription
+    types: deb
+    uris: http://download.proxmox.com/debian/pve/
+    suites: "{{ ansible_distribution_release }}"
+    signed_by: /usr/share/keyrings/proxmox-archive-keyring.gpg
+    state: "present"
+    components:
+      - pve-no-subscription
+
+- name: add no-subscription ceph repository
+  ansible.builtin.deb822_repository:
+    name: ceph-no-subscription
+    types: deb
+    uris: http://download.proxmox.com/debian/ceph-squid/
+    suites: "{{ ansible_distribution_release }}"
+    signed_by: /usr/share/keyrings/proxmox-archive-keyring.gpg
+    state: "present"
+    components:
+      - no-subscription
 
 - name: add non-free-firmware component to apt sources
   ansible.builtin.deb822_repository:
     name: debian
     types: deb
     uris: http://deb.debian.org/debian
-    suites: bookworm
+    suites: "{{ ansible_distribution_release }}"
+    signed_by: /usr/share/keyrings/debian-archive-keyring.gpg
     state: "present"
     components:
       - main
       - contrib
       - non-free-firmware
 
-- name: add non-free-firmware component to apt sources
+- name: add security repo
+  ansible.builtin.deb822_repository:
+    name: debian-security
+    types: deb
+    uris: http://security.debian.org/
+    suites: "{{ ansible_distribution_release }}-security"
+    signed_by: /usr/share/keyrings/debian-archive-keyring.gpg
+    state: "present"
+    components:
+      - main
+      - contrib
+      - non-free-firmware
+
+- name: add non-free-firmware component to apt updates
   ansible.builtin.deb822_repository:
     name: debian-updates
     types: deb
     uris: http://deb.debian.org/debian
-    suites: bookworm-updates
+    suites: "{{ ansible_distribution_release }}-updates"
+    signed_by: /usr/share/keyrings/debian-archive-keyring.gpg
     state: "present"
     components:
       - main
