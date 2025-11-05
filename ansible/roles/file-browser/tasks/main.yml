@@ -1,3 +1,8 @@
+- name: create the directory if required
+  file:
+    path: /etc/docker/file-browser
+    state: directory
+
 - name: "copy config files"
   ansible.builtin.template:
     src: "{{item}}"
@@ -8,3 +13,10 @@
   loop:
     - "application-prod.yml"
     - "docker-compose.yml"
+
+- name: start the service again
+  community.docker.docker_compose_v2:
+    project_src: /etc/docker/file-browser
+    wait: true
+    wait_timeout: 300
+    state: present

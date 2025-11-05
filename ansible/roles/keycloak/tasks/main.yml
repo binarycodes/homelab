@@ -20,3 +20,10 @@
     - ".env"
   notify:
     - restart the service again
+
+- name: start the service
+  community.docker.docker_compose_v2:
+    project_src: /etc/docker/keycloak
+    wait: true
+    wait_timeout: 300
+    state: present
