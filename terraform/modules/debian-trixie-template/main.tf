@@ -136,6 +136,7 @@ resource "proxmox_virtual_environment_vm" "this" {
 
 
 resource "dns_a_record_set" "this" {
+  count     = var.config.create_dns_record ? 1 : 0
   zone      = "${var.config.searchdomain}."
   name      = var.config.name
   addresses = [local.vm_ip]

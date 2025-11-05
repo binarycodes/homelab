@@ -1,0 +1,41 @@
+locals {
+  secret = data.infisical_secrets.app.secrets
+
+  vm_config = {
+    pve1 = [
+      {
+        name             = "ns1"
+        dhcp             = false
+        ip4_address_cidr = "10.88.16.11/24"
+        gateway          = "10.88.16.1"
+        dns_addresses    = ["10.88.16.1"]
+        bridge           = "LabNet"
+        tags             = ["dns"]
+      },
+    ],
+    pve2 = [
+      {
+        name             = "ns2"
+        dhcp             = false
+        ip4_address_cidr = "10.88.16.12/24"
+        gateway          = "10.88.16.1"
+        dns_addresses    = ["10.88.16.1"]
+        bridge           = "LabNet"
+        tags             = ["dns"]
+      },
+    ]
+  }
+
+  vms = merge(
+    [for key, val in local.vm_config : {
+      for conf in val :
+      conf.name => merge(conf, {
+        node              = key,
+        username          = local.secret.vm_username.value,
+        user_id           = local.secret.vm_user_id.value,
+        timezone          = local.secret.vm_timezone.value,
+        searchdomain      = local.secret.dns_zone.value,
+        create_dns_record = false
+      }) }
+  ]...)
+}
