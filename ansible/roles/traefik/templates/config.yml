@@ -97,8 +97,8 @@ http:
         - "https"
       rule: "Host(`jellyfin.homedns.pro`)"
       middlewares:
-        - default-headers
         - https-redirectscheme
+        - websocket
       tls: {}
       service: jellyfin
   #endregion
@@ -166,10 +166,12 @@ http:
     addprefix-pihole:
       addPrefix:
         prefix: "/admin"
+
     https-redirectscheme:
       redirectScheme:
         scheme: https
         permanent: true
+
     redirectregex-pihole:
       redirectRegex:
         regex: "/admin/(.*)"
@@ -209,3 +211,9 @@ http:
           Scope: "openid"
           TokenCookieName: "AUTH_TOKEN"
           UseAuthHeader: "false"
+
+    websocket:
+      headers:
+        customRequestHeaders:
+          Upgrade: "{http.request.headers.Upgrade}"
+          Connection: "{http.request.headers.Connection}"
