@@ -32,14 +32,17 @@ resolv_conf:
   searchdomains: [${config.searchdomain}]
 
 write_files:
-  - path: /etc/ssh-keysigner/config.yml
+  - path: /etc/ssh-keysign/config.yml
     owner: root:root
     permissions: '0400'
     content: |
-      ca_server_url: ${ca_server_url}
-      client_id: ${ca_sso_client_id}
-      client_secret: ${ca_sso_client_secret}
-      token_url: ${ca_sso_token_url}
+      ca-server-url: ${ca_server_url}
+      client-id: ${ca_sso_client_id}
+      client-secret: ${ca_sso_client_secret}
+      token-url: ${ca_sso_token_url}
+      host:
+        key: /etc/ssh/ssh_host_ed25519_key.pub
+        principal: ${fqdn}
   - path: /etc/ssh/user_ca.pub
     owner: root:root
     permissions: '0400'
