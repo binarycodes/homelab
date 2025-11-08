@@ -51,7 +51,6 @@ resource "proxmox_virtual_environment_file" "user_data_cloud_config" {
     data = templatefile(local.user_cloud_init_path, {
       config               = var.config,
       fqdn                 = local.fqdn
-      extra_runcmd         = var.extra_runcmd,
       ca_server_url        = var.ca_keycloak_server_url
       ca_sso_client_id     = keycloak_openid_client.this.client_id
       ca_sso_client_secret = keycloak_openid_client.this.client_secret

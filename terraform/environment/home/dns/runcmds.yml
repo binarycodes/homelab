@@ -1,0 +1,2 @@
+- curl -sSL https://download.technitium.com/dns/install.sh | sudo bash
+- echo "dns done" >> /tmp/cloud-config.done

@@ -20,6 +20,15 @@ variable "config" {
     user_id           = number
     tags              = optional(set(string), [])
     create_dns_record = optional(bool, true)
+    packages          = optional(list(string), [])
+    runcmds           = optional(list(string), [])
+    write_files = optional(list(object({
+      path        = string
+      content     = string
+      owner       = optional(string, "")
+      permissions = optional(string, "")
+      encoding    = optional(string, "")
+    })), [])
   })
 
   validation {
@@ -86,12 +95,6 @@ variable "network_cloud_init_file" {
     )
     error_message = "user_cloug_init_file must be a .yml or .yaml file and must exist if provided."
   }
-}
-
-variable "extra_runcmd" {
-  type        = list(string)
-  default     = []
-  description = "extra run commands to pass to the user data cloud init"
 }
 
 variable "ca_keycloak_realm" {

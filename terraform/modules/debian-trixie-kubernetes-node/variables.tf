@@ -20,6 +20,15 @@ variable "config" {
     user_id          = number
     tags             = optional(set(string), [])
     type             = string
+    packages         = optional(list(string), [])
+    runcmds          = optional(list(string), [])
+    write_files = optional(list(object({
+      path        = string
+      content     = string
+      owner       = optional(string, "")
+      permissions = optional(string, "")
+      encoding    = optional(string, "")
+    })), [])
   })
 
   validation {

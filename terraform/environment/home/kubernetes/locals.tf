@@ -1,4 +1,6 @@
 locals {
+  secret = data.infisical_secrets.app.secrets
+
   vm_config = {
     pve1 = [
       {
@@ -49,10 +51,10 @@ locals {
       for conf in val :
       conf.name => merge(conf, {
         node         = key,
-        username     = var.vm_username,
-        user_id      = var.vm_user_id,
-        timezone     = var.vm_timezone,
-        searchdomain = var.dns_zone
+        username     = local.secret.vm_username.value,
+        user_id      = local.secret.vm_user_id.value,
+        timezone     = local.secret.vm_timezone.value,
+        searchdomain = local.secret.dns_zone.value
       }) }
   ]...)
 }
