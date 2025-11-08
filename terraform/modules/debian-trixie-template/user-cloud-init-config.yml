@@ -37,6 +37,31 @@ resolv_conf:
   searchdomains: [${config.searchdomain}]
 
 write_files:
+  - path: /etc/systemd/system/ansible-pull@.service
+    permissions: '0644'
+    owner: root:root
+    content: |
+      [Unit]
+      Description=ansible-pull for %i
+      Wants=network-online.target
+      After=network-online.target
+      ConditionPathExists=!/var/lib/ansible-pull.%i.done
+
+      [Service]
+      Type=oneshot
+      Environment=DEBIAN_FRONTEND=noninteractive
+      ExecStart=/usr/bin/ansible-pull \
+        --url https://github.com/binarycodes/homelab-self-provisioner.git \
+        --checkout main \
+        --inventory localhost, --connection local \
+        --full --accept-host-key -vv \
+        %i.yml
+      ExecStartPost=/usr/bin/touch /var/lib/ansible-pull.%i.done
+      RemainAfterExit=yes
+
+      [Install]
+      WantedBy=multi-user.target
+
   - path: /etc/ssh-keysign/config.yml
     owner: root:root
     permissions: '0400'
@@ -70,9 +95,10 @@ write_files:
 %{ endif }
 
 runcmd:
+  - systemctl daemon-reload
   - systemctl enable --now qemu-guest-agent
   - groupmod -g ${config.user_id} ${config.username}
-  - ansible-pull -U https://github.com/binarycodes/homelab-self-provisioner.git debian.yml
+  - systemctl enable --now ansible-pull@debian.service
 %{ if length(config.runcmds) > 0 }
 %{ for cmd in config.runcmds ~}
   - ${cmd}

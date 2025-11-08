@@ -25,7 +25,7 @@ terraform {
     hostname     = "app.terraform.io"
 
     workspaces {
-      name = "BootstrapNode"
+      name = "DNS-Nodes"
     }
   }
 }

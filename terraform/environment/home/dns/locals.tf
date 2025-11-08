@@ -35,6 +35,11 @@ locals {
     t => yamldecode(templatefile("${path.module}/runcmds.yml", { type = t }))
   }
 
+  write_files_by_type = {
+    for t in local._types :
+    t => yamldecode(templatefile("${path.module}/write_files.yml", { type = t }))
+  }
+
   vms = merge(
     [for key, val in local.vm_config : {
       for conf in val :
@@ -46,6 +51,7 @@ locals {
         searchdomain      = local.secret.dns_zone.value,
         create_dns_record = false,
         runcmds           = local.runcmds_by_type[conf.type]
+        write_files       = local.write_files_by_type[conf.type]
       }) }
   ]...)
 }
