@@ -38,8 +38,8 @@ resolv_conf:
 
 write_files:
   - path: /etc/systemd/system/ansible-pull@.service
-    permissions: '0644'
     owner: root:root
+    permissions: '0644'
     content: |
       [Unit]
       Description=ansible-pull for %i
@@ -96,7 +96,6 @@ write_files:
 
 runcmd:
   - systemctl daemon-reload
-  - systemctl enable --now qemu-guest-agent
   - groupmod -g ${config.user_id} ${config.username}
   - systemctl enable --now ansible-pull@debian.service
 %{ if length(config.runcmds) > 0 }
@@ -104,4 +103,5 @@ runcmd:
   - ${cmd}
 %{ endfor }
 %{ endif }
+  - systemctl enable --now qemu-guest-agent
   - echo "debian done" >> /tmp/cloud-config.done
