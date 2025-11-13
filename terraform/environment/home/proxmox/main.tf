@@ -1,8 +1,18 @@
+locals {
+  secret = data.infisical_secrets.app.secrets
+}
+
+data "infisical_secrets" "app" {
+  workspace_id = var.infisical_project_id
+  env_slug     = var.infisical_environment
+  folder_path  = "/terraform"
+}
+
 module "proxmox_os_image" {
   source = "../../../modules/proxmox-os-image"
 
-  for_each  = toset(local.nodes)
-  node_name = each.value
+  for_each = local.images
+  config   = each.value
 }
 
 resource "proxmox_virtual_environment_sdn_zone_vlan" "this" {
@@ -20,12 +30,4 @@ resource "proxmox_virtual_environment_sdn_vnet" "this" {
   zone       = proxmox_virtual_environment_sdn_zone_vlan.this[each.value.zone].id
   vlan_aware = true
   tag        = each.value.tag
-}
-
-output "image_filename_to_checksum" {
-  description = "filename -> checksum"
-  value = {
-    for node, m in module.proxmox_os_image :
-    node => m.image_filename_to_checksum
-  }
 }

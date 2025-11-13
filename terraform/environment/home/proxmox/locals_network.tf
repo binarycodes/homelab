@@ -1,6 +1,4 @@
 locals {
-  nodes = ["pve1", "pve2", "pve3"]
-
   sdn = {
     Lab = {
       bridge = "vmbr0"
@@ -39,7 +37,6 @@ locals {
     }
   }
 
-
   vnets = flatten([
     for zone_name, zone in local.sdn : [
       for vnet_name, vnet in zone.vnets : {
@@ -54,5 +51,4 @@ locals {
     for v in local.vnets :
     "${v.zone}-${v.name}" => v
   }
-
 }

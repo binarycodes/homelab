@@ -1,16 +1,12 @@
-resource "proxmox_virtual_environment_download_file" "os_image" {
-  for_each                = local.images
-  node_name               = var.node_name
-  content_type            = "iso"
-  datastore_id            = "local"
-  file_name               = each.value.save_file_name
-  url                     = each.value.url
-  checksum                = each.value.checksum
-  checksum_algorithm      = each.value.checksum_algorithm
-  decompression_algorithm = try(each.value.decompression_algorithm, null)
-}
+resource "proxmox_virtual_environment_download_file" "this" {
+  for_each = toset(var.config.nodes)
 
-output "image_filename_to_checksum" {
-  description = "filename -> checksum"
-  value       = local.filename_to_checksum
+  node_name               = each.value
+  content_type            = var.config.content_type
+  datastore_id            = var.config.datastore_id
+  file_name               = var.config.save_file_name
+  url                     = var.config.download_url
+  checksum                = var.config.checksum
+  checksum_algorithm      = var.config.checksum_algorithm
+  decompression_algorithm = var.config.decompression_algorithm
 }
