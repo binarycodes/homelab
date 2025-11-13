@@ -10,7 +10,7 @@ locals {
         gateway          = "10.88.16.1"
         dns_addresses    = ["10.88.16.1"]
         bridge           = "LabNet"
-        tags             = ["dns"]
+        tags             = ["dns-primary"]
         type             = "primary"
       },
     ],
@@ -22,7 +22,7 @@ locals {
         gateway          = "10.88.16.1"
         dns_addresses    = ["10.88.16.1"]
         bridge           = "LabNet"
-        tags             = ["dns"]
+        tags             = ["dns-secondary"]
         type             = "secondary"
       },
     ]
@@ -50,8 +50,6 @@ locals {
         timezone          = local.secret.vm_timezone.value,
         searchdomain      = local.secret.dns_zone.value,
         create_dns_record = false,
-        runcmds           = local.runcmds_by_type[conf.type]
-        write_files       = local.write_files_by_type[conf.type]
       }) }
   ]...)
 }

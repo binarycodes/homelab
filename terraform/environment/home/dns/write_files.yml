@@ -1,5 +1,0 @@
-- path: /tmp/dns-${type}.conf
-  content: |
-      [Unit]
-      After=ansible-pull@debian.service
-      Requires=ansible-pull@debian.service

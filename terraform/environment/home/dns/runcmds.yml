@@ -1,4 +1,0 @@
-- mkdir -p /etc/systemd/system/ansible-pull@dns-${type}.service.d
-- mv /tmp/dns-${type}.conf /etc/systemd/system/ansible-pull@dns-${type}.service.d/order.conf
-- systemctl enable --now ansible-pull@dns-${type}.service
-- echo "dns done" >> /tmp/cloud-config.done

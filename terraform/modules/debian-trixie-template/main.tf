@@ -18,7 +18,7 @@ locals {
   fqdn = "${var.config.name}.${var.config.searchdomain}"
   tags = toset(
     concat(
-      ["trixie"],
+      ["debian", "trixie"],
       tolist(try(var.config.tags, []))
     )
   )
@@ -50,6 +50,7 @@ resource "proxmox_virtual_environment_file" "user_data_cloud_config" {
   source_raw {
     data = templatefile(local.user_cloud_init_path, {
       config               = var.config,
+      tags                 = local.tags,
       fqdn                 = local.fqdn
       ca_server_url        = var.ca_keycloak_server_url
       ca_sso_client_id     = keycloak_openid_client.this.client_id

@@ -37,26 +37,44 @@ resolv_conf:
   searchdomains: [${config.searchdomain}]
 
 write_files:
-  - path: /etc/systemd/system/ansible-pull@.service
+  - path: /etc/systemd/system/cloudyhome-sync.service
     owner: root:root
     permissions: '0644'
     content: |
       [Unit]
-      Description=ansible-pull for %i
-      Wants=network-online.target
+      Description=Sync CloudyHome ansible self provisioning repo
       After=network-online.target
-      ConditionPathExists=!/var/lib/ansible-pull.%i.done
+      Wants=network-online.target
+
+      [Service]
+      Type=oneshot
+      ExecStartPre=/usr/bin/mkdir -p /var/lib/cloudyhome/ansible
+      ExecStart=/usr/bin/git clone -b main --single-branch https://github.com/binarycodes/homelab-self-provisioner.git /var/lib/cloudyhome/ansible
+      RemainAfterExit=yes
+
+      [Install]
+      WantedBy=multi-user.target
+
+  - path: /etc/systemd/system/cloudyhome-provision@.service
+    owner: root:root
+    permissions: '0644'
+    content: |
+      [Unit]
+      Description=CloudyHome self provisioning for %i
+      Requires=cloudyhome-sync.service cloudyhome-provision@debian.service
+      Wants=network-online.target
+      After=network-online.target cloudyhome-sync.service cloudyhome-provision@debian.service
+      ConditionPathExists=!/var/lib/cloudyhome/ansible-pull.%i.done
+      ConditionPathExists=/var/lib/cloudyhome/ansible/%i.yml
+      ConditionPathExists=/var/lib/cloudyhome/ansible/requirements.yml
 
       [Service]
       Type=oneshot
       Environment=DEBIAN_FRONTEND=noninteractive
-      ExecStart=/usr/bin/ansible-pull \
-        --url https://github.com/binarycodes/homelab-self-provisioner.git \
-        --checkout main \
-        --inventory localhost, --connection local \
-        --full --accept-host-key -vv \
-        %i.yml
-      ExecStartPost=/usr/bin/touch /var/lib/ansible-pull.%i.done
+      WorkingDirectory=/var/lib/cloudyhome/ansible
+      ExecStartPre=/usr/bin/ansible-galaxy install -r requirements.yml
+      ExecStart=/usr/bin/ansible-playbook %i.yml
+      ExecStartPost=/usr/bin/touch /var/lib/cloudyhome/ansible-pull.%i.done
       RemainAfterExit=yes
 
       [Install]
@@ -97,7 +115,11 @@ write_files:
 runcmd:
   - systemctl daemon-reload
   - groupmod -g ${config.user_id} ${config.username}
-  - systemctl enable --now ansible-pull@debian.service
+%{ if length(tags) > 0 }
+%{ for tag in tags ~}
+  - systemctl enable --now cloudyhome-provision@${tag}.service
+%{ endfor }
+%{ endif }
 %{ if length(config.runcmds) > 0 }
 %{ for cmd in config.runcmds ~}
   - ${cmd}
