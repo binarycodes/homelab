@@ -1,12 +1,20 @@
+data "infisical_secrets" "app" {
+  workspace_id = var.infisical_project_id
+  env_slug     = var.infisical_environment
+  folder_path  = "/terraform"
+}
+
 resource "proxmox_virtual_environment_role" "this" {
   role_id = "terraform-privileges"
 
   privileges = [
-    "VM.GuestAgent.Audit",
     "Datastore.Allocate",
     "Datastore.AllocateSpace",
+    "Datastore.AllocateTemplate",
     "Datastore.Audit",
     "Pool.Allocate",
+    "SDN.Allocate",
+    "SDN.Use",
     "Sys.Audit",
     "Sys.Console",
     "Sys.Modify",
@@ -14,17 +22,16 @@ resource "proxmox_virtual_environment_role" "this" {
     "VM.Audit",
     "VM.Clone",
     "VM.Config.CDROM",
-    "VM.Config.Cloudinit",
     "VM.Config.CPU",
+    "VM.Config.Cloudinit",
     "VM.Config.Disk",
     "VM.Config.HWType",
     "VM.Config.Memory",
     "VM.Config.Network",
     "VM.Config.Options",
+    "VM.GuestAgent.Audit",
     "VM.Migrate",
     "VM.PowerMgmt",
-    "SDN.Use",
-    "SDN.Allocate"
   ]
 }
 
