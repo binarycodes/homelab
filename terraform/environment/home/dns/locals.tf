@@ -11,7 +11,6 @@ locals {
         dns_addresses    = ["10.88.16.1"]
         bridge           = "LabNet"
         tags             = ["dns-primary"]
-        type             = "primary"
       },
     ],
     pve2 = [
@@ -23,21 +22,8 @@ locals {
         dns_addresses    = ["10.88.16.1"]
         bridge           = "LabNet"
         tags             = ["dns-secondary"]
-        type             = "secondary"
       },
     ]
-  }
-
-  _types = toset(flatten([for _, lst in local.vm_config : [for c in lst : c.type]]))
-
-  runcmds_by_type = {
-    for t in local._types :
-    t => yamldecode(templatefile("${path.module}/runcmds.yml", { type = t }))
-  }
-
-  write_files_by_type = {
-    for t in local._types :
-    t => yamldecode(templatefile("${path.module}/write_files.yml", { type = t }))
   }
 
   vms = merge(
