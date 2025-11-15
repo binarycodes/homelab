@@ -20,7 +20,7 @@ package_upgrade: true
 package_reboot_if_required: true
 packages:
   - qemu-guest-agent
-  - ansible
+  - ansible-core
   - git
 %{ if length(config.packages) > 0 }
 %{ for pkg in config.packages ~}
@@ -36,7 +36,27 @@ manage_resolv_conf: true
 resolv_conf:
   searchdomains: [${config.searchdomain}]
 
+bootcmd:
+  - mkdir -p /usr/local/libexec/cloudyhome-sync
+
 write_files:
+  - path: /usr/local/libexec/cloudyhome-sync/git-sync.sh
+    owner: root:root
+    permissions: '0750'
+    content: |
+      #!/usr/bin/env bash
+      set -euo pipefail
+
+      REPO_URL="https://github.com/binarycodes/homelab-self-provisioner.git"
+      TARGET_DIR="/var/lib/cloudyhome/ansible"
+
+      if [[ ! -d "$TARGET_DIR/.git" ]]; then
+          git clone -b main --single-branch "$REPO_URL" "$TARGET_DIR"
+      else
+          git -C "$TARGET_DIR" fetch --all --prune
+          git -C "$TARGET_DIR" reset --hard origin/main
+      fi
+
   - path: /etc/systemd/system/cloudyhome-sync.service
     owner: root:root
     permissions: '0644'
@@ -49,8 +69,7 @@ write_files:
       [Service]
       Type=oneshot
       ExecStartPre=/usr/bin/mkdir -p /var/lib/cloudyhome/ansible
-      ExecStart=/usr/bin/git clone -b main --single-branch https://github.com/binarycodes/homelab-self-provisioner.git /var/lib/cloudyhome/ansible
-      RemainAfterExit=yes
+      ExecStart=/usr/local/libexec/cloudyhome-sync/git-sync.sh
 
       [Install]
       WantedBy=multi-user.target
