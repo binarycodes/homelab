@@ -2,13 +2,6 @@ locals {
   nodes = ["pve1", "pve2", "pve3"]
 
   cloud_images = {
-    debian_bookworm = {
-      download_url       = "https://cloud.debian.org/images/cloud/bookworm/20251112-2294/debian-12-generic-amd64-20251112-2294.qcow2"
-      save_file_name     = "debian-12-generic-amd64.qcow2.img"
-      checksum           = "5da221d8f7434ee86145e78a2c60ca45eb4ef8296535e04f6f333193225792aa8ceee3df6aea2b4ee72d6793f7312308a8b0c6a1c7ed4c7c730fa7bda1bc665f"
-      checksum_algorithm = "sha512"
-    }
-
     debian_trixie = {
       download_url       = "https://cloud.debian.org/images/cloud/trixie/20251006-2257/debian-13-generic-amd64-20251006-2257.qcow2"
       save_file_name     = "debian-13-generic-amd64.qcow2.img"
