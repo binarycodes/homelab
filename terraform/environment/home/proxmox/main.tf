@@ -31,3 +31,9 @@ resource "proxmox_virtual_environment_sdn_vnet" "this" {
   vlan_aware = true
   tag        = each.value.tag
 }
+
+resource "proxmox_virtual_environment_time" "this" {
+  for_each  = toset(local.nodes)
+  node_name = each.value
+  time_zone = local.secret.vm_timezone.value
+}
