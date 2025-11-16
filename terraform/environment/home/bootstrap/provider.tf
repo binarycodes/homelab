@@ -54,7 +54,7 @@ provider "dns" {
   update {
     server        = local.secret.dns_server.value
     key_name      = local.secret.dns_key_name.value
-    key_algorithm = "hmac-sha256"
+    key_algorithm = local.secret.dns_key_algorithm.value
     key_secret    = local.secret.dns_key_secret.value
   }
 }
