@@ -1,22 +1,14 @@
 locals {
   kubernetes_tags = toset(
-    concat(
-      ["kubernetes", var.config.type],
-      tolist(try(var.config.tags, []))
+    concat(["k8s"], tolist(try(var.config.tags, []))
     )
-  )
-  runcmds = yamldecode(
-    templatefile("${path.module}/runcmds.yml", {
-      type = var.config.type
-    })
   )
 }
 
 module "kubernetes-node" {
   source = "../debian-trixie-template/"
   config = merge(var.config, {
-    tags    = local.kubernetes_tags
-    runcmds = local.runcmds
+    tags = local.kubernetes_tags
   })
 
   ca_keycloak_realm      = var.ca_keycloak_realm

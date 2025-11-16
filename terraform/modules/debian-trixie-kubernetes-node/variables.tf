@@ -19,7 +19,6 @@ variable "config" {
     username         = string
     user_id          = number
     tags             = optional(set(string), [])
-    type             = string
     packages         = optional(list(string), [])
     runcmds          = optional(list(string), [])
     write_files = optional(list(object({
@@ -37,8 +36,8 @@ variable "config" {
   }
 
   validation {
-    condition     = contains(["control-plane", "worker"], var.config.type)
-    error_message = "type must be either 'control-plane' or 'worker'."
+    condition     = length(setintersection(var.config.tags, ["kubernetes-control-plane", "kubernetes-worker"])) > 0
+    error_message = "tags must contain either 'kubernetes-control-plane' or 'kubernetes-worker'."
   }
 }
 

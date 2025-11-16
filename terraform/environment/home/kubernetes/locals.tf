@@ -7,13 +7,13 @@ locals {
         name   = "kubecontrol01"
         dhcp   = true
         bridge = "LabNet"
-        type   = "control-plane"
+        tags   = ["kubernetes-control-plane"]
       },
       {
         name   = "kubeworker01"
         dhcp   = true
         bridge = "LabNet"
-        type   = "worker"
+        tags   = ["kubernetes-worker"]
       }
     ]
     pve2 = [
@@ -21,13 +21,13 @@ locals {
         name   = "kubecontrol02"
         dhcp   = true
         bridge = "LabNet"
-        type   = "control-plane"
+        tags   = ["kubernetes-control-plane"]
       },
       {
         name   = "kubeworker02"
         dhcp   = true
         bridge = "LabNet"
-        type   = "worker"
+        tags   = ["kubernetes-worker"]
       }
     ]
     pve3 = [
@@ -35,13 +35,13 @@ locals {
         name   = "kubecontrol03"
         dhcp   = true
         bridge = "LabNet"
-        type   = "control-plane"
+        tags   = ["kubernetes-control-plane"]
       },
       {
         name   = "kubeworker03"
         dhcp   = true
         bridge = "LabNet"
-        type   = "worker"
+        tags   = ["kubernetes-worker"]
       }
     ]
   }
