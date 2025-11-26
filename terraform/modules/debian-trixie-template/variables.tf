@@ -20,6 +20,7 @@ variable "config" {
     user_id           = number
     tags              = optional(set(string), [])
     create_dns_record = optional(bool, true)
+    age_secret        = optional(string, "")
     packages          = optional(list(string), [])
     runcmds           = optional(list(string), [])
     write_files = optional(list(object({

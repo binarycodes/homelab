@@ -35,6 +35,7 @@ locals {
         user_id           = local.secret.vm_user_id.value,
         timezone          = local.secret.vm_timezone.value,
         searchdomain      = local.secret.dns_zone.value,
+        age_secret        = local.secret.age_secret.value,
         create_dns_record = false,
       }) }
   ]...)
