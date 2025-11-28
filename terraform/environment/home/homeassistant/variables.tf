@@ -1,29 +1,20 @@
-variable "proxmox_endpoint" {
+variable "infisical_project_id" {
   type      = string
   sensitive = true
 }
 
-variable "proxmox_api_token" {
+variable "infisical_environment" {
   type      = string
   sensitive = true
 }
 
-variable "dns_server" {
+variable "infisical_client_id" {
   type      = string
   sensitive = true
 }
 
-variable "dns_key_name" {
-  type      = string
-  sensitive = true
-}
 
-variable "dns_key_secret" {
-  type      = string
-  sensitive = true
-}
-
-variable "dns_zone" {
+variable "infisical_client_secret" {
   type      = string
   sensitive = true
 }

@@ -1,4 +1,6 @@
 locals {
+  secret = data.infisical_secrets.app.secrets
+
   home_assistant = {
     pve3 = [
       {
@@ -13,7 +15,7 @@ locals {
       for conf in val :
       conf.name => merge(conf, {
         node         = key,
-        searchdomain = var.dns_zone
+        searchdomain = local.secret.dns_zone.value
       }) }
   ]...)
 }

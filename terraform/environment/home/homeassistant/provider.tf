@@ -10,10 +10,15 @@ terraform {
       source  = "hashicorp/dns"
       version = "3.4.3"
     }
+    infisical = {
+      source  = "Infisical/infisical"
+      version = "0.15.44"
+    }
   }
 
   cloud {
     organization = "binarycodes"
+    hostname     = "app.terraform.io"
 
     workspaces {
       name = "HomeAssistant"
@@ -23,23 +28,32 @@ terraform {
 }
 
 provider "proxmox" {
-  endpoint  = var.proxmox_endpoint
-  api_token = var.proxmox_api_token
+  endpoint  = local.secret.proxmox_endpoint.value
+  api_token = local.secret.proxmox_api_token.value
 
   insecure = true
-
   ssh {
     agent       = false
-    private_key = file("~/.ssh/id_homelab")
+    private_key = local.secret.proxmox_ssh_private_key.value
     username    = "root"
   }
 }
 
 provider "dns" {
   update {
-    server        = var.dns_server
-    key_name      = var.dns_key_name
-    key_algorithm = "hmac-sha256"
-    key_secret    = var.dns_key_secret
+    server        = local.secret.dns_server.value
+    key_name      = local.secret.dns_key_name.value
+    key_algorithm = local.secret.dns_key_algorithm.value
+    key_secret    = local.secret.dns_key_secret.value
+  }
+}
+
+provider "infisical" {
+  host = "https://eu.infisical.com"
+  auth = {
+    universal = {
+      client_id     = var.infisical_client_id
+      client_secret = var.infisical_client_secret
+    }
   }
 }
