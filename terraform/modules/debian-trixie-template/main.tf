@@ -1,6 +1,6 @@
 locals {
   keyboard_layout = "en-us"
-  iso_file_id     = "local:iso/debian-13-generic-amd64.qcow2.img"
+  iso_file_name   = "debian-13-generic-amd64.qcow2.img"
 
   user_cloud_init_path = (
     var.user_cloud_init_file != null ? var.user_cloud_init_file : "${path.module}/user-cloud-init-config.yml"
@@ -75,6 +75,13 @@ resource "proxmox_virtual_environment_file" "network_cloud_config" {
   }
 }
 
+data "proxmox_virtual_environment_file" "this" {
+  node_name    = var.config.node
+  datastore_id = "local"
+  content_type = "iso"
+  file_name    = local.iso_file_name
+}
+
 resource "proxmox_virtual_environment_vm" "this" {
   node_name = var.config.node
 
@@ -113,7 +120,7 @@ resource "proxmox_virtual_environment_vm" "this" {
 
   disk {
     datastore_id = "local-lvm"
-    file_id      = local.iso_file_id
+    file_id      = data.proxmox_virtual_environment_file.this.id
     interface    = "scsi0"
     iothread     = true
     discard      = "on"
