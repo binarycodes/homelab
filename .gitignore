@@ -4,3 +4,4 @@
 .vscode
 dynamic-dns/*.json
 **/backup/*
+*tfplan
