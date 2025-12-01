@@ -3,9 +3,9 @@ locals {
 
   cloud_images = {
     debian_trixie = {
-      download_url       = "https://cloud.debian.org/images/cloud/trixie/20251006-2257/debian-13-generic-amd64-20251006-2257.qcow2"
+      download_url       = "https://cloud.debian.org/images/cloud/trixie/20251117-2299/debian-13-generic-amd64-20251117-2299.qcow2"
       save_file_name     = "debian-13-generic-amd64.qcow2.img"
-      checksum           = "0449ce335d0780af6290dd0b1c11c1e5231a73a3a1fc3e49ba8172853d26f5002e02830352d91ab9894442d29c8d352b21cb6c1c29f3b0f995d968ae4b573452"
+      checksum           = "1882f2d0debfb52254db1b0fc850d222fa68470a644a914d181f744ac1511a6caa1835368362db6dee88504a13c726b3ee9de0e43648353f62e90e075f497026"
       checksum_algorithm = "sha512"
     }
 
@@ -18,9 +18,9 @@ locals {
     }
 
     free_bsd = {
-      download_url            = "https://download.freebsd.org/ftp/snapshots/VM-IMAGES/15.0-STABLE/amd64/20251106/FreeBSD-15.0-STABLE-amd64-BASIC-CLOUDINIT-20251106-71bd17b879a7-281079-ufs.qcow2.xz"
-      save_file_name          = "FreeBSD-15.0-STABLE-amd64-BASIC-CLOUDINIT-ufs.qcow2.img"
-      checksum                = "65d04adf64745f089c5b8ca615a9e03e0ac87ea29e8eebe865bf014471aa868b0e2e4b6eaf0a8cb523208be92a9f5b56a3174cb342db21e25218a9a5984985f1"
+      download_url            = "https://download.freebsd.org/releases/VM-IMAGES/15.0-RELEASE/amd64/Latest/FreeBSD-15.0-RELEASE-amd64-BASIC-CLOUDINIT-ufs.qcow2.xz"
+      save_file_name          = "FreeBSD-15.0-RELEASE-amd64-BASIC-CLOUDINIT-ufs.qcow2.img"
+      checksum                = "ef2835411accb622f42dad145e5cdd91b703dfa972d33cce4d4b71c88b25f5892eb52e11826e78629dd42835b57111f1849d993ed08c6fd578b1070e4ed62379"
       checksum_algorithm      = "sha512"
       decompression_algorithm = "zst"
     }
