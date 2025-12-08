@@ -10,7 +10,7 @@ locals {
         gateway          = "10.88.16.1"
         dns_addresses    = ["10.88.16.1"]
         bridge           = "LabNet"
-        tags             = ["admin"]
+        tags             = ["bootstrap"]
       },
     ]
   }

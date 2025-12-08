@@ -5,7 +5,7 @@ data "infisical_secrets" "app" {
 }
 
 module "proxmox_debian_trixie" {
-  source = "../../../modules/debian-trixie-template"
+  source = "../../../modules/custom-debian-trixie-template"
 
   for_each               = local.vms
   config                 = each.value
