@@ -5,14 +5,14 @@ locals {
     custom_debian_trixie = {
       download_url       = "http://moria.ip.cloudyhome.net:9000/os-image/debian/debian-custom-trixie.qcow2"
       save_file_name     = "custom-debian-13-generic-amd64.qcow2.img"
-      checksum           = "fdd97f55272bc5cf8d07c908f86469aa83dbc76906c643f4a9546c7e8640de9e1c00f3826770d9c789f4e08608d9f0f7d7b10dc5a5e0f869577187227553e113"
+      checksum           = "c140a453f479b841d7de376e0d39584f280144653c8384c37a486f0066084a3c4342d239f69ded2c3aed2779b1a7b508317ef70dd85f8e20208aeabef288a031"
       checksum_algorithm = "sha512"
     }
 
     debian_trixie = {
-      download_url       = "https://cloud.debian.org/images/cloud/trixie/20251117-2299/debian-13-generic-amd64-20251117-2299.qcow2"
-      save_file_name     = "debian-13-generic-amd64.qcow2.img"
-      checksum           = "1882f2d0debfb52254db1b0fc850d222fa68470a644a914d181f744ac1511a6caa1835368362db6dee88504a13c726b3ee9de0e43648353f62e90e075f497026"
+      download_url       = "https://cloud.debian.org/images/cloud/trixie/20251117-2299/debian-13-genericcloud-amd64-20251117-2299.qcow2"
+      save_file_name     = "debian-13-genericcloud-amd64.qcow2.img"
+      checksum           = "e5563c7bb388eebf7df385e99ee36c83cd16ba8fad4bd07f4c3fd725a6f1cf1cb9f54c6673d4274a856974327a5007a69ff24d44f9b21f7f920e1938a19edf7e"
       checksum_algorithm = "sha512"
     }
 
