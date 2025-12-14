@@ -5,7 +5,7 @@ locals {
     custom_debian_trixie = {
       download_url       = "http://moria.ip.cloudyhome.net:9000/os-image/debian/debian-custom-trixie.qcow2"
       save_file_name     = "custom-debian-13-generic-amd64.qcow2.img"
-      checksum           = "c140a453f479b841d7de376e0d39584f280144653c8384c37a486f0066084a3c4342d239f69ded2c3aed2779b1a7b508317ef70dd85f8e20208aeabef288a031"
+      checksum           = "4df77a3e421ae1fe82d89ee1e8fdc3b1a3985973e47d2ddabf83f80546654ff029143eea111d50d8c1fdce7a68065d4173f8612ce147be9050adbc2ce82095fe"
       checksum_algorithm = "sha512"
     }
 
