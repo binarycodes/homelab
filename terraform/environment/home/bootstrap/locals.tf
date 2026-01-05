@@ -6,11 +6,12 @@ locals {
       {
         name             = "bootstrap"
         dhcp             = false
-        ip4_address_cidr = "10.88.16.10/24"
-        gateway          = "10.88.16.1"
-        dns_addresses    = ["10.88.16.1"]
-        bridge           = "LabNet"
+        ip4_address_cidr = "10.88.0.11/24"
+        gateway          = "10.88.0.1"
+        dns_addresses    = ["10.88.0.1"]
+        bridge           = "vmbr0"
         tags             = ["bootstrap"]
+        disk_size        = 32
       },
     ]
   }
