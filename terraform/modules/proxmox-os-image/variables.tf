@@ -8,5 +8,6 @@ variable "config" {
     checksum                = string
     checksum_algorithm      = string
     decompression_algorithm = optional(string, null)
+    overwrite               = optional(bool, true)
   })
 }

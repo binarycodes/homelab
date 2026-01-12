@@ -22,6 +22,7 @@ locals {
       checksum                = "f3f56cae72cdc1732c35b1b2a7547a11397eaaac8c4de2ff63bb10f45721c8ce"
       checksum_algorithm      = "sha256"
       decompression_algorithm = "zst"
+      overwrite               = false
     }
 
     free_bsd = {
@@ -30,6 +31,7 @@ locals {
       checksum                = "ef2835411accb622f42dad145e5cdd91b703dfa972d33cce4d4b71c88b25f5892eb52e11826e78629dd42835b57111f1849d993ed08c6fd578b1070e4ed62379"
       checksum_algorithm      = "sha512"
       decompression_algorithm = "zst"
+      overwrite               = false
     }
   }
 

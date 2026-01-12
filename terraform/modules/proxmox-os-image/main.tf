@@ -9,4 +9,5 @@ resource "proxmox_virtual_environment_download_file" "this" {
   checksum                = var.config.checksum
   checksum_algorithm      = var.config.checksum_algorithm
   decompression_algorithm = var.config.decompression_algorithm
+  overwrite               = var.config.overwrite
 }
