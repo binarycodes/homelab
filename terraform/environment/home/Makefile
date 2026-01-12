@@ -6,16 +6,20 @@ TF_QUIET_ENV := TF_IN_AUTOMATION=1 TF_CLI_ARGS=-no-color
 .ONESHELL: # Applies to every targets in the file!
 .DEFAULT_GOAL := all-plan
 
+all-init: $(addsuffix -init,$(TF_DIRS))
 all-plan: $(addsuffix -plan,$(TF_DIRS))
 all-apply: $(addsuffix -apply,$(TF_DIRS))
 all-clean: $(addsuffix -clean,$(TF_DIRS))
 
 define tf_targets
-.PHONY: $(1)-plan $(1)-apply $(1)-clean
+.PHONY: $(1)-init $(1)-plan $(1)-apply $(1)-clean
 
-$(1)-plan:
+$(1)-init:
 	cd $(1)
 	$(TF_QUIET_ENV) terraform init --upgrade
+
+$(1)-plan: $(1)-init
+	cd $(1)
 	$(TF_QUIET_ENV) terraform plan -out tfplan-$(1)
 
 $(1)-apply: $(1)-plan
