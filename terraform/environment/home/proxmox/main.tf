@@ -8,6 +8,26 @@ data "infisical_secrets" "app" {
   folder_path  = "/terraform"
 }
 
+
+resource "proxmox_virtual_environment_storage_directory" "this" {
+  id   = "local"
+  path = "/var/lib/vz"
+
+  content = ["backup", "iso", "snippets", "vztmpl"]
+  shared  = false
+  disable = false
+}
+
+resource "proxmox_virtual_environment_storage_lvmthin" "this" {
+  id           = "local-lvm"
+  thin_pool    = "data"
+  volume_group = "pve"
+
+  content = ["rootdir", "images"]
+  disable = false
+}
+
+
 module "proxmox_os_image" {
   source = "../../../modules/proxmox-os-image"
 
