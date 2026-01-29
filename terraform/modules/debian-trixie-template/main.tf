@@ -109,6 +109,7 @@ resource "proxmox_virtual_environment_vm" "this" {
 
   memory {
     dedicated = var.config.memory
+    floating  = var.config.memory
   }
 
   serial_device {

@@ -1,6 +1,6 @@
 locals {
   keyboard_layout = "en-us"
-  iso_file_name   = "debian-trixie-packer-20260113-0733.qcow2.img"
+  iso_file_name   = "debian-trixie-packer-20260129-0849.qcow2.img"
 
   user_cloud_init_path = (
     var.user_cloud_init_file != null ? var.user_cloud_init_file : "${path.module}/user-cloud-init-config.yml"
@@ -109,6 +109,7 @@ resource "proxmox_virtual_environment_vm" "this" {
 
   memory {
     dedicated = var.config.memory
+    floating  = var.config.memory
   }
 
   serial_device {
