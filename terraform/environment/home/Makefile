@@ -1,4 +1,4 @@
-TF_DIRS := bootstrap dns github-runner homeassistant kubernetes proxmox proxmox-init static-dns
+TF_DIRS := bootstrap dns github-runner homeassistant kubernetes proxmox proxmox-init static-dns media
 SHELL := /bin/bash
 TF_QUIET_ENV := TF_IN_AUTOMATION=1 TF_CLI_ARGS=-no-color
 
@@ -36,7 +36,7 @@ $(1)-apply-destroy: $(1)-plan-destroy
 
 $(1)-clean:
 	cd $(1)
-	rm tfplan*
+	rm tfplan* || true
 endef
 
 $(foreach d,$(TF_DIRS),$(eval $(call tf_targets,$(d))))
