@@ -3,9 +3,9 @@ locals {
 
   cloud_images = {
     custom_debian_trixie = {
-      download_url       = "http://moria.ip.cloudyhome.net:9000/os-image/debian/debian-trixie-packer-20260129-0849.qcow2"
-      save_file_name     = "debian-trixie-packer-20260129-0849.qcow2.img"
-      checksum           = "dc7fea5b49d242a1754b092965cf182c28863406f4befccba8a4d6451afacafc0bddc7b56e06daa1a8b883d03655852896a24abe241fea4b0bad964cc4f94028"
+      download_url       = "http://moria.ip.cloudyhome.net:9000/os-image/debian/debian-trixie-packer-20260206-0336.qcow2"
+      save_file_name     = "debian-trixie-packer-20260206-0336.qcow2.img"
+      checksum           = "921570361b07581fde85f467cecc570b7c9da45a4aaad9647ee6293d073fb7f18611cc5e630c2263042078d9de03f4d209f3380957fe7eb64f07fc56d9e62d07"
       checksum_algorithm = "sha512"
     }
 
