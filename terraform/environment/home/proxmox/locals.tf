@@ -3,23 +3,23 @@ locals {
 
   cloud_images = {
     custom_debian_trixie = {
-      download_url       = "http://moria.ip.cloudyhome.net:9000/os-image/debian/debian-trixie-packer-20260206-0336.qcow2"
-      save_file_name     = "debian-trixie-packer-20260206-0336.qcow2.img"
-      checksum           = "921570361b07581fde85f467cecc570b7c9da45a4aaad9647ee6293d073fb7f18611cc5e630c2263042078d9de03f4d209f3380957fe7eb64f07fc56d9e62d07"
+      download_url       = "http://moria.ip.cloudyhome.net:9000/os-image/debian/debian-trixie-packer-20260206-0459.qcow2"
+      save_file_name     = "debian-trixie-packer-20260206-0459.qcow2.img"
+      checksum           = "80dff46d4174636eefdb648c26c5c2cb67c7274845a6e24a71293c2fbc0a6c9a1a1b52748ac3b8a2f49c1e3ccc76889fe4c351f25c28f03f217414a80ea11f98"
       checksum_algorithm = "sha512"
     }
 
     debian_trixie = {
-      download_url       = "https://cloud.debian.org/images/cloud/trixie/20251117-2299/debian-13-genericcloud-amd64-20251117-2299.qcow2"
+      download_url       = "https://cloud.debian.org/images/cloud/trixie/20260129-2372/debian-13-genericcloud-amd64-20260129-2372.qcow2"
       save_file_name     = "debian-13-genericcloud-amd64.qcow2.img"
-      checksum           = "e5563c7bb388eebf7df385e99ee36c83cd16ba8fad4bd07f4c3fd725a6f1cf1cb9f54c6673d4274a856974327a5007a69ff24d44f9b21f7f920e1938a19edf7e"
+      checksum           = "a70acbedb0dc691ab77c57f3f775de435afe1d3b063dfafbdf194661a8d65543ebaa32128f4362a9a2c7be065bd9e48944f83dd3583e9765d3ab1ee06965552e"
       checksum_algorithm = "sha512"
     }
 
     home_assistant = {
-      download_url            = "https://github.com/home-assistant/operating-system/releases/download/16.3/haos_ova-16.3.qcow2.xz"
+      download_url            = "https://github.com/home-assistant/operating-system/releases/download/17.0/haos_ova-17.0.qcow2.xz"
       save_file_name          = "haos_ova.qcow2.img"
-      checksum                = "f3f56cae72cdc1732c35b1b2a7547a11397eaaac8c4de2ff63bb10f45721c8ce"
+      checksum                = "5080f10959785dfc60bfa614fe0ef267b40ec33afcdf920040070e7afc1a43b2"
       checksum_algorithm      = "sha256"
       decompression_algorithm = "zst"
       overwrite               = false
