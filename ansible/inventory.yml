@@ -3,9 +3,9 @@ all:
   children:
     proxmox:
       hosts:
-        pve1:
-        pve2:
-        pve3:
+        pve1.ip.cloudyhome.net:
+        pve2.ip.cloudyhome.net:
+        pve3.ip.cloudyhome.net:
     vm:
       hosts:
         sundarban:
@@ -19,5 +19,5 @@ all:
         caserver:
     admin:
       hosts:
-        administrator:
+        bootstrap.ip.cloudyhome.net:
           ansible_ssh_user: binarycodes

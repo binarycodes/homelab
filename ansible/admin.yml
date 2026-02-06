@@ -14,7 +14,12 @@
   become: yes
   roles:
     - docker
-    - bind9
+    - ddns
+    - unifi
+    - keycloak
+    - ftp
+    - file-browser
+    - caddy
   tags:
     - always
     - system
