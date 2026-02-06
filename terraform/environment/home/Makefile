@@ -22,7 +22,7 @@ $(1)-plan: $(1)-init
 	cd $(1)
 	$(TF_QUIET_ENV) terraform plan -out tfplan-$(1)
 
-$(1)-apply: $(1)-plan
+$(1)-apply:
 	cd $(1)
 	$(TF_QUIET_ENV) terraform apply tfplan-$(1)
 
@@ -30,7 +30,7 @@ $(1)-plan-destroy: $(1)-init
 	cd $(1)
 	$(TF_QUIET_ENV) terraform plan -destroy -out tfplan-$(1)-destroy
 
-$(1)-apply-destroy: $(1)-plan-destroy
+$(1)-apply-destroy:
 	cd $(1)
 	$(TF_QUIET_ENV) terraform apply tfplan-$(1)-destroy
 
