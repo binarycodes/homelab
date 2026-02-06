@@ -1,6 +1,6 @@
 locals {
   keyboard_layout = "en-us"
-  iso_file_name   = "debian-trixie-packer-20260206-1345.qcow2.img"
+  iso_file_name   = "debian-trixie-packer-20260206-1620.qcow2.img"
 
   user_cloud_init_path = (
     var.user_cloud_init_file != null ? var.user_cloud_init_file : "${path.module}/user-cloud-init-config.yml"
