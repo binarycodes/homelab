@@ -71,6 +71,7 @@ runcmd:
 %{ if length(tags) > 0 }
 %{ for tag in tags ~}
   - systemctl enable --now cloudyhome-provision@${tag}.service
+  - systemctl enable --now cloudyhome-provision@${tag}.timer
 %{ endfor }
 %{ endif }
 %{ if length(config.runcmds) > 0 }
