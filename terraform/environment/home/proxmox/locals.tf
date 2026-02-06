@@ -18,7 +18,7 @@ locals {
 
     home_assistant = {
       download_url            = "https://github.com/home-assistant/operating-system/releases/download/17.0/haos_ova-17.0.qcow2.xz"
-      save_file_name          = "haos_ova.qcow2.img"
+      save_file_name          = "haos_ova-17.0.qcow2.img"
       checksum                = "5080f10959785dfc60bfa614fe0ef267b40ec33afcdf920040070e7afc1a43b2"
       checksum_algorithm      = "sha256"
       decompression_algorithm = "zst"

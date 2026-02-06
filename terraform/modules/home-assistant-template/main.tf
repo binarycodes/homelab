@@ -1,6 +1,6 @@
 locals {
   keyboard_layout = "en-us"
-  iso_file_id     = "local:iso/haos_ova.qcow2.img"
+  iso_file_name   = "haos_ova-17.0.qcow2.img"
   datastore_id    = "local-lvm"
 
   tags = toset(
@@ -15,6 +15,12 @@ locals {
   vm_ip  = flatten(proxmox_virtual_environment_vm.this.ipv4_addresses[local.en_idx])[0]
 }
 
+data "proxmox_virtual_environment_file" "this" {
+  node_name    = var.config.node
+  datastore_id = "local"
+  content_type = "iso"
+  file_name    = local.iso_file_name
+}
 
 resource "proxmox_virtual_environment_vm" "this" {
   node_name = var.config.node
@@ -60,7 +66,7 @@ resource "proxmox_virtual_environment_vm" "this" {
 
   disk {
     datastore_id = "local-lvm"
-    file_id      = local.iso_file_id
+    file_id      = data.proxmox_virtual_environment_file.this.id
     interface    = "scsi0"
     iothread     = true
     discard      = "on"
