@@ -18,7 +18,7 @@ locals {
   fqdn = "${var.config.name}.${var.config.searchdomain}"
   tags = toset(
     concat(
-      ["packer-debian", "trixie"],
+      ["packer-debian"],
       tolist(try(var.config.tags, []))
     )
   )
