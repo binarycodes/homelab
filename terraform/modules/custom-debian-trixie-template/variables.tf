@@ -16,6 +16,7 @@ variable "config" {
     memory            = optional(number, 2048)
     disk_size         = optional(number, 10)
     timezone          = string
+    keyboard_layout   = optional(string, "en-us")
     username          = string
     user_id           = number
     tags              = optional(set(string), [])
@@ -116,4 +117,8 @@ variable "ca_keycloak_token_url" {
 variable "ca_user_public_key" {
   type      = string
   sensitive = true
+}
+
+variable "image_name" {
+  type = string
 }

@@ -9,6 +9,7 @@ module "proxmox_debian_trixie" {
 
   for_each               = local.vms
   config                 = each.value
+  image_name             = local.image_name
   ca_keycloak_realm      = local.secret.ca_keycloak_realm.value
   ca_keycloak_server_url = local.secret.ca_keycloak_server_url.value
   ca_keycloak_token_url  = local.secret.ca_keycloak_token_url.value
