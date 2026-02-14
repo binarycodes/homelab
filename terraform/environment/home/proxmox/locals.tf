@@ -1,21 +1,21 @@
 locals {
   nodes = ["pve1", "pve2", "pve3"]
 
+  packer_debian_base_url     = "http://moria.ip.cloudyhome.net:9000/os-image/debian"
+  packer_debian_metadata_url = "http://moria.ip.cloudyhome.net:9000/os-image/debian/metadata_all.json"
+  packer_debian_images_json  = jsondecode(data.http.this.response_body)
+  packer_debian_images = {
+    for img in local.packer_debian_images_json :
+    img.BUILD_VERSION => {
+      nodes              = local.nodes
+      download_url       = "${local.packer_debian_base_url}/${img.BUILD_VERSION}/${img.IMAGE_NAME}"
+      save_file_name     = "${img.IMAGE_NAME}.img"
+      checksum           = "${img.SHA512_CHECKSUM}"
+      checksum_algorithm = "sha512"
+    }
+  }
+
   cloud_images = {
-    custom_debian_trixie = {
-      download_url       = "http://moria.ip.cloudyhome.net:9000/os-image/debian/debian-trixie-packer-20260210-0656.qcow2"
-      save_file_name     = "debian-trixie-packer-20260210-0656.qcow2.img"
-      checksum           = "718dd5a5eef51b38d6925b0f9f5f1226e6553605aa23daa7a97bfa955d8f21ef070c7ed7a47d2683697f9880e2401bb0c75fd273476109108fa4ae7a7ab072b5"
-      checksum_algorithm = "sha512"
-    }
-
-    debian_trixie = {
-      download_url       = "https://cloud.debian.org/images/cloud/trixie/20260129-2372/debian-13-genericcloud-amd64-20260129-2372.qcow2"
-      save_file_name     = "debian-13-genericcloud-amd64.qcow2.img"
-      checksum           = "a70acbedb0dc691ab77c57f3f775de435afe1d3b063dfafbdf194661a8d65543ebaa32128f4362a9a2c7be065bd9e48944f83dd3583e9765d3ab1ee06965552e"
-      checksum_algorithm = "sha512"
-    }
-
     home_assistant = {
       download_url            = "https://github.com/home-assistant/operating-system/releases/download/17.0/haos_ova-17.0.qcow2.xz"
       save_file_name          = "haos_ova-17.0.qcow2.img"

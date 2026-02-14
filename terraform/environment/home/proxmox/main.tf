@@ -28,6 +28,22 @@ resource "proxmox_virtual_environment_storage_lvmthin" "this" {
 }
 
 
+data "http" "this" {
+  url = local.packer_debian_metadata_url
+
+  request_headers = {
+    Accept = "application/json"
+  }
+}
+
+module "packer_debian_images" {
+  source = "../../../modules/proxmox-os-image"
+
+  for_each = local.packer_debian_images
+  config   = each.value
+}
+
+
 module "proxmox_os_image" {
   source = "../../../modules/proxmox-os-image"
 

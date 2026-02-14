@@ -10,6 +10,10 @@ terraform {
       source  = "Infisical/infisical"
       version = "0.15.44"
     }
+    http = {
+      source  = "hashicorp/http"
+      version = "3.5.0"
+    }
   }
 
   cloud {
