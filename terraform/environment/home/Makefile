@@ -4,6 +4,7 @@ TF_QUIET_ENV := TF_IN_AUTOMATION=1 TF_CLI_ARGS=-no-color
 
 .SHELLFLAGS := -eu -o pipefail -c
 .ONESHELL: # Applies to every targets in the file!
+.SILENT:
 .DEFAULT_GOAL := all-plan
 
 all-init: $(addsuffix -init,$(TF_DIRS))

@@ -81,3 +81,7 @@ variable "ca_user_public_key" {
   type      = string
   sensitive = true
 }
+
+variable "image_name" {
+  type = string
+}

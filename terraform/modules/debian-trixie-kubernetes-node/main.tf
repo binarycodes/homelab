@@ -6,11 +6,11 @@ locals {
 }
 
 module "kubernetes-node" {
-  source = "../debian-trixie-template/"
+  source = "../custom-debian-trixie-template/"
   config = merge(var.config, {
     tags = local.kubernetes_tags
   })
-
+  image_name             = var.image_name
   ca_keycloak_realm      = var.ca_keycloak_realm
   ca_keycloak_server_url = var.ca_keycloak_server_url
   ca_keycloak_token_url  = var.ca_keycloak_token_url

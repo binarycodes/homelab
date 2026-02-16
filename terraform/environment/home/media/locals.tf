@@ -1,5 +1,6 @@
 locals {
-  secret = data.infisical_secrets.app.secrets
+  secret     = data.infisical_secrets.app.secrets
+  image_name = "debian-trixie-packer-20260213-0619.qcow2.img"
 
   vm_config = {
     pve2 = [
