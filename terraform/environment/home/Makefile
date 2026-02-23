@@ -1,4 +1,4 @@
-TF_DIRS := bootstrap dns github-runner homeassistant kubernetes proxmox proxmox-init static-dns media
+TF_DIRS := bootstrap dns github-runner homeassistant kubernetes proxmox proxmox-init static-dns media edge
 SHELL := /bin/bash
 TF_QUIET_ENV := TF_IN_AUTOMATION=1 TF_CLI_ARGS=-no-color
 
