@@ -54,17 +54,6 @@ write_files:
     content: |
       TrustedUserCAKeys /etc/ssh/user_ca.pub
 
-%{ if length(config.write_files) > 0 }
-%{ for f in config.write_files }
-  - path: ${f.path}
-    %{ if can(f.owner) && f.owner != "" }owner: ${f.owner}%{ endif }
-    %{ if can(f.permissions) && f.permissions != "" }permissions: '${f.permissions}'%{ endif }
-    %{ if can(f.encoding) && f.encoding != "" }encoding: ${f.encoding}%{ endif }
-    content: |
-      ${indent(6, f.content)}
-%{ endfor }
-%{ endif }
-
 runcmd:
   - systemctl daemon-reload
   - groupmod -g ${config.user_id} ${config.username}
@@ -72,11 +61,6 @@ runcmd:
 %{ for tag in tags ~}
   - systemctl enable --now cloudyhome-provision@${tag}.service
   - systemctl enable --now cloudyhome-provision@${tag}.timer
-%{ endfor }
-%{ endif }
-%{ if length(config.runcmds) > 0 }
-%{ for cmd in config.runcmds ~}
-  - ${cmd}
 %{ endfor }
 %{ endif }
   - systemctl enable --now qemu-guest-agent
