@@ -5,7 +5,7 @@ data "infisical_secrets" "app" {
 }
 
 module "proxmox_debian_trixie_kubernetes" {
-  source = "../../../modules/debian-trixie-kubernetes-node/"
+  source = "../../../modules/custom-debian-trixie-template"
 
   for_each               = local.vms
   config                 = each.value
