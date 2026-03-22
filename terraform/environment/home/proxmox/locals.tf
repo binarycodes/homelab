@@ -1,14 +1,13 @@
 locals {
   nodes = ["pve1", "pve2", "pve3"]
 
-  packer_debian_base_url     = "http://moria.ip.cloudyhome.net:9000/os-image/debian"
-  packer_debian_metadata_url = "http://moria.ip.cloudyhome.net:9000/os-image/debian/metadata_all.json"
+  packer_debian_metadata_url = "https://s3-api.cloudyhome.net/os-image/debian/metadata_all.json"
   packer_debian_images_json  = jsondecode(data.http.this.response_body)
   packer_debian_images = {
     for img in local.packer_debian_images_json :
-    img.BUILD_VERSION => {
+    img.IMAGE_NAME => {
       nodes              = local.nodes
-      download_url       = "${local.packer_debian_base_url}/${img.BUILD_VERSION}/${img.IMAGE_NAME}"
+      download_url       = "${img.IMAGE_URL}"
       save_file_name     = "${img.IMAGE_NAME}.img"
       checksum           = "${img.SHA512_CHECKSUM}"
       checksum_algorithm = "sha512"
@@ -17,9 +16,9 @@ locals {
 
   cloud_images = {
     home_assistant = {
-      download_url            = "https://github.com/home-assistant/operating-system/releases/download/17.0/haos_ova-17.0.qcow2.xz"
+      download_url            = "https://github.com/home-assistant/operating-system/releases/download/17.1/haos_ova-17.1.qcow2.xz"
       save_file_name          = "haos_ova-17.0.qcow2.img"
-      checksum                = "5080f10959785dfc60bfa614fe0ef267b40ec33afcdf920040070e7afc1a43b2"
+      checksum                = "a4c320c38109357a5a3d7b42ee26c7cde4704197c9ea7f4c393f1ffca42fe376"
       checksum_algorithm      = "sha256"
       decompression_algorithm = "zst"
       overwrite               = false
