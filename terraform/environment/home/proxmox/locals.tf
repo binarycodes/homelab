@@ -16,9 +16,9 @@ locals {
 
   cloud_images = {
     home_assistant = {
-      download_url            = "https://github.com/home-assistant/operating-system/releases/download/17.1/haos_ova-17.1.qcow2.xz"
-      save_file_name          = "haos_ova-17.0.qcow2.img"
-      checksum                = "a4c320c38109357a5a3d7b42ee26c7cde4704197c9ea7f4c393f1ffca42fe376"
+      download_url            = "https://github.com/home-assistant/operating-system/releases/download/17.2/haos_ova-17.2.qcow2.xz"
+      save_file_name          = "haos_ova-17.2.qcow2.img"
+      checksum                = "474b8f2e657f697c7a226acd5b6d0b8f74b2dfd19f71487a18238d8b36a3604f"
       checksum_algorithm      = "sha256"
       decompression_algorithm = "zst"
       overwrite               = false
