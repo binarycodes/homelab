@@ -7,6 +7,7 @@ data "infisical_secrets" "app" {
 module "proxmox_home_assitant" {
   source = "../../../modules/home-assistant-template"
 
-  for_each = local.home_assistant_vms
-  config   = each.value
+  for_each   = local.home_assistant_vms
+  config     = each.value
+  image_name = local.image_name
 }

@@ -1,7 +1,5 @@
 locals {
-  keyboard_layout = "en-us"
-  iso_file_name   = "haos_ova-17.0.qcow2.img"
-  datastore_id    = "local-lvm"
+  datastore_id = "local-lvm"
 
   tags = toset(
     concat(
@@ -19,7 +17,7 @@ data "proxmox_virtual_environment_file" "this" {
   node_name    = var.config.node
   datastore_id = "local"
   content_type = "iso"
-  file_name    = local.iso_file_name
+  file_name    = var.image_name
 }
 
 resource "proxmox_virtual_environment_vm" "this" {
@@ -36,7 +34,7 @@ resource "proxmox_virtual_environment_vm" "this" {
     enabled = true
   }
 
-  keyboard_layout = local.keyboard_layout
+  keyboard_layout = var.config.keyboard_layout
   on_boot         = true
 
   operating_system {
