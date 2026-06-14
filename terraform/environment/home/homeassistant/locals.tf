@@ -1,6 +1,6 @@
 locals {
   secret     = data.infisical_secrets.app.secrets
-  image_name = "haos_ova-17.2.qcow2.img"
+  image_name = "haos_ova-17.3.qcow2.img"
 
   home_assistant = {
     pve3 = [
