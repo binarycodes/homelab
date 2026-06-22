@@ -25,11 +25,11 @@ locals {
     }
 
     free_bsd = {
-      download_url            = "https://download.freebsd.org/releases/VM-IMAGES/15.1-RELEASE/amd64/Latest/FreeBSD-15.1-RELEASE-amd64-BASIC-CLOUDINIT-ufs.qcow2.xz"
-      save_file_name          = "FreeBSD-15.1-RELEASE-amd64-BASIC-CLOUDINIT-ufs.qcow2.img"
-      checksum                = "bea82b91a983a20eb7ecdc6f11c1006d394ebbc5668b7f0ecdecf5a54fc5f9ea3a8384fc9f74a6611a9b08c183fa953327147ebfaa0de199fd015e67dd1e608a"
-      checksum_algorithm      = "sha512"
-      decompression_algorithm = "zst"
+      download_url            = var.freebsd_image.download_url
+      save_file_name          = var.freebsd_image.save_file_name
+      checksum                = var.freebsd_image.checksum
+      checksum_algorithm      = var.freebsd_image.checksum_algorithm
+      decompression_algorithm = var.freebsd_image.decompression_algorithm
       overwrite               = false
     }
   }
