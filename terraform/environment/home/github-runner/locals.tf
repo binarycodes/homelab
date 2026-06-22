@@ -1,6 +1,6 @@
 locals {
   secret     = data.infisical_secrets.app.secrets
-  image_name = "debian-container-20260613-1023.qcow2.img"
+  image_name = "debian-container-20260622-1042.qcow2.img"
 
   vm_config = {
     pve3 = [
