@@ -1,6 +1,5 @@
 .terraform*
 *tfstate*
 *.pub
-*.auto.tfvars
 *secret*
 *tfplan*

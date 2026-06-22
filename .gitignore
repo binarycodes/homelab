@@ -1,5 +1,3 @@
-*.tfvars
-*.tfvars.json
 **/*secret*
 .vscode
 dynamic-dns/*.json
